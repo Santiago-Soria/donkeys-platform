@@ -1,0 +1,118 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: #442226;
+}
+
+
+/* Main Content Styles */
+.main-title {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #442226;
+}
+
+.sub-title {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #442226;
+    margin-bottom: 3rem;
+}
+
+/* Budget Cards */
+.budget-card {
+    background-color: #5F646B;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 20px;
+}
+
+.budget-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    background-color: #442226;
+}
+
+.budget-level {
+    color: white;
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 1rem;
+}
+
+.budget-range {
+    color: white;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 2rem;
+    }
+    
+    .nav-link {
+        font-size: 1.2rem;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .sub-title {
+        font-size: 1.5rem;
+    }
+    
+    .budget-level {
+        font-size: 1.8rem;
+    }
+    
+    .budget-range {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.8rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .budget-card {
+        height: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .sub-title {
+        font-size: 1.3rem;
+    }
+    
+    .budget-level {
+        font-size: 1.5rem;
+    }
+    
+    .budget-range {
+        font-size: 1.1rem;
+    }
+}

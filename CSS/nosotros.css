@@ -1,0 +1,139 @@
+/* Estilos generales */
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  color: #1A1A1A;
+}
+
+
+
+/* Secciones */
+.section-title {
+  color: #293D1B;
+  font-size: 2.5rem;
+  font-weight: 400;
+}
+
+.team-section .section-description {
+  color: #1A1A1A;
+  font-size: 1.25rem;
+  max-width: 900px;
+}
+
+.values-section .section-title {
+  color: #612E34;
+}
+
+/* Tarjetas de equipo */
+.team-card {
+  background-color: #5F646B;
+  padding: 20px;
+  border-radius: 10px;
+  height: 100%;
+}
+
+.team-img-container {
+  width: 120px;
+  height: 120px;
+}
+
+.team-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.team-name {
+  color: white;
+  font-size: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.team-position {
+  color: #C2C2C2;
+  font-size: 0.875rem;
+}
+
+/* Valores */
+.value-icon {
+  width: 80px;
+  height: 80px;
+}
+
+.value-circle {
+  width: 100%;
+  height: 100%;
+  background-color: #5A3136;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.875rem;
+}
+
+.value-title {
+  color: #612E34;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.value-description {
+  color: #1A1A1A;
+  font-size: 1rem;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+/* Responsividad */
+@media (max-width: 992px) {
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .team-section .section-description {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-brand {
+    font-size: 1.75rem;
+  }
+  
+  .nav-link {
+    font-size: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .team-card {
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.5rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .team-section .section-description {
+    font-size: 1rem;
+  }
+  
+  .value-title {
+    font-size: 1.25rem;
+  }
+  
+  .value-description {
+    font-size: 0.875rem;
+  }
+}

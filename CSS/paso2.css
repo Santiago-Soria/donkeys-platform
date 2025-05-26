@@ -1,0 +1,102 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: #442226;
+}
+
+
+/* Main Content Styles */
+.main-title {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #442226;
+}
+
+.sub-title {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #442226;
+}
+
+/* Location Cards */
+.location-card {
+    background-color: #5F646B;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    
+}
+
+.location-card:hover {
+    transform: translateY(-5px);
+    background-color: #442226;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.location-name {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 2rem;
+    }
+    
+    .nav-link {
+        font-size: 1.2rem;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .sub-title {
+        font-size: 1.5rem;
+    }
+    
+    .location-name {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.8rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .location-card {
+        height: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .sub-title {
+        font-size: 1.3rem;
+    }
+    
+    .location-name {
+        font-size: 1.3rem;
+    }
+}

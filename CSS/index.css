@@ -1,0 +1,149 @@
+/* Fuente personalizada */
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background-color: white;
+  color: #5A2F34;
+}
+
+/* Banner */
+.banner-img {
+  height: 60vh;
+  object-fit: cover;
+  
+}
+
+/* Navbar */
+.navbar {
+  background-color: transparent !important;
+}
+
+.navbar-brand {
+  font-size: 2.5rem;
+}
+
+.nav-link {
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  transform: translateY(-2px);
+}
+
+/* Hero section */
+.hero-text {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Textos */
+.description-text {
+  font-size: 1.3rem;
+  font-weight: 500;
+  line-height: 1.6;
+   text-align: justify;
+}
+
+/* Botón */
+.search-btn {
+  background-color: #612E34;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.search-btn:hover {
+  background-color: #4a2328;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.busqueda{
+      font-size: 1.1rem;
+      margin-top: 10px;
+      color: black;
+}
+.imgicon{
+  height: 170px;
+  width: 199px;
+}
+
+  /* Efecto de transición */
+    .page-transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background-color: #612E34;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      opacity: 0;
+      transition: width 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+                 height 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+                 opacity 0.1s;
+      pointer-events: none;
+    }
+    
+    .page-transition.active {
+      width: 300vw;
+      height: 300vw;
+      opacity: 1;
+    }
+    
+    /* Asegurar que el botón tenga posición relativa */
+    .search-btn-container {
+      position: relative;
+      overflow: hidden;
+    }
+    
+/* Responsividad */
+@media (max-width: 992px) {
+  .navbar-brand {
+    font-size: 2rem;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+  
+  .description-text {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .banner-img {
+    height: 50vh;
+  }
+  
+  .hero-text h1 {
+    font-size: 2rem;
+  }
+  
+  .description-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.75rem;
+  }
+  
+  .hero-text h1 {
+    font-size: 1.75rem;
+  }
+  
+  .description-text {
+    font-size: 1rem;
+  }
+  
+  .search-btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
