@@ -1,0 +1,275 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.verification-container {
+    width: 100%;
+    max-width: 700px;
+    padding: 2rem;
+}
+
+/* Logo */
+
+.logo {
+    margin-bottom: 1.5rem;
+    height: 87px;
+    width: 210px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+
+/* Typography */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: black;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 400;
+    color: black;
+    margin-bottom: 2rem;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 2rem;
+}
+
+.form-label {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    display: block;
+}
+
+/* File Upload Box */
+.file-upload-box {
+    width: 100%;
+    height: 64px;
+    border: 2px solid black;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.file-upload-box:hover {
+    background-color: #f8f9fa;
+}
+
+.file-icon {
+    width: 25px;
+    height: 22px;
+    margin-right: 1rem;
+    position: relative;
+}
+
+.icon-square {
+    width: 25px;
+    height: 22px;
+    background-color: black;
+}
+
+.icon-small-square {
+    width: 16px;
+    height: 16px;
+    background-color: black;
+}
+
+.file-instructions {
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.file-requirements {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+/* Info Box */
+.info-box {
+    background-color: #F3F4F6;
+    border: 2px solid #D1D5DB;
+    border-radius: 9px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+}
+
+.info-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.info-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5rem;
+    position: relative;
+}
+
+.info-title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #374151;
+    margin: 0;
+}
+
+.info-list {
+    list-style-type: none;
+    padding-left: 1.5rem;
+    margin: 0;
+}
+
+.info-list li {
+    font-size: 0.875rem;
+    color: #6B7280;
+    margin-bottom: 0.5rem;
+    position: relative;
+}
+
+.info-list li::before {
+    content: "•";
+    position: absolute;
+    left: -1rem;
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    height: 44px;
+    background-color: #9CA3AF;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 500;
+    border-radius: 9px;
+    border: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+    margin-bottom: 1rem;
+}
+
+.submit-btn.active {
+    background-color: #5A2F34;
+    opacity: 1;
+    cursor: pointer;
+    color: white;
+}
+
+/* Privacy Note */
+.privacy-note {
+    font-size: 0.75rem;
+    color: #6B7280;
+    text-align: center;
+    margin: 0;
+}
+
+/* Custom Alert Styles */
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.custom-alert-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-alert h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #442226;
+}
+
+.custom-alert p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.custom-alert-button {
+    background-color: #5A2F34;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.custom-alert-button:hover {
+    background-color: #442226;
+}
+
+.custom-alert-success {
+    border-top: 5px solid #4CAF50;
+}
+
+.custom-alert-error {
+    border-top: 5px solid #F44336;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .verification-container {
+        padding: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .form-label {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.3rem;
+    }
+    
+    .file-instructions {
+        font-size: 0.875rem;
+    }
+}
