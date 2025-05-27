@@ -6,7 +6,7 @@ function selectOption(optionType) {
     if(optionType === 'renter') {
         window.location.href = '/HTML/Registro3.html';
     } else {
-        window.location.href = 'registro-propietario.html';
+        window.location.href = '/HTML/Registro4.html';
     }
 }
 
