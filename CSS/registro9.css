@@ -1,0 +1,215 @@
+/* Estilos generales */
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background-color: white;
+  color: black;
+  padding: 20px;
+}
+
+.description-container {
+  max-width: 1272px;
+  padding: 20px;
+}
+
+/* Encabezado */
+.back-button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover{
+    transform: translateY(-2px);
+}
+
+.back-text:hover{
+    color:#442226
+}
+
+.back-icon:hover{
+    color:#442226 !important
+}
+
+.back-icon {
+    font-size: 25px;
+    color: #000000;
+    background-color: rgb(255, 255, 255);
+    margin-right: 10px;
+    margin-right: 2%;
+}
+
+.back-text {
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+}
+
+/* Logo */
+
+.logo {
+    margin-bottom: 1.5rem;
+    height: 87px;
+    width: 210px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+
+
+/* Títulos */
+.main-title {
+  font-size: 32px;
+  font-weight: 500;
+  color: black;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  color: #3E2023;
+  line-height: 30px;
+}
+
+/* Área de texto */
+.description-textarea {
+  width: 100%;
+  min-height: 252px;
+  border: 2px solid black !important;
+  border-radius: 0;
+  font-family: 'Pixelify Sans', sans-serif;
+  font-size: 18px;
+  padding: 15px;
+  resize: vertical;
+}
+
+.description-textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(90, 47, 52, 0.25);
+}
+
+/* Botón siguiente */
+.next-btn {
+  width: 659px;
+  max-width: 100%;
+  height: 44px;
+  background-color: #5A2F34;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+  background-color: #442226;
+  color: white;
+}
+
+
+/* Custom Alert Styles */
+.custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.custom-alert-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 10px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.custom-alert h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #442226;
+}
+
+.custom-alert p {
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+    color: #666;
+}
+
+.custom-alert-button {
+    background-color: #5A2F34;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.custom-alert-button:hover {
+    background-color: #442226;
+}
+
+.custom-alert-success {
+    border-top: 5px solid #4CAF50;
+}
+
+.custom-alert-error {
+    border-top: 5px solid #F44336;
+}
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .back-text {
+    font-size: 28px;
+  }
+  
+  .main-title {
+    font-size: 28px;
+  }
+  
+  .subtitle {
+    font-size: 20px;
+  }
+  
+  .description-textarea {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .back-text {
+    font-size: 24px;
+  }
+  
+  .main-title {
+    font-size: 24px;
+  }
+  
+  .subtitle {
+    font-size: 18px;
+    line-height: 24px;
+  }
+  
+  .description-textarea {
+    min-height: 150px;
+    font-size: 16px;
+  }
+  
+  .next-btn {
+    height: 40px;
+    font-size: 18px;
+  }
+}
