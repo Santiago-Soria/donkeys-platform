@@ -1,0 +1,238 @@
+
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #442226;
+}
+
+.edit-profile-container {
+  max-width: 1440px;
+  padding: 20px;
+  position: relative;
+}
+
+/* Navbar Styles */
+.navbar-brand .logo-text {
+  font-size: 40px;
+  font-weight: 400;
+  color: #612E34;
+}
+
+.nav-link {
+  font-size: 30px;
+  color: #612E34 !important;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #442226 !important;
+}
+
+.logout-link {
+  display: flex;
+  align-items: center;
+}
+
+.login-btn{
+  margin: 0 15px 0 15px;
+}
+
+.logout-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #612E34;
+  margin-right: 10px;
+}
+
+/* Profile Content */
+.profile-content {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.profile-pic-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.profile-pic {
+  width: 140px;
+  height: 140px;
+  background-color: #D9D9D9;
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
+.user-info {
+  margin-bottom: 50px;
+}
+
+.user-name {
+  font-size: 35px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.user-status {
+  font-size: 25px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.edit-profile {
+  font-size: 20px;
+  color: #442226;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-profile:hover{
+  color: #612E34;
+  text-decoration: underline;
+}
+
+/* Main Content */
+.edit-profile-content {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.edit-profile-title {
+  font-size: 40px;
+  color: black;
+  margin-bottom: 60px;
+}
+
+.form-group {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    position: absolute;
+    top: -10px;
+    left: 15px;
+    background-color: white;
+    padding: 0 5px;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #612E34;
+}
+
+.form-control {
+    border: 2px solid black;
+    border-radius: 9px;
+    padding: 1rem;
+    font-size: 1rem;
+    height: auto;
+}
+
+.form-control:focus {
+    border-color: #612E34;
+    box-shadow: none;
+}
+
+.edit-profile-form{
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+}
+
+/* Buttons */
+.register-btn {
+    background-color: #5A2F34;
+    color: white;
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 400;
+    border-radius: 9px;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+    background-color: #442226;
+    transform: translateY(-2px);
+    color: white;
+}
+
+
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .logo {
+    font-size: 32px;
+  }
+  
+  .nav-link {
+    font-size: 24px;
+  }
+  
+  .logout-icon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .edit-profile-title {
+    font-size: 32px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .edit-profile-form {
+    padding: 0 20px;
+  }
+  
+  .form-control {
+    height: 56px;
+    font-size: 18px;
+  }
+  
+  label, .floating-label {
+    font-size: 16px;
+  }
+  
+  .confirm-btn {
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo {
+    font-size: 28px;
+  }
+  
+  .nav-link {
+    font-size: 20px;
+  }
+  
+  .logout-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .edit-profile-title {
+    font-size: 28px;
+    margin-bottom: 30px;
+  }
+  
+  .form-control {
+    height: 50px;
+    font-size: 16px;
+  }
+}

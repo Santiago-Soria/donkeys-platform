@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel de Administración - Don-Keys</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/arrendadoradm.css">
+    <link rel="stylesheet" href="/CSS/navbar.css">
+       <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+</head>
+<body>
+  <div class="container admin-container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/HTML/Index.html">Don-Keys</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Renta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/HTML/Nosotros.html">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link login-btn" href="/HTML/EditPerfilArren.html"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link logout-btn" href="/HTML/Index.html">Salir</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Back Button -->
+    <div class="back-button">
+      <div class="d-flex align-items-center back-button">
+                <div class="back-icon"><i class="fa-solid fa-chevron-left"></i></div>
+                <h1 class="back-text">Regresar</h1>
+            </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="admin-content">
+      <div class="admin-header">
+        <h2>Panel de Administración</h2>
+        <div class="search-sort">
+          <div class="search-box">
+            <input type="text" class="textholder" placeholder="Buscar propiedades...">
+          </div>
+          <div class="sort-container">
+  <div class="sort-box" id="sortTrigger">
+    <span>Ordenar</span>
+    <i class="fa-solid fa-filter"></i>
+  </div>
+  
+  <div class="sort-dropdown" id="sortDropdown">
+    <div class="sort-option" data-value="recent">
+      <i class="fa-solid fa-clock"></i>
+      <span>Más recientes</span>
+    </div>
+    <div class="sort-option" data-value="price-asc">
+      <i class="fa-solid fa-arrow-up-wide-short"></i>
+      <span>Precio: menor a mayor</span>
+    </div>
+    <div class="sort-option" data-value="price-desc">
+      <i class="fa-solid fa-arrow-down-wide-short"></i>
+      <span>Precio: mayor a menor</span>
+    </div>
+  </div>
+</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters">
+        <div class="filter-section">
+          <span>Filtrar por estado:</span>
+          <div class="filter-tags">
+            <button class="filter-tag active">Todos</button>
+            <button class="filter-tag">Rentado</button>
+            <button class="filter-tag">En renta</button>
+            <button class="filter-tag">Verificando</button>
+          </div>
+        </div>
+       
+      </div>
+
+      <!-- Property Cards -->
+      <div class="property-grid">
+        <!-- Property Card 1 -->
+        <div class="property-card">
+          <div class="property-image">
+            <img src="https://placehold.co/203x287" alt="Property">
+          </div>
+          <div class="property-info">
+            <h3 class="property-status">Rentado</h3>
+            <div class="property-detail">
+              <span class="detail-label">Fecha:</span>
+              <span class="detail-value">14/01/2024</span>
+            </div>
+            <div class="property-detail">
+              <span class="detail-label">Tipo:</span>
+              <span class="detail-value">Departamento</span>
+            </div>
+            <button class="edit-btn">Editar</button>
+          </div>
+        </div>
+
+        <!-- Property Card 2 -->
+        <div class="property-card">
+          <div class="property-image">
+            <img src="https://placehold.co/203x287" alt="Property">
+          </div>
+          <div class="property-info">
+            <h3 class="property-status">Rentado</h3>
+            <div class="property-detail">
+              <span class="detail-label">Fecha:</span>
+              <span class="detail-value">09/01/2024</span>
+            </div>
+            <div class="property-detail">
+              <span class="detail-label">Tipo:</span>
+              <span class="detail-value">Habitación</span>
+            </div>
+            <button class="edit-btn">Editar</button>
+          </div>
+        </div>
+
+        <!-- More property cards would go here -->
+      </div>
+
+      <!-- Pagination -->
+      <div class="pagination-container">
+        <span class="property-count">6 propiedades encontradas</span>
+        <div class="pagination">
+          <button class="page-btn">Anterior</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">Siguiente</button>
+        </div>
+      </div>
+    </main>
+  </div>
+<script src="/JS/arrendadoradm.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

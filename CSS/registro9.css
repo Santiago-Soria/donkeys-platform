@@ -6,10 +6,11 @@ body {
   padding: 20px;
 }
 
-.description-container {
+.property-container {
   max-width: 1272px;
   padding: 20px;
 }
+
 
 /* Encabezado */
 .back-button {
@@ -58,12 +59,10 @@ body {
     transform: translateY(-4px);
 }
 
-
 /* Títulos */
 .main-title {
   font-size: 32px;
   font-weight: 500;
-  color: black;
 }
 
 .subtitle {
@@ -73,28 +72,40 @@ body {
   line-height: 30px;
 }
 
-/* Área de texto */
+
+
+/* Descripción */
+.description-section {
+  margin-top: 40px;
+}
+
+.description-label {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
 .description-textarea {
   width: 100%;
-  min-height: 252px;
-  border: 2px solid black !important;
+  min-height: 150px;
+  border: 2px solid black;
   border-radius: 0;
-  font-family: 'Pixelify Sans', sans-serif;
-  font-size: 18px;
   padding: 15px;
   resize: vertical;
 }
 
-.description-textarea:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(90, 47, 52, 0.25);
+.character-counter {
+  text-align: right;
+  color: #666666;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 5px;
 }
 
 /* Botón siguiente */
 .next-btn {
-  width: 659px;
-  max-width: 100%;
-  height: 44px;
+  width: 200px;
+  height: 62px;
   background-color: #5A2F34;
   color: white;
   font-size: 20px;
@@ -109,107 +120,152 @@ body {
   color: white;
 }
 
-
-/* Custom Alert Styles */
-.custom-alert {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
+/* Contenedor con scroll horizontal */
+.horizontal-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch; /* Para scroll suave en iOS */
+  padding-bottom: 15px; /* Espacio para scroll */
+  margin: 2rem 0;
 }
 
-.custom-alert-content {
-    background-color: white;
-    padding: 2rem;
-    border-radius: 10px;
-    max-width: 500px;
-    width: 90%;
-    text-align: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+.horizontal-fields {
+  display: inline-flex;
+  gap: 20px;
+  padding: 0 10px;
+  justify-content: center; 
+  width: 100%; 
 }
 
-.custom-alert h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: #442226;
+/* Cada campo individual */
+.detail-field {
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
+  vertical-align: top;
+  padding: 0 10px;
 }
 
-.custom-alert p {
-    font-size: 1rem;
-    margin-bottom: 1.5rem;
-    color: #666;
+.detail-icon {
+  font-size: 1.8rem;
+  color: #3E2023;
+  margin-bottom: 0.5rem;
 }
 
-.custom-alert-button {
-    background-color: #5A2F34;
-    color: white;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.detail-label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: black;
+  white-space: nowrap;
 }
 
-.custom-alert-button:hover {
-    background-color: #442226;
+.detail-input {
+  width: 80px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-family: 'Pixelify Sans', sans-serif;
+  display: inline-block;
 }
 
-.custom-alert-success {
-    border-top: 5px solid #4CAF50;
+.input-container {
+  position: relative;
+  display: inline-block;
 }
 
-.custom-alert-error {
-    border-top: 5px solid #F44336;
+.input-unit {
+  position: absolute;
+  right: -37px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
+/* Estilos para campos inválidos */
+.invalid {
+  border-color: #ff4444 !important;
+  background-color: #ffeeee !important;
+}
+
+/* Botón deshabilitado */
+.btn-disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #cccccc !important;
+}
+
+/* Contador de caracteres */
+.character-counter {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
 
 /* Responsividad */
 @media (max-width: 768px) {
-  .back-text {
-    font-size: 28px;
+  .detail-field {
+    min-width: 110px;
   }
   
-  .main-title {
-    font-size: 28px;
+  .detail-icon {
+    font-size: 1.6rem;
   }
   
-  .subtitle {
-    font-size: 20px;
+  .detail-label {
+    font-size: 1.1rem;
   }
   
-  .description-textarea {
-    min-height: 200px;
+  .detail-input {
+    width: 70px;
+    height: 35px;
   }
 }
 
 @media (max-width: 576px) {
-  .back-text {
-    font-size: 24px;
+  .horizontal-fields {
+    gap: 15px;
   }
   
-  .main-title {
-    font-size: 24px;
+  .detail-field {
+    min-width: 100px;
   }
   
-  .subtitle {
-    font-size: 18px;
-    line-height: 24px;
+  .detail-icon {
+    font-size: 1.4rem;
   }
   
-  .description-textarea {
-    min-height: 150px;
-    font-size: 16px;
+  .detail-label {
+    font-size: 1rem;
   }
   
-  .next-btn {
-    height: 40px;
-    font-size: 18px;
+  .detail-input {
+    width: 60px;
+    height: 32px;
+    font-size: 0.9rem;
   }
+  
+  .input-unit {
+    right: -20px;
+    font-size: 0.8rem;
+  }
+  @media (min-width: 1200px) {
+  .horizontal-scroll-container {
+    overflow-x: visible;
+    text-align: center;
+  }
+  
+  .horizontal-fields {
+    display: inline-flex;
+    justify-content: center;
+    width: auto;
+    max-width: 100%;
+  }
+}
 }
