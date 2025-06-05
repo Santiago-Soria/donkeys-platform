@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/resultados2.css">
+    <link rel="stylesheet" href="/CSS/navbar.css">
+    <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+</head>
+<body>
+        <!-- Navbar -->
+     
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/HTML/Index.html">Don-Keys</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Renta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/HTML/Nosotros.html">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- SE DEBE DE CAMBIAR DEPENDIENDO DEL USUARIO-->
+                        <a class="nav-link login-btn" href="/HTML/EditPerfilArren.html"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link logout-btn" href="/HTML/Index.html">Salir</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Botón de regresar -->
+    <div class="container mt-3">
+        <button class="d-flex align-items-center back-button" onclick="history.back()">
+            <div class="back-icon"><i class="fa-solid fa-chevron-left"></i></div>
+            <span>Regresar</span>
+        </button>
+    </div>
+
+    <!-- Galería de imágenes -->
+    <div class="container mt-4" style="height: 700%;">
+    <div class="row g-3">
+        <!-- Item 1 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('https://placehold.co/600x400')">
+                <img src="https://placehold.co/600x400" alt="Imagen 1" class="img-fluid rounded">
+            </div>
+        </div>
+        
+        <!-- Item 2 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('https://placehold.co/600x400?text=Ejemplo2')">
+                <img src="https://placehold.co/600x400?text=Ejemplo2" alt="Imagen 2" class="img-fluid rounded">
+            </div>
+        </div>
+        
+        <!-- Item 2 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('https://placehold.co/600x400?text=Ejemplo2')">
+                <img src="https://placehold.co/600x400?text=Ejemplo2" alt="Imagen 2" class="img-fluid rounded">
+            </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="col-md-6 col-lg-3">
+            <div class="gallery-item" data-bs-toggle="modal" data-bs-target="#imageModal" onclick="openModal('https://placehold.co/600x400?text=Ejemplo2')">
+                <img src="https://placehold.co/600x400?text=Ejemplo2" alt="Imagen 2" class="img-fluid rounded">
+            </div>
+        </div>
+        
+        <!-- Repite para los demás items -->
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <img id="expandedImage" src="" alt="Imagen expandida" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Información de precio -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h2 class="rent-price">Renta $3,500</h2>
+                <h3 class="maintenance-price">Mantenimiento $500</h3>
+                <p class="description mt-3">
+                    Lorem ipsum dolor sit amet consectetur adipiscing elit ac nullam, fringilla iaculis curabitur mi placerat dapibus elementum. Nisi tincidunt tristique est magnis blandit suspendisse viverra nisl purus facilisi potenti, interdum torquent sollicitudin auctor dis lectus leo curabitur risus integer, natoque conubia sociis iaculis id arcu dictumst libero tellus mauris.
+                </p>
+            </div>
+        </div>
+    </div>
+<!-- Mapa y detalles -->
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="address-container">
+                <div class="location-icon">
+                    <i class="fa-solid fa-location-dot"></i>
+                </div>
+                <p class="address">
+                    Avenida Miguel Othón de Mendizábal Oriente, La Patera Vallejo, Gustavo A. Madero
+                </p>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3760.041144382702!2d-99.138767924683!3d19.5045375379929!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f8bd9777a765%3A0x57501a5479751d18!2sAv.%20Miguel%20Oth%C3%B3n%20de%20Mendiz%C3%A1bal%20Oriente%2C%20La%20Patera%2C%20Gustavo%20A.%20Madero%2C%2007870%20Ciudad%20de%20M%C3%A9xico%2C%20CDMX!5e0!3m2!1ses-419!2smx!4v1717631239349!5m2!1ses-419!2smx" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Características principales -->
+    <div class="container mt-5 property-features">
+        <div class="row text-center justify-content-center">
+            <div class="col-6 col-md-4 col-lg-2 mb-3">
+                <div class="feature-icon mx-auto">
+                    <i class="fa-solid fa-ruler-combined"></i>
+                </div>
+                <p class="feature-text">80 m² tot.</p>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-3">
+                <div class="feature-icon mx-auto">
+                    <i class="fa-solid fa-bath"></i>
+                </div>
+                <p class="feature-text">1 baño</p>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-3">
+                <div class="feature-icon mx-auto">
+                    <i class="fa-solid fa-car"></i>
+                </div>
+                <p class="feature-text">2 estac.</p>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-3">
+                <div class="feature-icon mx-auto">
+                    <i class="fa-solid fa-bed"></i>
+                </div>
+                <p class="feature-text">3 rec.</p>
+            </div>
+            <div class="col-6 col-md-4 col-lg-2 mb-3">
+                <div class="feature-icon mx-auto">
+                    <i class="fa-solid fa-calendar-days"></i>
+                </div>
+                <p class="feature-text">40 años</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Información del arrendador -->
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="owner-avatar me-3">
+                        <i class="fa-solid fa-circle-user"></i>
+                    </div>
+                    <div>
+                        <h3 class="owner-name mb-0">Arrendador: Pérez Hernández Luis</h3>
+                        <p class="owner-verified mb-0"><i class="fa-solid fa-circle-check"></i> Verificado</p>
+                    </div>
+                </div>
+
+ <h3 class="amenities-title">Lo que ofrece este lugar</h3>
+    
+    <div class="row mt-4">
+        <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-wifi amenity-icon me-2"></i>
+                <p class="amenity-text">Wifi</p>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-paw amenity-icon me-2"></i>
+                <p class="amenity-text">Petfriendly</p>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-tv amenity-icon me-2"></i>
+                <p class="amenity-text">TV</p>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-shower amenity-icon me-2"></i>
+                <p class="amenity-text">Agua Caliente</p>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <div class="d-flex align-items-center">
+                <i class="fa-solid fa-snowflake amenity-icon me-2"></i>
+                <p class="amenity-text">Aire Acondicionado</p>
+            </div>
+        </div>
+    </div>
+    
+    <button class="btn btn-show-amenities mt-4">
+        <i class="fa-solid fa-chevron-down me-2"></i> Mostrar las 22 amenidades
+    </button>
+
+            </div>
+            
+           <div class="col-md-6">
+    <div class="contact-form">
+        <h3 class="contact-title">Contacta al anunciante</h3>
+        <form>
+            <div class="mb-3">
+                <textarea 
+                    class="form-control message-input" 
+                    id="messageInput" 
+                    rows="7"
+                    placeholder="Escribe tu mensaje aquí..."></textarea>
+            </div>
+            <button type="submit" class="send-button w-100" id="sendButton" disabled>
+                <i class="fa-solid fa-paper-plane me-2"></i>
+                <span>Enviar</span>
+            </button>
+        </form>
+    </div>
+</div>
+
+        </div>
+    </div>
+    <script src="/JS/resultados2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

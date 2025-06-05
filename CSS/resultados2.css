@@ -1,0 +1,351 @@
+/* Estilos generales */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: black;
+}
+
+.container{
+    margin-bottom: 2%;
+}
+/* Navbar Styles */
+.navbar-brand .logo-text {
+  font-size: 40px;
+  font-weight: 400;
+  color: #612E34;
+}
+
+.nav-link {
+  font-size: 30px;
+  color: #612E34 !important;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #442226 !important;
+}
+
+.logout-link {
+  display: flex;
+  align-items: center;
+}
+
+.login-btn{
+  margin: 0 15px 0 15px;
+}
+
+.logout-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #612E34;
+  margin-right: 10px;
+}
+
+/* Back Button */
+.back-button {
+    border: none;
+    background-color: transparent;
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 18px;
+}
+
+.back-button:hover{
+    transform: translateY(-2px);
+}
+
+.back-text:hover{
+    color:#442226
+}
+
+.back-icon:hover{
+    color:#442226 !important
+}
+
+.back-icon {
+    font-size: 19px;
+    color: #000000;
+  
+    margin-right: 15px;
+}
+
+.back-text {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+
+}
+
+/* Galería de imágenes */
+
+.container-gallery{
+
+    max-width: fit-content;
+}
+
+.gallery-item {
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+}
+
+.modal-content {
+    background-color: transparent;
+    border: none;
+}
+
+.modal-header {
+    border-bottom: none;
+}
+
+@media (max-width: 768px) {
+    .gallery-item {
+        height: 200px;
+    }
+}
+
+/* Información de precio */
+.rent-price {
+    color: #442226;
+    font-size: 2.5rem;
+    font-weight: 500;
+}
+
+.maintenance-price {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.description {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* Estilos para el contenedor de dirección */
+.address-container {
+    position: relative;
+    padding: 20px;
+    padding-top: 60%;
+    border: 3px solid black;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.location-icon {
+    margin-top: 17%;
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    font-size: 50px;
+    text-align: center;
+    color: #442226;
+}
+
+.address {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 30px;
+    padding-left: 10px;
+}
+
+/* Estilos para el mapa */
+.map-container {
+    height: 100%;
+    min-height: 300px;
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .address-container,
+    .map-container {
+        min-height: 200px;
+    }
+    
+    .address-container {
+        border-radius: 30px 30px 0 0;
+        border-right: 3px solid black;
+    }
+    
+    .map-container {
+        border-radius: 0 0 30px 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .map-sidebar,
+    .map-image {
+        height: 200px;
+    }
+}
+
+/* Características principales */
+.property-features {
+    border: 3px black solid;
+    padding: 30px 0 00px 0;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+  font-size: 30px;
+  color: #442226;
+}
+
+.feature-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+/* Información del arrendador */
+.owner-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 40px;
+    border-radius: 50%;
+}
+
+.owner-name {
+    font-size: 1.8rem;
+    font-weight: 500;
+}
+
+.owner-verified {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #612E34;
+}
+
+.amenities-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    margin-top: 30px;
+}
+
+.amenity-icon {
+    width: 30px;
+    height: 30px;
+    font-size: 1.3rem;
+}
+
+.amenity-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.btn-show-amenities {
+    width: 100%;
+    max-width: 400px;
+    border: 2px black solid;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.btn-show-amenities:hover {
+    background-color: #442226;
+    color: white;
+    cursor: pointer;
+}
+/* Estilos para el formulario de contacto */
+.contact-form {
+    border: 3px solid black;
+    border-radius: 32px;
+    padding: 30px;
+    height: 100%;
+}
+
+.contact-title {
+    font-size: 1.8rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.message-label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.message-input {
+    width: 100%;
+    border: 2px solid black;
+    border-radius: 9px;
+    padding: 15px;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 200px;
+}
+
+.message-input:focus {
+    outline: none;
+    border-color: #555;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+/* Estilos para el botón */
+.send-button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estado deshabilitado */
+.btn-disabled {
+    background-color: #cccccc !important;
+    color: #666666 !important;
+    cursor: not-allowed;
+}
+
+/* Estado habilitado */
+.btn-enabled {
+    background-color: #5A2F34;
+    color: white;
+}
+
+.btn-enabled:hover {
+    background-color: #442226;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para el textarea */
+.message-input {
+    border: 2px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+    font-family: inherit;
+    padding: 12px;
+    transition: border 0.3s ease;
+}
+
+.message-input:focus {
+    outline: none;
+    border-color: #5A2F34;
+    box-shadow: 0 0 0 3px rgba(90, 47, 52, 0.1);
+}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/resultados1.css">
+    <link rel="stylesheet" href="/CSS/navbar.css">
+    <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+</head>
+<body>
+  <div class="container property-listing">
+        <!-- Navbar -->
+     
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/HTML/Index.html">Don-Keys</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Renta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/HTML/Nosotros.html">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- SE DEBE DE CAMBIAR DEPENDIENDO DEL USUARIO-->
+                        <a class="nav-link login-btn" href="/HTML/EditPerfilArren.html"><i class="fa-solid fa-user"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link logout-btn" href="/HTML/Index.html">Salir</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+<!-- Filtros -->
+<div class="container mt-4">
+    <div class="opciones row align-items-center mb-4">
+        <div class="col-12">
+            <div class="d-flex flex-wrap gap-2 w-100">
+                <!-- Dropdown Tipo de Propiedad -->
+                <div class="dropdown flex-fill">
+                    <button class="filter-box dropdown-toggle w-100" type="button" id="tipoDropdown" data-bs-toggle="dropdown">
+                        <span>Departamento</span>
+                        <i class="iconofil fa-solid fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="tipoDropdown">
+                        <li><a class="dropdown-item" href="#">Departamento</a></li>
+                        <li><a class="dropdown-item" href="#">Casa</a></li>
+                        <li><a class="dropdown-item" href="#">Habitación</a></li>
+                    </ul>
+                </div>
+
+                <!-- Dropdown Ubicación -->
+                <div class="dropdown flex-fill">
+                    <button class="filter-box dropdown-toggle w-100" type="button" id="ubicacionDropdown" data-bs-toggle="dropdown">
+                        <span>Zacatenco</span>
+                        <i class="iconofil fa-solid fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="ubicacionDropdown">
+                        <li><a class="dropdown-item" href="#">Zacatenco</a></li>
+                        <li><a class="dropdown-item" href="#">Milpa Alta</a></li>
+                        <li><a class="dropdown-item" href="#">Casco Santo Tomás</a></li>
+                        <li><a class="dropdown-item" href="#">Ticomán</a></li>
+                        <li><a class="dropdown-item" href="#">Culhuacán</a></li>
+                        <li><a class="dropdown-item" href="#">Iztacalco</a></li>
+                    </ul>
+                </div>
+
+                <!-- Dropdown Precio -->
+                <div class="dropdown flex-fill">
+                    <button class="filter-box dropdown-toggle w-100" type="button" id="precioDropdown" data-bs-toggle="dropdown">
+                        <span>Precio</span>
+                        <i class="iconofil fa-solid fa-caret-down"></i>
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="precioDropdown">
+                        <li><a class="dropdown-item" href="#">Menos de $2,500</a></li>
+                        <li><a class="dropdown-item" href="#">$2,500 - $3,500</a></li>
+                        <li><a class="dropdown-item" href="#"> Más de $3,500</a></li>
+                    </ul>
+                </div>
+
+                <!-- Dropdown Más Filtros -->
+                <div class="dropdown flex-fill">
+                    <button class="filter-box dropdown-toggle w-100" type="button" id="masFiltrosDropdown" data-bs-toggle="dropdown">
+                        <span>Más filtros</span>
+                        <i class="iconofil fa-solid fa-filter"></i>
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="masFiltrosDropdown">
+                        <li><a class="dropdown-item" href="#">Recámaras</a></li>
+                        <li><a class="dropdown-item" href="#">Baños</a></li>
+                        <li><a class="dropdown-item" href="#">Estacionamiento</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <!-- Título y contador de resultados -->
+    <div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+        <p class="results-count mb-0">105 departamentos en renta</p>
+    </div>
+    <div class="col-md-6">
+        <div class="d-flex justify-content-end" style="margin-right: 50px;">
+
+            <div class="dropdown">
+    <button class="sort-container dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="sort-label me-2">Ordenar</span>
+        <i class="fa-solid fa-arrows-up-down sort-icon"></i>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+        <li><a class="dropdown-item" href="#" data-sort="price-asc">Precio: Menor a mayor</a></li>
+        <li><a class="dropdown-item" href="#" data-sort="price-desc">Precio: Mayor a menor</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#" data-sort="date-desc">Más recientes primero</a></li>
+        <li><a class="dropdown-item" href="#" data-sort="date-asc">Más antiguos primero</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><a class="dropdown-item" href="#" data-sort="size-desc">Mayor superficie</a></li>
+        <li><a class="dropdown-item" href="#" data-sort="size-asc">Menor superficie</a></li>
+                </ul>
+                </div>    
+             </div>
+            </div>
+        </div>
+
+        </div>
+
+        <!-- Listado de propiedades -->
+        <div class="container">
+    <!-- Propiedad 1 -->
+    <a href="/HTML/resultados2.html" class="property-link">
+        <div class="row property-card mb-4">
+            <div class="col-md-4 p-0">
+                <div class="property-image"></div>
+            </div>
+            <div class="col-md-8 p-4">
+                <div class="property-price">3,500$</div>
+                <div class="property-title mt-3">
+                    PISAGUA 569<br>
+                    Valle del Tepeyac, Gustavo A. Madero<br>
+                    80 m² tot.2 rec.1 baño<br>
+                </div>
+                <div class="property-description">
+                    Departamento en renta, Zona Lindavista, Pisagua 569, colonia Valle del Tepeyac, a solo 10 minutos de Plaza Lindavista
+                </div>
+            </div>
+        </div>
+    </a>
+    
+    <!-- Propiedad 2 -->
+    <a href="/HTML/resultados2.html" class="property-link">
+        <div class="row property-card mb-4">
+            <div class="col-md-4 p-0">
+                <div class="property-image"></div>
+            </div>
+            <div class="col-md-8 p-4">
+                <div class="property-price">3,500$</div>
+                <div class="property-title mt-3">
+                    PISAGUA 569<br>
+                    Valle del Tepeyac, Gustavo A. Madero<br>
+                    80 m² tot.2 rec.1 baño<br>
+                </div>
+                <div class="property-description">
+                    Departamento en renta, Zona Lindavista, Pisagua 569, colonia Valle del Tepeyac, a solo 10 minutos de Plaza Lindavista
+                </div>
+            </div>
+        </div>
+    </a>
+    
+    <!-- Propiedad 3 -->
+    <a href="/HTML/resultados2.html" class="property-link">
+        <div class="row property-card mb-4">
+            <div class="col-md-4 p-0">
+                <div class="property-image"></div>
+            </div>
+            <div class="col-md-8 p-4">
+                <div class="property-price">3,500$</div>
+                <div class="property-title mt-3">
+                    PISAGUA 569<br>
+                    Valle del Tepeyac, Gustavo A. Madero<br>
+                    80 m² tot.2 rec.1 baño<br>
+                </div>
+                <div class="property-description">
+                    Departamento en renta, Zona Lindavista, Pisagua 569, colonia Valle del Tepeyac, a solo 10 minutos de Plaza Lindavista
+                </div>
+            </div>
+        </div>
+    </a>
+    
+    <!-- Propiedad 4 -->
+    <a href="/HTML/resultados2.html" class="property-link">
+        <div class="row property-card mb-4">
+            <div class="col-md-4 p-0">
+                <div class="property-image"></div>
+            </div>
+            <div class="col-md-8 p-4">
+                <div class="property-price">3,500$</div>
+                <div class="property-title mt-3">
+                    PISAGUA 569<br>
+                    Valle del Tepeyac, Gustavo A. Madero<br>
+                    80 m² tot.2 rec.1 baño<br>
+                </div>
+                <div class="property-description">
+                    Departamento en renta, Zona Lindavista, Pisagua 569, colonia Valle del Tepeyac, a solo 10 minutos de Plaza Lindavista
+                </div>
+            </div>
+        </div>
+    </a>
+
+            <!-- Pagination -->
+      <div class="pagination-container">
+        <span class="property-count">6 propiedades encontradas</span>
+        <div class="pagination">
+          <button class="page-btn">Anterior</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">2</button>
+          <button class="page-btn">Siguiente</button>
+        </div>
+      </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
