@@ -1,0 +1,218 @@
+:root {
+  --primary-color: #612E34;
+  --secondary-color: #442226;
+  --gray-color: #666666;
+  --light-gray: #D9D9D9;
+  --active-color: #4CAF50;
+  --pending-color: #FF9800;
+}
+
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+/* Sidebar Styles */
+
+.btn-content{
+background-color: #442226;
+color: white;
+border: none;
+}
+
+.fa-user-circle{
+  color: white;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: var(--secondary-color);
+  color: white;
+  transition: all 0.3s;
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  background: var(--secondary-color);
+}
+
+.sidebar-header h3 {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+}
+
+#sidebar ul li a {
+  padding: 15px 20px;
+  font-size: 1.1em;
+  display: block;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+#sidebar ul li a:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+#sidebar ul li a i {
+  margin-right: 10px;
+}
+
+#sidebar ul li.active > a {
+   background: var(--primary-color);
+  color: white;
+}
+
+/* Content Styles */
+#content {
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+.navbar {
+  padding: 15px 20px;
+  background: #442226 !important;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.navbar-text{
+  color: white;
+  margin-right: 20px;
+}
+
+/* Cards */
+.card {
+  border-radius: 10px;
+  border: 1px solid var(--light-gray);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.stat-card {
+  height: 100%;
+}
+
+
+
+.stat-number {
+  color: var(--secondary-color);
+  font-family: 'Jersey 15', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-title {
+  color: var(--gray-color);
+  font-size: 1.2rem;
+  margin-bottom: 0;
+}
+
+/* Post and User Cards */
+.post-card, .user-card, .card, .card-body{
+  position: relative;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-avatar {
+  width: 100%;
+  height: 120px;
+  background: #8D8D8D;
+  border-radius: 20px;
+}
+
+.user-name {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+}
+
+.post-price, .user-role {
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.post-type, .post-location, .user-email {
+  color: var(--gray-color);
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+.user-card:hover{
+  transform: translateY(-5px);
+}
+
+.post-card:hover, .user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Badges */
+.badge {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+.status-active {
+  background: var(--active-color);
+  color: white;
+}
+
+.status-pending {
+  background: var(--pending-color);
+  color: white;
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+/* Toggle Button */
+.btn-dark {
+  background: black;
+  border-color: black;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #sidebar {
+    margin-left: -250px;
+  }
+  
+  #sidebar.active {
+    margin-left: 0;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .stat-title {
+    font-size: 1rem;
+  }
+}

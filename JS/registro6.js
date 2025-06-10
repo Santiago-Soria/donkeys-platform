@@ -123,6 +123,27 @@ function validarCampos() {
         });
     });
 
+
+        const unidadesAcademicas = [
+        { id: 1, nombre: "Zacatenco" },
+        { id: 2, nombre: "Milpa Alta" },
+        { id: 3, nombre: "Ticomán" },
+        { id: 4, nombre: "Culhuacán" },
+        { id: 5, nombre: "Iztacalco" },
+        // ... más opciones
+    ];
+    
+    const select = document.getElementById('unidad-academica');
+    select.innerHTML = '<option value="" selected disabled>Selecciona una opción</option>';
+    
+    unidadesAcademicas.forEach(unidad => {
+        const option = document.createElement('option');
+        option.value = unidad.id;
+        option.textContent = unidad.nombre;
+        select.appendChild(option);
+    });
+
+
     // Botón de regresar
     botonRegresar.addEventListener('click', function() {
         window.location.href = '/HTML/Registro6-2.html';

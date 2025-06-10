@@ -43,14 +43,23 @@ body {
 }
 
 .form-label {
-    position: absolute;
-    top: -10px;
-    left: 15px;
-    background-color: white;
-    padding: 0 5px;
+    padding: 0 3px;
     font-size: 1.25rem;
     font-weight: 400;
     color: #612E34;
+}
+
+.form-select{
+    border: 2px solid black;
+    border-radius: 9px;
+    padding: 1rem;
+    font-size: 1rem;
+    height: auto;
+}
+
+.input-group{
+
+    height: auto;
 }
 
 .form-control {
