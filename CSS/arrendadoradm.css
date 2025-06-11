@@ -127,6 +127,29 @@ body {
 
 }
 
+.status-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+/* Estilo para estado "No rentado" */
+.status-btn.no-rentado {
+  background-color: #5cb85c; 
+   width: 45%;
+  color: white;
+}
+
+/* Estilo para estado "Rentado" */
+.status-btn.rentado {
+  background-color: #b85c5c; 
+  color: white;
+  width: 45%;
+}
+
 /* Admin Content */
 .admin-content {
   background: white;
@@ -182,6 +205,7 @@ border: none;
   align-items: center;
   gap: 10px;
 }
+
 
 
 /* Filters */

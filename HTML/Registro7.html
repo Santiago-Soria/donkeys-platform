@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/CSS/registro5.css">
+    <link rel="stylesheet" href="/CSS/registro7.css">
     <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon"> 
 </head>
 <body>
@@ -36,31 +36,33 @@
     <!-- Subtítulo -->
     <p class="subtitle">Deben ser mínimo cinco</p>
 
-    <!-- Área de arrastrar archivos -->
-    <div class="dropzone">
-      <div class="dropzone-icon">
-        <i class="fa-solid fa-folder-open"></i>
-        
-      </div>
-      
-      <h3 class="dropzone-title">Arrastra tus archivos aquí</h3>
-      <p class="dropzone-subtitle">o haz clic para seleccionar</p>
-      
-      <button class="btn select-files-btn">
-        Seleccionar archivos
-      </button>
-      
-      <p class="file-formats">Formatos: JPG, PNG, PDF • Máximo 10MB</p>
+    <!-- Zona de carga -->
+    <div class="upload-section" onclick="document.getElementById('fileInput').click()">
+        <div class="upload-icon">📷</div>
+        <div class="upload-text">Arrastra tus fotos aquí o haz clic para seleccionar</div>
+        <div class="upload-hint">Formatos: JPG, PNG, WEBP (máx. 5MB cada una)</div>
+        <button class="upload-btn">Seleccionar Fotos</button>
     </div>
 
-    <!-- Botón siguiente -->
+    <input type="file" id="fileInput" class="file-input" multiple accept="image/*">
+
+    <!-- Previsualizador de fotos -->
+    <div class="preview-grid" id="previewGrid">
+        <!-- Se generarán 5 slots dinámicamente -->
+    </div>
+
+    <!-- Contador de fotos -->
+    <div class="photo-counter" id="photoCounter">
+        <span id="counterText">0 de 5 fotos subidas</span>
+    </div>
+
+    <!-- Botón de siguiente -->
     <div class="next-button-container">
-      <button class="btn next-button">
-        Siguiente
-      </button>
+        <button id="nextBtn" class="next-button" disabled>Siguiente</button>
     </div>
   </div>
     </div>
     <script src="/JS/registro7.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+</html>
