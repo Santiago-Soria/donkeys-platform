@@ -1,6 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
+// Tu configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
   authDomain: "donkeys-cc454.firebaseapp.com",
@@ -13,13 +19,14 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 document.addEventListener("DOMContentLoaded", () => {
   const formLogin = document.getElementById("formLogin");
   const passwordInput = document.getElementById("password");
   const togglePassword = document.querySelector(".toggle-password i");
 
-  // Toggle mostrar/ocultar contraseña
+  // Mostrar/ocultar contraseña
   document.querySelector(".toggle-password").addEventListener("click", () => {
     if (passwordInput.type === "password") {
       passwordInput.type = "text";
@@ -32,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Manejar envío del formulario
+  // Iniciar sesión con correo y contraseña
   formLogin.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -49,4 +56,21 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(error);
     }
   });
+
+  // Iniciar sesión con Google
+  const googleBtn = document.querySelector(".google-btn");
+  if (googleBtn) {
+    googleBtn.addEventListener("click", async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        alert(`✅ Bienvenido ${user.displayName}`);
+        localStorage.setItem("correoUsuario", user.email);
+        window.location.href = "/HTML/Index.html";
+      } catch (error) {
+        console.error("Error en login con Google:", error);
+        alert("❌ No se pudo iniciar sesión con Google");
+      }
+    });
+  }
 });
