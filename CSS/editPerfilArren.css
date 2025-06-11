@@ -118,6 +118,8 @@ body {
 
 .edit-properties-btn {
   width: 100%;
+    align-items: center;
+  align-content: center;
   max-width: 696px;
   height: 58px;
   background-color: #5A2F34;
@@ -129,9 +131,29 @@ body {
 }
 
 .edit-properties-btn:hover {
-  background-color: #442226;
+  background-color: #5b4a4c;
   color: white;
 }
+
+.add-properties-btn {
+  width: 100%;
+  max-width: 696px;
+  height: 58px;
+  background-color: #34151b;
+  color: white;
+  font-size: 20px;
+  border-radius: 9px;
+  border: none;
+  align-items: center;
+  align-content: center;
+  transition: all 0.3s ease;
+}
+
+.add-properties-btn:hover {
+  background-color: #896c6f;
+  color: white;
+}
+
 
 /* Responsive Styles */
 @media (max-width: 992px) {
