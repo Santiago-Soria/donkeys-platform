@@ -22,9 +22,11 @@ userItem.classList.add('nav-item', 'mx-2');
 const logoutItem = document.createElement('li');
 logoutItem.classList.add('nav-item', 'mx-2');
 
-const userSpan = document.createElement('span');
-userSpan.classList.add('nav-link', 'text-white', 'fs-5');
+const userSpan = document.createElement('a');
+userSpan.classList.add('nav-link', 'text-white', 'fs-5', 'text-decoration-underline');
+userSpan.href = '/HTML/EditPerfilArren.html';
 userSpan.style.cursor = 'default';
+
 
 const logoutBtn = document.createElement('a');
 logoutBtn.classList.add('nav-link', 'text-white', 'fs-5', 'border', 'border-white', 'px-3', 'py-1', 'rounded');
