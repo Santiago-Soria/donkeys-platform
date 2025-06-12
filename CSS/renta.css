@@ -1,0 +1,204 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background-color: white;
+  color: #612E34;
+    min-height: 100vh;
+}
+
+.img-fluid{
+    width: 110px;
+    height: 100px;
+}
+
+/* Navbar Styles */
+.navbar-brand .logo-text {
+  font-size: 40px;
+  font-weight: 400;
+  color: #612E34;
+}
+
+.nav-link {
+  font-size: 30px;
+  color: #612E34 !important;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #442226 !important;
+}
+
+.logout-link {
+  display: flex;
+  align-items: center;
+}
+
+.login-btn{
+  margin: 0 15px 0 15px;
+}
+
+.logout-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #612E34;
+  margin-right: 10px;
+}
+
+
+.container {
+    margin: 0 auto;
+ 
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+
+
+}
+
+.lead {
+    color: black;
+    width: 70%;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid transparent;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.landlord-card {
+    border-color: #3E4D34;
+}
+
+.student-card {
+    border-color: #385C8B;
+}
+
+.profile-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: white;
+}
+
+.profile-title-pro{
+    color:#3E4D34
+}
+
+.profile-title-est{
+    color:#385C8B
+}
+
+.landlord-icon {
+    background: #3E4D34;
+}
+
+.student-icon {
+    background: #385C8B;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 15px;
+    background: #f7fafc;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+}
+
+.requirement-text{
+    color: black;
+}
+.requirement-icon{
+    color: #3E4D34;
+}
+
+.requirement-item:hover {
+    background: #edf2f7;
+}
+
+.requirement-icon {
+    width: 24px;
+    height: 24px;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.security-section {
+    background-image: url(../Imagenes/Biblioteca_Nacional_de_Ciencia_y_Tecnología.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    padding: 30px;
+    border-radius: 15px;
+}
+
+.step-card {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-3px);
+}
+
+.step-description, .step-title{
+    color: black;
+}
+
+.steps-title{
+    color: black;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: #442226;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.verification-badge {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 25px;
+    font-weight: 500;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+}
