@@ -1,0 +1,143 @@
+body {
+     font-family: 'Pixelify Sans', sans-serif;
+    background-image: url(../Imagenes/Biblioteca_Nacional_de_Ciencia_y_Tecnología.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.recovery-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.recovery-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+   
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    background: #462226;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(101, 105, 121, 0.3);
+}
+
+.title {
+    font-size: 1.8rem;
+    color: #000000;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #718096;
+    line-height: 1.6;
+}
+
+.form-input {
+    padding: 15px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #462226;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input:invalid {
+    border-color: #e53e3e;
+}
+
+.form-input::placeholder {
+    color: #a0aec0;
+}
+
+.recovery-btn {
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    background: #462226;
+}
+
+.recovery-btn:hover {
+    background: #2e1619;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(131, 63, 63, 0.4);
+}
+
+.recovery-btn:active {
+    transform: translateY(0);
+}
+
+.back-link {
+    color: #2e1619;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.back-link:hover {
+    color: #89353f;
+}
+
+.help-text {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+/* Animaciones */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .recovery-container {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}
