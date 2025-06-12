@@ -38,7 +38,7 @@ function validarPassword(password) {
 }
 
 function validarCorreo(correo) {
-  const regex = /^[^\s@]+@(alumno\.ipn\.mx|hotmail\.com|outlook\.com|yahoo\.com|gmal\.com)$/i;
+  const regex = /^[^\s@]+@(alumno\.ipn\.mx|hotmail\.com|outlook\.com|yahoo\.com|gmail\.com)$/i;
   return regex.test(correo);
 }
 
@@ -93,7 +93,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const correo = document.getElementById("email")?.value.trim();
     const password = document.getElementById("password")?.value;
     const telefono = "0000000000"; // Si quieres agregar campo de teléfono, debes añadirlo al HTML.
-    const fechaNacimiento = document.getElementById("fecha_nacimiento")?.value;
     const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
 
     if (!validarCorreo(correo)) {
@@ -106,10 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    if (!fechaNacimiento) {
-      alert("❌ Selecciona tu fecha de nacimiento.");
-      return;
-    }
 
     if (await correoExisteEnAuth(correo) || await correoExisteEnFirestore(correo)) {
       alert("❌ El correo ya está registrado. Por favor utiliza otro.");
@@ -127,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
         Apellido_M: apellidoM,
         Correo: correo,
         Telefono: telefono,
-        Fecha_Nacimiento: fechaNacimiento,
         ID_Unidad: unidad
       });
 
