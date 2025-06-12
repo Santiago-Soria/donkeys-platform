@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación de Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome para íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- CSS personalizado -->
+     <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon"> 
+    <link rel="stylesheet" href="/CSS/administradorusuarios.css">
+</head>
+<body>
+    
+    <div class="wrapper">
+                <!-- Sidebar -->
+    <nav id="sidebar" class="active">
+      <div class="sidebar-header">
+        <h3>Don-Keys</h3>
+      </div>
+      
+      <ul class="list-unstyled components">
+        <li>
+          <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        </li>
+        <li class="active">
+          <a href="/HTML/administradorusuarios.html"><i class="fas fa-users"></i> Usuarios</a>
+        </li>
+        <li>
+          <a href="#"><i class="fas fa-home"></i> Publicaciones</a>
+        </li>
+        <li>
+          <a href="#"><i class="fa-solid fa-power-off"></i> Salir</a>
+        </li>
+      </ul>
+    </nav>
+
+        <div id="content">
+      <!-- Top Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <button type="button" id="sidebarCollapse" class="btn-content">
+              <i class="fas fa-bars"></i>
+          </button>
+          <div class="ms-auto">
+            <span class="navbar-text">Usuario</span>
+            <i class="fas fa-user-circle fa-2x"></i>
+          </div>
+        </div>
+      </nav>
+
+    <div class="container-fluid min-vh-100 bg-light p-4">
+
+
+        <div class="row">
+            <div class="col-12">
+                <div class="mb-4">
+                    <h1 class="display-5 fw-bold">Verificación de Usuarios</h1>
+                    <p class="lead text-muted">Gestiona y verifica los documentos de estudiantes y arrendadores</p>
+                </div>
+                
+                <!-- Filter Controls -->
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar por nombre...">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <select id="statusFilter" class="form-select">
+                                    <option value="all">Todos los estados</option>
+                                    <option value="verified">Verificados</option>
+                                    <option value="unverified">Sin verificar</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <select id="typeFilter" class="form-select">
+                                    <option value="all">Todos los tipos</option>
+                                    <option value="student">Estudiantes</option>
+                                    <option value="landlord">Arrendadores</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Stats Cards -->
+                <div class="row mb-4 g-4">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <p class="text-muted small mb-1">Total Usuarios</p>
+                                <h3 class="mb-0" id="totalUsers">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <p class="text-muted small mb-1">Sin Verificar</p>
+                                <h3 class="mb-0 text-warning" id="unverifiedUsers">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <p class="text-muted small mb-1">Estudiantes</p>
+                                <h3 class="mb-0 text-primary" id="studentUsers">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-sm-6 col-md-3">
+                        <div class="card shadow-sm h-100">
+                            <div class="card-body">
+                                <p class="text-muted small mb-1">Arrendadores</p>
+                                <h3 class="mb-0 text-success" id="landlordUsers">0</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Users Table -->
+                <div class="card shadow-sm">
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>Usuario</th>
+                                        <th>Tipo</th>
+                                        <th>Estado</th>
+                                        <th>Registro</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="usersTableBody">
+                                    <!-- Users will be inserted here by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div id="noResults" class="text-center py-5 d-none">
+                            <i class="fas fa-filter fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">No se encontraron usuarios con los filtros seleccionados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Document Viewer Modal -->
+    <div class="modal fade" id="documentModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalUserName"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="modalContent">
+                        <!-- Content will be inserted here by JavaScript -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="rejectBtn">
+                        <i class="fas fa-times me-2"></i>Rechazar
+                    </button>
+                    <button type="button" class="btn btn-success" id="verifyBtn">
+                        <i class="fas fa-check me-2"></i>Verificar Usuario
+                    </button>
+                </div>
+                <div id="rechazoMotivoContainer" class="w-100 d-none">
+                <textarea id="rechazoMotivo" class="form-control mb-2" placeholder="Escribe el motivo del rechazo"></textarea>
+                <button id="btnEnviarMotivo" class="btn btn-enviarmotivo">Enviar motivo</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="/JS/administradorusuarios.js"></script>
+</body>
+</html>
