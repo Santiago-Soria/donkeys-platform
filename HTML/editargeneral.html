@@ -10,6 +10,9 @@
   <link rel="stylesheet" href="/CSS/editargeneral.css">
     <link rel="stylesheet" href="/CSS/navbar.css">
     <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+    <script type="module" src="/JS/AuthSesion.js"></script>
+    <script type="module" src="/JS/CargarPerfil.js"></script>
+
 </head>
 <body>
   <div class="container edit-profile-container">
@@ -31,12 +34,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/HTML/Nosotros.html">Nosotros</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link login-btn" href="/HTML/EditPerfilArren.html"><i class="fa-solid fa-user"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link logout-btn" href="/HTML/Index.html">Salir</a>
-                    </li>
+                    
 
                 </ul>
             </div>
@@ -58,23 +56,23 @@
                 <input type="email" class="form-control" id="email" required>
             </div>
 
-            <!-- Fecha de Nacimiento -->
+            <!-- Telefono -->
             <div class="form-group mb-4">
-                <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento</label>
-                <input type="date" class="form-control" id="fecha_nacimiento" required>
+                <label for="Telefono" class="form-label">Telefono</label>
+                <input type="tel" class="form-control" id="Telefono"  required>
             </div>
 
             <!-- Contraseña -->
             <div class="form-group mb-4">
                 <label for="password" class="form-label">Contraseña</label>
-                <input type="password" class="form-control" id="password" required>
+                <input type="password" class="form-control" id="password" placeholder="Si desea cambiar contrasena coloquela aqui" required>
 
             </div>
 
             <!-- Confirmar Contraseña -->
             <div class="form-group mb-4">
                 <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
-                <input type="password" class="form-control" id="confirm_password" required>
+                <input type="password" class="form-control" id="confirm_password" placeholder="Escriba nuevamente la contrasena" required>
             </div>
         
 

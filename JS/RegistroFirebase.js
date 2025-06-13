@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const apellidoM = document.getElementById("apellidos")?.value.trim().split(" ")[1] || "";
     const correo = document.getElementById("email")?.value.trim();
     const password = document.getElementById("password")?.value;
-    const telefono = "0000000000"; // Si quieres agregar campo de teléfono, debes añadirlo al HTML.
+    const Telefono = document.getElementById("Telefono")?.value;
     const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
 
     if (!validarCorreo(correo)) {
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
         Apellido_P: apellidoP,
         Apellido_M: apellidoM,
         Correo: correo,
-        Telefono: telefono,
+        Telefono: Telefono,
         ID_Unidad: unidad
       });
 
