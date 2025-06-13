@@ -342,38 +342,20 @@ function verifyUser() {
     alert(`Usuario ${currentSelectedUser.name} ha sido verificado`);
 }
 
-    document.getElementById('btnRechazar').onclick = function() {
-        document.getElementById('rechazoMotivoContainer').classList.remove('d-none');
-    };
-
-    document.getElementById('btnEnviarRechazo').onclick = function() {
-        const motivo = document.getElementById('rechazoMotivo').value.trim();
-        if (!motivo) {
-            alert('Por favor, escribe el motivo del rechazo.');
-            return;
-        }
-        // Aquí tu lógica para enviar el motivo (puedes hacer un fetch/AJAX)
-        alert('Motivo enviado: ' + motivo);
-        propertyModal.hide();
-    };
-
-
-// Mostrar textarea al hacer clic en "Rechazar"
-document.getElementById('rejectBtn').onclick = function() {
+// Reject user
+function rejectUser() {
     document.getElementById('rechazoMotivoContainer').classList.remove('d-none');
-    // Asigna el evento aquí, porque el botón ya existe en el DOM
     document.getElementById('btnEnviarMotivo').onclick = function() {
         const motivo = document.getElementById('rechazoMotivo').value.trim();
         if (!motivo) {
             alert('Por favor, escribe el motivo del rechazo.');
             return;
         }
-        // Aquí tu lógica para enviar el motivo (fetch/AJAX o lo que necesites)
         alert('Motivo enviado: ' + motivo);
         const modal = bootstrap.Modal.getInstance(document.getElementById('documentModal'));
         modal.hide();
     };
-};
+}
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', function() {
@@ -381,9 +363,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Sidebar toggle
     const sidebarCollapse = document.getElementById('sidebarCollapse');
-    if (sidebarCollapse) {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebarCollapse && sidebar) {
         sidebarCollapse.addEventListener('click', function() {
-            document.getElementById('sidebar').classList.toggle('active');
+            sidebar.classList.toggle('active');
         });
     }
 
