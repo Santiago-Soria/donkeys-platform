@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/editargeneral.css">
+    <link rel="stylesheet" href="/CSS/navbar.css">
+    <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+    <script type="module" src="/JS/AuthSesion.js"></script>
+    <script type="module" src="/JS/CargarPerfil.js"></script>
+
+</head>
+<body>
+  <div class="container edit-profile-container">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="/HTML/Index.html">Don-Keys</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                         <a class="nav-link" href="/HTML/resultados1.html">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                         <a class="nav-link" href="/HTML/Renta.html" >Renta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/HTML/Nosotros.html">Nosotros</a>
+                    </li>
+                    
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="edit-profile-content">
+      <h2 class="edit-profile-title">Editar Perfil</h2>
+      
+      <!-- Form -->
+      
+              <form class="edit-profile-form">
+        
+
+            <!-- Email -->
+            <div class="form-group mb-4">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
+
+            <!-- Telefono -->
+            <div class="form-group mb-4">
+                <label for="Telefono" class="form-label">Telefono</label>
+                <input type="tel" class="form-control" id="Telefono"  required>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="form-group mb-4">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" placeholder="Si desea cambiar contrasena coloquela aqui" required>
+
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="form-group mb-4">
+                <label for="confirm_password" class="form-label">Confirmar Contraseña</label>
+                <input type="password" class="form-control" id="confirm_password" placeholder="Escriba nuevamente la contrasena" required>
+            </div>
+        
+
+            <!-- Botón Registro -->
+            <button type="submit" class="btn register-btn">Confirmar</button>
+        </form>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

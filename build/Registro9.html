@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Descripción</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/CSS/registro9.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+</head>
+<body>
+  <div class="container property-container">
+   <!-- Encabezado -->
+    <header class="back-header mb-5">
+            <div class="d-flex align-items-center back-button">
+                <div class="back-icon"><i class="fa-solid fa-chevron-left"></i></div>
+                <h1 class="back-text">Regresar</h1>
+            </div>
+        </header>
+
+    <!-- Logo -->
+    <div class="text-center mb-5">
+      <a href="/HTML/Index.html">
+        <img src="/Imagenes/iconoo.png" alt="Logo Don-Keys" class="logo">
+      </a>
+    </div>
+
+    <!-- Título principal -->
+    <h2 class="text-center main-title mb-4">Ya casi terminamos...</h2>
+    
+    <!-- Subtítulo -->
+    <p class="text-center subtitle mb-5">Ahora agrega una pequeña descripción de tu inmueble y completa los campos</p>
+
+<div class="horizontal-scroll-container">
+  <div class="horizontal-fields">
+    <!-- Dimensiones -->
+    <div class="detail-field">
+      <div class="detail-icon"><i class="fa-solid fa-ruler-combined"></i></div>
+      <h3 class="detail-label">Dimensiones</h3>
+      <div class="input-container">
+        <input type="number" class="form-control detail-input" placeholder="0">
+        <span class="input-unit">m²</span>
+      </div>
+    </div>
+
+    <!-- Baños -->
+    <div class="detail-field">
+      <div class="detail-icon"><i class="fa-solid fa-bath"></i></div>
+      <h3 class="detail-label">Baños</h3>
+      <div class="input-container">
+        <input type="number" class="form-control detail-input" placeholder="0">
+      </div>
+    </div>
+
+    <!-- Estacionamiento -->
+    <div class="detail-field">
+      <div class="detail-icon"><i class="fa-solid fa-car"></i></div>
+      <h3 class="detail-label">Estac.</h3>
+      <div class="input-container">
+        <input type="number" class="form-control detail-input" placeholder="0">
+      </div>
+    </div>
+
+    <!-- Recámaras -->
+    <div class="detail-field">
+      <div class="detail-icon"><i class="fa-solid fa-bed"></i></div>
+      <h3 class="detail-label">Rec.</h3>
+      <div class="input-container">
+        <input type="number" class="form-control detail-input" placeholder="0">
+      </div>
+    </div>
+
+    <!-- Antigüedad -->
+    
+  </div>
+</div>
+               
+
+ <!-- Titulo del anuncio  -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <label for="property-type" class="form-label">Titulo del anuncio</label>  
+        <div class="form-group">
+          <input type="text" class="form-control">
+        </div>
+      </div>
+    </div>
+
+    <!-- Tipo de inmueble -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <label for="property-type" class="form-label">Tipo de inmueble</label>  
+        <select class="form-select" id="property-type">
+          <option value="" disabled selected>Selecciona una opción</option>
+          <option value="departamento">Departamento</option>
+          <option value="local_comercial">Habitación</option>
+        </select>
+      </div>
+    </div>
+
+
+
+    <!-- Descripción -->
+    <div class="description-section">
+      <h3 class="description-label">Descripción del inmueble</h3>
+      <textarea class="form-control description-textarea" rows="5" placeholder="Escribe aquí la descripción..."></textarea>
+      <div class="character-counter">0/500 caracteres</div>
+    </div>
+
+    <!-- Botón siguiente -->
+    <div class="text-center mt-5">
+      <button class="btn next-btn">Siguiente</button>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/JS/registro9.js"></script>
+</body>
+</html>
