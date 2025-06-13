@@ -26,7 +26,7 @@ const avif = require('gulp-avif');
 const paths = {
   scss: 'src/scss/**/*.scss',
   js: 'src/js/**/*.js',
-  img: 'src/img/**/*'
+  img: 'Imagenes/**/*'
 };
 
 // Tarea: Compilar SASS
@@ -41,6 +41,12 @@ function css() {
     .pipe(dest('build/css'));
 }
 
+function html() {
+  return src('HTML/**/*.html')
+    .pipe(dest('build'));
+}
+
+
 // Tarea: Minificar JS
 function js() {
   return src(paths.js)
@@ -49,7 +55,7 @@ function js() {
     .pipe(concat('main.min.js'))
     .pipe(terser())
     .pipe(sourcemaps.write('.'))
-    .pipe(dest('dist/js'));
+    .pipe(dest('build/js'));  // Cambiado de dist/js a build/js
 }
 
 // Tarea: Optimizar imágenes
@@ -89,6 +95,6 @@ function dev() {
 // Tarea por defecto
 exports.default = series(
   limpiar,
-  parallel(css, js, imagenes, versionWebp, versionAvif),
+  parallel(css, js, imagenes, versionWebp,/* versionAvif,*/ html),
   dev
 );

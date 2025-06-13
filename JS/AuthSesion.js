@@ -1,5 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
 
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
@@ -13,6 +15,8 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
+
 
 const navBar = document.querySelector('.navbar-nav.ms-auto');
 
@@ -37,9 +41,19 @@ userItem.appendChild(userSpan);
 logoutItem.appendChild(logoutBtn);
 
 // Función para mostrar UI según estado de sesión
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async(user) => {
   if (user) {
     // Hay sesión activa
+    // 🔍 Obtener datos de Firestore (opcional)
+    try {
+      const userDocRef = doc(db, "Usuarios", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (userDocSnap.exists()) {
+        console.log("Datos Firestore:", userDocSnap.data());
+      }
+    } catch (e) {
+      console.error("Error al obtener documento del usuario:", e);
+    }
     // Ocultar el link "Iniciar Sesión"
     const loginLink = navBar.querySelector('a[href="/HTML/iniciosesion.html"]');
     if (loginLink) {
