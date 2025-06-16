@@ -1,0 +1,195 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: black;
+}
+
+/* Back Button */
+.back-button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover{
+    transform: translateY(-2px);
+}
+
+.back-text:hover{
+    color:#442226
+}
+
+.back-icon:hover{
+    color:#442226 !important
+}
+
+.back-icon {
+    font-size: 25px;
+    color: #000000;
+    background-color: rgb(255, 255, 255);
+    margin-right: 10px;
+    margin-right: 2%;
+}
+
+.back-text {
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+}
+
+
+/* Logo */
+
+.logo {
+    margin-bottom: 1.5rem;
+    height: 87px;
+    width: 210px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+/* Titles */
+h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #442226;
+}
+
+/* Form Elements */
+.domicilio-form {
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+    
+}
+
+.form-select {
+    border: 2px solid black;
+    border-radius: 9px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    height: auto;
+}
+
+.form-label {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 0rem;
+    display: block;
+}
+
+.form-control {
+    border: 2px solid black;
+    border-radius: 9px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    height: auto;
+}
+
+.form-control:focus {
+    border-color: #442226;
+    box-shadow: none;
+}
+
+/* Next Button */
+.next-button {
+    background-color: #442226;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding: 0.75rem 2rem;
+    border-radius: 9px;
+    border: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.next-button:hover {
+    background-color: #5A2F34;
+    transform: translateY(-2px);
+    color: white;
+}
+
+/* Estilos para validación */
+.is-valid {
+    border-color: #28a745 !important;
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+.alert {
+    border-radius: 9px;
+    padding: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    h2 {
+        font-size: 2rem;
+    }
+    
+    .back-text {
+        font-size: 1.5rem;
+    }
+    
+    .form-label {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    .back-text {
+        font-size: 1.3rem;
+    }
+    
+    .next-button {
+        font-size: 1.1rem;
+        padding: 0.6rem 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    .back-text {
+        font-size: 1.1rem;
+    }
+    
+    .form-label {
+        font-size: 1rem;
+    }
+    
+    .form-control {
+        padding: 0.5rem 0.75rem;
+    }
+}

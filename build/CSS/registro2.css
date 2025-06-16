@@ -1,0 +1,117 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    color: #442226;
+}
+
+/* Register Container */
+.register-options-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem;
+}
+
+.logo {
+    margin-bottom: 1.5rem;
+    height: 87px;
+    width: 210px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+
+.register-title {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    color: black;
+}
+
+.main-question {
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: #612E34;
+    margin-bottom: 3rem;
+}
+
+/* Option Cards */
+.option-card {
+    background-color: #5F646B;
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.option-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  background-color: #442226;
+}
+
+
+.option-title {
+    color: white;
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .register-title {
+        font-size: 2rem;
+    }
+    
+    .main-question {
+        font-size: 2rem;
+    }
+    
+    .option-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .register-title {
+        font-size: 1.8rem;
+    }
+    
+    .main-question {
+        font-size: 1.8rem;
+    }
+    
+    .option-card {
+        height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .register-options-container {
+        padding: 1rem;
+    }
+    
+    .register-title {
+        font-size: 1.5rem;
+    }
+    
+    .main-question {
+        font-size: 1.5rem;
+    }
+    
+    .option-title {
+        font-size: 1.3rem;
+    }
+}

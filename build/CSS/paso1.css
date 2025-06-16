@@ -1,0 +1,116 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: #442226;
+}
+
+
+
+/* Main Content Styles */
+.main-title {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+}
+
+.sub-title {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+/* Contenedor de las cards */
+.option-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #5F646B;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 79%;
+}
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+padding: 30px 0px 20px 75px;
+}
+/* Efecto hover */
+
+.option-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  background-color: #442226;
+}
+
+/* Contenedor del icono */
+.icon-container {
+  height: 250px;
+  padding-top: 10px; /* Margen superior */
+}
+
+/* Título */
+.option-title {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin: 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 2rem;
+    }
+    
+    .nav-link {
+        font-size: 1.2rem;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .sub-title {
+        font-size: 1.5rem;
+    }
+    
+    .option-image {
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.8rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .option-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .sub-title {
+        font-size: 1.3rem;
+    }
+    
+    .option-image {
+        height: 200px;
+    }
+    
+    .option-title {
+        font-size: 1.3rem;
+    }
+}

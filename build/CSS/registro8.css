@@ -1,0 +1,183 @@
+/* Estilos generales */
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background-color: white;
+  color: black;
+  padding: 20px;
+}
+
+.amenidades-container {
+  max-width: 1272px;
+  padding: 20px;
+}
+
+/* Encabezado */
+.back-button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover{
+    transform: translateY(-2px);
+}
+
+.back-text:hover{
+    color:#442226
+}
+
+.back-icon:hover{
+    color:#442226 !important
+}
+
+.back-icon {
+    font-size: 25px;
+    color: #000000;
+    background-color: rgb(255, 255, 255);
+    margin-right: 10px;
+    margin-right: 2%;
+}
+
+.back-text {
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+}
+
+/* Logo */
+
+.logo {
+    margin-bottom: 1.5rem;
+    height: 87px;
+    width: 210px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+
+/* Título */
+.amenidades-title {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 36px;
+}
+
+/* Búsqueda */
+.search-box {
+  width: 100%;
+  max-width: 361px;
+}
+
+.search-input {
+  height: 54px;
+  border: 2px solid black;
+  border-radius: 2px;
+  font-family: 'Pixelify Sans', sans-serif;
+  padding-left: 40px;
+}
+
+.search-input::placeholder {
+  color: #999999;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 25px;
+  height: 25px;
+}
+
+/* Amenidades */
+.amenidad-card {
+  height: 100px;
+  display: flex;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  background-color: #878787;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.10);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.amenidad-card:hover{
+    background-color: #442226;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.amenidad-card.selected {
+  background-color: #442226;
+  color: white;
+}
+
+.amenidad-name {
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 30px;
+  text-align: center;
+}
+
+/* Botón siguiente */
+.next-btn {
+  width: 220px;
+  height: 44px;
+  background-color: #5A2F34;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+  background-color: #442226;
+  color: white;
+    transform: translateY(-2px);
+}
+
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .back-text {
+    font-size: 28px;
+  }
+  
+  .amenidades-title {
+    font-size: 28px;
+  }
+  
+  .amenidad-name {
+    font-size: 18px;
+  }
+  
+  .next-btn {
+    width: 100%;
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 576px) {
+  .back-text {
+    font-size: 24px;
+  }
+  
+  .amenidades-title {
+    font-size: 24px;
+  }
+  
+  .search-input {
+    height: 44px;
+  }
+  
+  .amenidad-card {
+    height: 80px;
+  }
+}

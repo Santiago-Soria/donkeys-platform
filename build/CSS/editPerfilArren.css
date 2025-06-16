@@ -1,0 +1,240 @@
+/* General Styles */
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background-color: white;
+  color: #612E34;
+}
+
+.profile-container {
+  max-width: 1272px;
+  padding: 20px;
+}
+
+/* Navbar Styles */
+.navbar-brand .logo-text {
+  font-size: 40px;
+  font-weight: 400;
+  color: #612E34;
+}
+
+.nav-link {
+  font-size: 30px;
+  color: #612E34 !important;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #442226 !important;
+}
+
+.logout-link {
+  display: flex;
+  align-items: center;
+}
+
+.login-btn{
+  margin: 0 15px 0 15px;
+}
+
+.logout-icon {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-color: #612E34;
+  margin-right: 10px;
+}
+
+/* Profile Content */
+.profile-content {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.profile-pic-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.profile-pic {
+  width: 140px;
+  height: 140px;
+  background-color: #D9D9D9;
+  border-radius: 50%;
+  border: 2px solid black;
+}
+
+.user-info {
+  margin-bottom: 50px;
+}
+
+.user-name {
+  font-size: 35px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.user-status {
+  font-size: 25px;
+  color: black;
+  margin-bottom: 15px;
+}
+
+.edit-profile {
+  font-size: 20px;
+  color: #442226;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-profile:hover{
+  color: #612E34;
+  text-decoration: underline;
+}
+
+/* Properties Section */
+.properties-section {
+  background: white;
+  border: 2px solid black;
+  border-radius: 9px;
+  padding: 30px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.properties-title {
+  font-size: 25px;
+  color: black;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.properties-count {
+  font-size: 18px;
+  color: black;
+  margin-bottom: 30px;
+  text-align: left;
+}
+
+.edit-properties-btn {
+  width: 100%;
+    align-items: center;
+  align-content: center;
+  max-width: 696px;
+  height: 58px;
+  background-color: #5A2F34;
+  color: white;
+  font-size: 20px;
+  border-radius: 9px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.edit-properties-btn:hover {
+  background-color: #5b4a4c;
+  color: white;
+}
+
+.add-properties-btn {
+  width: 100%;
+  max-width: 696px;
+  height: 58px;
+  background-color: #34151b;
+  color: white;
+  font-size: 20px;
+  border-radius: 9px;
+  border: none;
+  align-items: center;
+  align-content: center;
+  transition: all 0.3s ease;
+}
+
+.add-properties-btn:hover {
+  background-color: #896c6f;
+  color: white;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .navbar-brand .logo-text {
+    font-size: 32px;
+  }
+  
+  .nav-link {
+    font-size: 24px;
+  }
+  
+  .logout-icon {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-pic {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .user-name {
+    font-size: 28px;
+  }
+  
+  .user-status {
+    font-size: 20px;
+  }
+  
+  .edit-profile {
+    font-size: 18px;
+  }
+  
+  .properties-section {
+    padding: 20px;
+  }
+  
+  .properties-title {
+    font-size: 22px;
+  }
+  
+  .properties-count {
+    font-size: 16px;
+  }
+  
+  .edit-properties-btn {
+    height: 50px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .navbar-brand .logo-text {
+    font-size: 28px;
+  }
+  
+  .nav-link {
+    font-size: 20px;
+  }
+  
+  .logout-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .user-name {
+    font-size: 24px;
+  }
+  
+  .user-status {
+    font-size: 18px;
+  }
+  
+  .properties-section {
+    padding: 15px;
+  }
+}

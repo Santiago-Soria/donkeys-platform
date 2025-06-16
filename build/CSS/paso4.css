@@ -1,0 +1,225 @@
+/* General Styles */
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: #442226;
+}
+
+/* Main Content Styles */
+.main-title {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #442226;
+}
+
+.sub-title {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #442226;
+    margin-bottom: 3rem;
+}
+
+/* Main Content Styles */
+.main-title {
+    font-size: 3rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: #442226;
+}
+
+.sub-title {
+    font-size: 2rem;
+    font-weight: 400;
+    color: #442226;
+    margin-bottom: 1rem;
+}
+
+.selected-count {
+    font-size: 1.2rem;
+    color: #5F646B;
+    margin-bottom: 2rem;
+}
+
+/* Preference Cards */
+.preference-card {
+    background-color: #5F646B;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.preference-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.preference-card.selected {
+    background-color: #612E34;
+    box-shadow: 0 0 0 3px #5A2F34;
+}
+
+.preference-card i {
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.preference-name {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 400;
+    text-align: center;
+    margin: 0;
+}
+
+.check-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: white;
+    font-size: 1.2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.preference-card.selected .check-icon {
+    opacity: 1;
+}
+
+
+/* Finalizar Button */
+.finalizar-btn {
+    background-color: #612E34;
+    color: white;
+    font-size: 1.5rem;
+    padding: 10px 40px;
+    border-radius: 0;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.finalizar-btn:hover {
+    background-color: #4a2328;
+    transform: translateY(-3px);
+}
+
+/* Botón */
+.finalizar-btn {
+  background-color: #612E34;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border-radius: 0;
+  transition: all 0.3s ease;
+}
+
+.finalizar-btn:hover {
+  background-color: #4a2328;
+  color: white;
+  transform: translateY(-2px);
+}
+
+
+  /* Efecto de transición */
+    .page-transition {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 10px;
+      height: 10px;
+      background-color: #612E34;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      opacity: 0;
+      transition: width 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+                 height 0.8s cubic-bezier(0.65, 0, 0.35, 1), 
+                 opacity 0.1s;
+      pointer-events: none;
+    }
+    
+    .page-transition.active {
+      width: 300vw;
+      height: 300vw;
+      opacity: 1;
+    }
+    
+    /* Asegurar que el botón tenga posición relativa */
+    .finalizar-btn-container {
+      position: relative;
+      overflow: hidden;
+    }
+
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .navbar-brand {
+        font-size: 2rem;
+    }
+    
+    .nav-link {
+        font-size: 1.2rem;
+    }
+    
+    .main-title {
+        font-size: 2.5rem;
+    }
+    
+    .sub-title {
+        font-size: 1.5rem;
+    }
+    
+    .preference-name {
+        font-size: 1.3rem;
+    }
+    
+    .finalizar-btn {
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1.8rem;
+    }
+    
+    .main-title {
+        font-size: 2rem;
+    }
+    
+    .preference-card {
+        height: 150px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-brand {
+        font-size: 1.5rem;
+    }
+    
+    .main-title {
+        font-size: 1.8rem;
+    }
+    
+    .sub-title {
+        font-size: 1.3rem;
+    }
+    
+    .preference-name {
+        font-size: 1.1rem;
+    }
+    
+    .finalizar-btn {
+        font-size: 1.1rem;
+        padding: 8px 30px;
+    }
+}

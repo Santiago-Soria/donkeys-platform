@@ -1,0 +1,271 @@
+/* Estilos generales */
+body {
+  font-family: 'Pixelify Sans', sans-serif;
+  background-color: white;
+  color: black;
+  padding: 20px;
+}
+
+.property-container {
+  max-width: 1272px;
+  padding: 20px;
+}
+
+
+/* Encabezado */
+.back-button {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-button:hover{
+    transform: translateY(-2px);
+}
+
+.back-text:hover{
+    color:#442226
+}
+
+.back-icon:hover{
+    color:#442226 !important
+}
+
+.back-icon {
+    font-size: 25px;
+    color: #000000;
+    background-color: rgb(255, 255, 255);
+    margin-right: 10px;
+    margin-right: 2%;
+}
+
+.back-text {
+    font-size: 2rem;
+    font-weight: 500;
+    color: black;
+    margin: 0;
+}
+
+/* Logo */
+
+.logo {
+    margin-bottom: 1.5rem;
+    height: 87px;
+    width: 210px;
+    transition: all 0.3s ease;
+}
+
+.logo:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+}
+
+/* Títulos */
+.main-title {
+  font-size: 32px;
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 24px;
+  font-weight: 400;
+  color: #3E2023;
+  line-height: 30px;
+}
+
+
+
+/* Descripción */
+.description-section {
+  margin-top: 40px;
+}
+
+.description-label {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.description-textarea {
+  width: 100%;
+  min-height: 150px;
+  border: 2px solid black;
+  border-radius: 0;
+  padding: 15px;
+  resize: vertical;
+}
+
+.character-counter {
+  text-align: right;
+  color: #666666;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+/* Botón siguiente */
+.next-btn {
+  width: 200px;
+  height: 62px;
+  background-color: #5A2F34;
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.next-btn:hover {
+  background-color: #442226;
+  color: white;
+}
+
+/* Contenedor con scroll horizontal */
+.horizontal-scroll-container {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch; /* Para scroll suave en iOS */
+  padding-bottom: 15px; /* Espacio para scroll */
+  margin: 2rem 0;
+}
+
+.horizontal-fields {
+  display: inline-flex;
+  gap: 20px;
+  padding: 0 10px;
+  justify-content: center; 
+  width: 100%; 
+}
+
+/* Cada campo individual */
+.detail-field {
+  display: inline-block;
+  min-width: 120px;
+  text-align: center;
+  vertical-align: top;
+  padding: 0 10px;
+}
+
+.detail-icon {
+  font-size: 1.8rem;
+  color: #3E2023;
+  margin-bottom: 0.5rem;
+}
+
+.detail-label {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: black;
+  white-space: nowrap;
+}
+
+.detail-input {
+  width: 80px;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 0;
+  text-align: center;
+  font-size: 1rem;
+  font-family: 'Pixelify Sans', sans-serif;
+  display: inline-block;
+}
+
+.input-container {
+  position: relative;
+  display: inline-block;
+}
+
+.input-unit {
+  position: absolute;
+  right: -37px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Estilos para campos inválidos */
+.invalid {
+  border-color: #ff4444 !important;
+  background-color: #ffeeee !important;
+}
+
+/* Botón deshabilitado */
+.btn-disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background-color: #cccccc !important;
+}
+
+/* Contador de caracteres */
+.character-counter {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .detail-field {
+    min-width: 110px;
+  }
+  
+  .detail-icon {
+    font-size: 1.6rem;
+  }
+  
+  .detail-label {
+    font-size: 1.1rem;
+  }
+  
+  .detail-input {
+    width: 70px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 576px) {
+  .horizontal-fields {
+    gap: 15px;
+  }
+  
+  .detail-field {
+    min-width: 100px;
+  }
+  
+  .detail-icon {
+    font-size: 1.4rem;
+  }
+  
+  .detail-label {
+    font-size: 1rem;
+  }
+  
+  .detail-input {
+    width: 60px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+  
+  .input-unit {
+    right: -20px;
+    font-size: 0.8rem;
+  }
+  @media (min-width: 1200px) {
+  .horizontal-scroll-container {
+    overflow-x: visible;
+    text-align: center;
+  }
+  
+  .horizontal-fields {
+    display: inline-flex;
+    justify-content: center;
+    width: auto;
+    max-width: 100%;
+  }
+}
+}

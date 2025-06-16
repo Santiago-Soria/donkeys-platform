@@ -1,0 +1,163 @@
+body {
+     font-family: 'Pixelify Sans', sans-serif;
+    background-image: url(../Imagenes/Biblioteca_Nacional_de_Ciencia_y_Tecnología.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.change-password-container {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+
+.logo {
+    width: 80px;
+    height: 80px;
+    background: #462226;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    box-shadow: 0 10px 30px rgba(101, 105, 121, 0.3);
+}
+
+.title {
+    font-size: 1.8rem;
+    color: black;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #718096;
+    line-height: 1.6;
+}
+
+.form-input {
+    padding: 15px 20px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.form-input:focus {
+    border-color: #462226;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-input.valid {
+    border-color: #48bb78;
+}
+
+.form-input.invalid {
+    border-color: #e53e3e;
+}
+
+.password-strength {
+    border-radius: 8px;
+    font-size: 0.85rem;
+    display: none;
+}
+
+.password-strength.show {
+    display: block;
+}
+
+.strength-weak {
+    background: #fed7d7;
+    color: #c53030;
+    border: 1px solid #feb2b2;
+}
+
+.strength-medium {
+    background: #fef5e7;
+    color: #d69e2e;
+    border: 1px solid #f6e05e;
+}
+
+.strength-strong {
+    background: #c6f6d5;
+    color: #2f855a;
+    border: 1px solid #9ae6b4;
+}
+
+.password-requirements {
+    background: #f7fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+}
+
+.requirement-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: #718096;
+    transition: color 0.3s ease;
+}
+
+.requirement-item.met {
+    color: #2f855a;
+}
+
+.requirement-item.met .requirement-icon {
+    color: #48bb78;
+}
+
+.submit-btn {
+    padding: 15px 20px;
+    border-radius: 12px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    background: #4c252a;
+}
+
+.submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    background: #5a2f34;
+}
+
+.submit-btn:active {
+    transform: translateY(0);
+}
+
+.login-link a {
+    color: #4c252a;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.login-link a:hover {
+    color: #7d5d63;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .change-password-container {
+        padding: 30px 20px;
+    }
+
+    .title {
+        font-size: 1.5rem;
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+}

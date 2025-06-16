@@ -1,100 +1,52 @@
-const { src, dest, series, parallel, watch } = require('gulp');
+const gulp = require('gulp');
+const del = require('del'); // Versión 5 compatible CommonJS
 
-// CSS
-const sass = require('gulp-sass')(require('sass'));
-const postcss = require('gulp-postcss');
-const cssnano = require('cssnano');
-const autoprefixer = require('autoprefixer');
-const sourcemaps = require('gulp-sourcemaps');
+// Limpiar carpeta build
+gulp.task('limpiar-build', function () {
+  return del(['build/**', '!build']);
+});
 
-// JS
-const terser = require('gulp-terser-js');
+// Copiar CSS
+gulp.task('copiar-css', function () {
+  return gulp.src('CSS/**/*.css')
+    .pipe(gulp.dest('build/CSS'));
+});
 
-// Utilidades
-const concat = require('gulp-concat');
-const rename = require('gulp-rename');
-const plumber = require('gulp-plumber');
-const notify = require('gulp-notify');
-const clean = require('gulp-clean');
+// Copiar JS
+gulp.task('copiar-js', function () {
+  return gulp.src('JS/**/*.js')
+    .pipe(gulp.dest('build/JS'));
+});
 
-// Imágenes
-const imagemin = require('gulp-imagemin');
-const webp = require('gulp-webp');
-const avif = require('gulp-avif');
+// Copiar HTML directamente a build/
+gulp.task('copiar-html', function () {
+  return gulp.src('HTML/**/*.html')
+    .pipe(gulp.dest('build/'));
+});
 
-// Rutas
-const paths = {
-  scss: 'src/scss/**/*.scss',
-  js: 'src/js/**/*.js',
-  img: 'Imagenes/**/*'
-};
+// Copiar imágenes
+gulp.task('copiar-imagenes', function () {
+  return gulp.src('Imagenes/**/*')
+    .pipe(gulp.dest('build/Imagenes'));
+});
 
-// Tarea: Compilar SASS
-function css() {
-  return src(paths.scss)
-    .pipe(plumber({ errorHandler: notify.onError("Error en SASS: <%= error.message %>") }))
-    .pipe(sourcemaps.init())
-    .pipe(sass())
-    .pipe(postcss([autoprefixer(), cssnano()]))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest('build/css'));
-}
+// Copiar íconos (archivos .ico)
+gulp.task('copiar-iconos', function () {
+  return gulp.src('*.ico')
+    .pipe(gulp.dest('build/'));
+});
 
-function html() {
-  return src('HTML/**/*.html')
-    .pipe(dest('build'));
-}
+// Tarea para copiar todo (sin limpiar)
+gulp.task('copiar-todo', gulp.parallel(
+  'copiar-css',
+  'copiar-js',
+  'copiar-html',
+  'copiar-imagenes',
+  'copiar-iconos'
+));
 
-
-// Tarea: Minificar JS
-function js() {
-  return src(paths.js)
-    .pipe(plumber({ errorHandler: notify.onError("Error en JS: <%= error.message %>") }))
-    .pipe(sourcemaps.init())
-    .pipe(concat('main.min.js'))
-    .pipe(terser())
-    .pipe(sourcemaps.write('.'))
-    .pipe(dest('build/js'));  // Cambiado de dist/js a build/js
-}
-
-// Tarea: Optimizar imágenes
-function imagenes() {
-  return src(paths.img)
-    .pipe(imagemin())
-    .pipe(dest('build/img'));
-}
-
-// Tarea: Convertir a WebP
-function versionWebp() {
-  return src(paths.img)
-    .pipe(webp())
-    .pipe(dest('build/img'));
-}
-
-// Tarea: Convertir a AVIF
-function versionAvif() {
-  return src(paths.img)
-    .pipe(avif())
-    .pipe(dest('build/img'));
-}
-
-// Tarea: Limpiar dist
-function limpiar() {
-  return src('build', { read: false, allowEmpty: true })
-    .pipe(clean());
-}
-
-// Tarea: Watch
-function dev() {
-  watch(paths.scss, css);
-  watch(paths.js, js);
-  watch(paths.img, series(imagenes, versionWebp, versionAvif));
-}
-
-// Tarea por defecto
-exports.default = series(
-  limpiar,
-  parallel(css, js, imagenes, versionWebp,/* versionAvif,*/ html),
-  dev
-);
+// Tarea por defecto: limpiar y luego copiar todo
+gulp.task('default', gulp.series(
+  'limpiar-build',
+  'copiar-todo'
+));

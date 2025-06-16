@@ -1,0 +1,309 @@
+:root {
+  --primary-color: #612E34;
+  --secondary-color: #442226;
+  --gray-color: #666666;
+  --light-gray: #D9D9D9;
+  --active-color: #4CAF50;
+  --pending-color: #FF9800;
+}
+
+body {
+    background-color: #f8f9fa;
+      font-family: 'Pixelify Sans', sans-serif;
+      min-height: 100vh;
+}
+
+.form-control{
+    display: block;
+    width: 90%;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    color: #495057;
+    background-color: #fff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-enviarmotivo {
+    display: block;
+    margin: 20px auto 0 auto; 
+    background-color: #442226;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-content: center;
+    margin-bottom: 2%;
+}
+
+.btn-enviarmotivo:hover{
+    background-color: #241214;
+    color: white;
+}
+
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+}
+
+.input-group-text{
+    width: 50px;
+    height: 50px;
+    background-color: #442226;
+    color: white;
+    border: none;
+    border-radius: 0.25rem 0 0 0.25rem;
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+/* Estilos para el contenedor de dirección */
+.address-container {
+    position: relative;
+    padding: 20px;
+    padding-top: 60%;
+    border: 3px solid black;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    height: 100%;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+}
+
+.location-icon {
+    margin-top: 17%;
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    font-size: 50px;
+    text-align: center;
+    color: #442226;
+}
+
+.address {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 30px;
+    padding-left: 10px;
+}
+
+/* Estilos para el mapa */
+.map-container {
+    height: 100%;
+    min-height: 300px;
+    width: 100%;
+}
+
+/* Características principales */
+.property-features {
+    border: 3px black solid;
+    padding: 30px 0 00px 0;
+}
+
+.property-title{
+    font-size: 2.5rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+  font-size: 30px;
+  color: #442226;
+}
+
+.feature-text {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+/* Sidebar Styles */
+
+.btn-content{
+background-color: #442226;
+color: white;
+border: none;
+}
+
+.fa-user-circle{
+  color: white;
+}
+
+#sidebar {
+  min-width: 250px;
+  max-width: 250px;
+  background: var(--secondary-color);
+  color: white;
+  transition: all 0.3s;
+}
+
+#sidebar.active {
+  margin-left: -250px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  background: var(--secondary-color);
+}
+
+.sidebar-header h3 {
+  color: white;
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+#sidebar ul.components {
+  padding: 20px 0;
+}
+
+#sidebar ul li a {
+  padding: 15px 20px;
+  font-size: 1.1em;
+  display: block;
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+#sidebar ul li a:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+#sidebar ul li a i {
+  margin-right: 10px;
+}
+
+#sidebar ul li.active > a {
+   background: var(--primary-color);
+  color: white;
+}
+
+/* Content Styles */
+#content {
+  width: 100%;
+  min-height: 100vh;
+  transition: all 0.3s;
+}
+
+.navbar {
+  padding: 15px 20px;
+  background: #442226 !important;
+  border-bottom: 1px solid var(--light-gray);
+}
+
+.navbar-text{
+  color: white;
+  margin-right: 20px;
+}
+
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+/* Tabla y celdas */
+.table th {
+    border-top: none;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    color: #6c757d;
+    padding: 1rem;
+}
+
+.table td {
+    padding: 1rem;
+    vertical-align: middle;
+}
+
+/* Badges de tipo y estado */
+.user-type-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.user-type-student {
+    background-color: #e7f5ff;
+    color: #228be6;
+}
+
+.user-type-landlord {
+    background-color: #ebfbee;
+    color: #2b8a3e;
+}
+
+.status-badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.status-verified {
+    background-color: #ebfbee;
+    color: #2b8a3e;
+}
+
+.status-pending {
+    background-color: #fff3bf;
+    color: #e67700;
+}
+
+/* Botón de acción */
+.action-link {
+    color: #442226;
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.action-link:hover {
+    color: #5f4e50;
+}
+
+/* Tarjeta de documento en el modal */
+.document-card {
+    border: 1px solid #dee2e6;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+}
+
+.document-card img {
+    border-radius: 0.25rem;
+    max-height: 250px;
+    object-fit: contain;
+}
+
+/* Ícono de documento */
+.document-icon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Mensaje de no resultados */
+#noResults {
+    background-color: #f8f9fa;
+}
+
+/* Responsive tabla */
+@media (max-width: 768px) {
+    .table-responsive {
+        border: none;
+    }
+    .table th, .table td {
+        padding: 0.75rem 0.5rem;
+    }
+}
