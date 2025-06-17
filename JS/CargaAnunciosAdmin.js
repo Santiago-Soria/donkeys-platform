@@ -1,5 +1,12 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import { 
+  getFirestore, 
+  collection, 
+  getDocs, 
+  doc, 
+  updateDoc, 
+  deleteDoc 
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
@@ -144,7 +151,7 @@ async function abrirModalDetalle(id) {
     <p><strong>Tipo:</strong> ${anuncio.Tipo === true ? "departamento" : "habitación"}</p>
     <p><strong>Estado:</strong> ${anuncio.Disponibilidad ? "Disponible" : "No disponible"}</p>
     <p><strong>Fecha de publicación:</strong> ${anuncio.Publicacion ? new Date(anuncio.Publicacion.seconds * 1000).toLocaleDateString() : "N/A"}</p>
-    <p><strong>Propietario:</strong> ${anuncio.id || "Desconocido"}</p>
+    <p><strong>Propietario:</strong> ${anuncio.Propietario || "Desconocido"}</p>
     <p><strong>Descripción:</strong> ${anuncio.Descripcion || "Sin descripción"}</p>
 
     <div class="mb-3">
@@ -155,6 +162,7 @@ async function abrirModalDetalle(id) {
     <div class="d-flex gap-2 mt-4">
       <button id="btnAceptar" class="btn btn-success flex-fill"><i class="fa-solid fa-check"></i> Aceptar</button>
       <button id="btnRechazar" class="btn btn-danger flex-fill"><i class="fa-solid fa-xmark"></i> Rechazar</button>
+      <button id="btnBorrar" class="btn btn-outline-danger flex-fill"><i class="fa-solid fa-trash"></i> Borrar</button>
     </div>
     <div id="rechazoMotivoContainer" class="mt-3 d-none">
       <textarea id="rechazoMotivo" class="form-control mb-2" placeholder="Escribe el motivo del rechazo"></textarea>
@@ -182,7 +190,7 @@ async function abrirModalDetalle(id) {
     }
   });
 
-  // Botón Rechazar - solo muestra textarea y cambia disponibilidad a false
+  // Botón Rechazar - muestra textarea y cambia disponibilidad a false
   document.getElementById("btnRechazar").addEventListener("click", async () => {
     const motivoContainer = document.getElementById("rechazoMotivoContainer");
     motivoContainer.classList.remove("d-none");
@@ -192,7 +200,6 @@ async function abrirModalDetalle(id) {
       await updateDoc(anuncioRef, {
         Disponibilidad: false
       });
-      // No cerramos modal aquí para que el usuario escriba el motivo
     } catch (error) {
       console.error("Error al actualizar disponibilidad:", error);
       alert("Ocurrió un error al actualizar disponibilidad.");
@@ -218,6 +225,22 @@ async function abrirModalDetalle(id) {
     } catch (error) {
       console.error("Error al enviar motivo:", error);
       alert("Ocurrió un error al enviar el motivo.");
+    }
+  });
+
+  // Botón Borrar
+  document.getElementById("btnBorrar").addEventListener("click", async () => {
+    if (!confirm("¿Estás seguro que quieres borrar este anuncio? Esta acción no se puede deshacer.")) return;
+
+    try {
+      const anuncioRef = doc(db, "Anuncio", id);
+      await deleteDoc(anuncioRef);
+      alert("Anuncio eliminado correctamente.");
+      propertyModal.hide();
+      await cargarAnuncios();
+    } catch (error) {
+      console.error("Error al borrar el anuncio:", error);
+      alert("Ocurrió un error al borrar el anuncio.");
     }
   });
 }

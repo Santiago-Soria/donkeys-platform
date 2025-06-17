@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const correosAdmins = [
   "eduardomp1708@hotmail.com",
-  "admin2@dominio.com",
+  "palaciosroblesd@gmail.com",
   // Agrega más correos de admin aquí
 ];
 
