@@ -39,18 +39,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  const correosAdmins = [
+  "eduardomp1708@hotmail.com",
+  "admin2@dominio.com",
+  // Agrega más correos de admin aquí
+];
+
   // Iniciar sesión con correo y contraseña
   formLogin.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("email").value.trim();
+    const email = document.getElementById("email").value.trim().toLowerCase();
     const password = passwordInput.value;
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       alert("✅ Inicio de sesión exitoso");
       localStorage.setItem("correoUsuario", email);
+      if (correosAdmins.includes(email)) {
+      // Redirige a admin
+      window.location.href = "/HTML/administradorusuarios.html";
+    } else {
+      // Redirige a usuario normal
       window.location.href = "/HTML/Index.html";
+    }
     } catch (error) {
       alert("❌ Correo o contraseña incorrectos");
       console.error(error);
