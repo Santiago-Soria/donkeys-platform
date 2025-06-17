@@ -59,7 +59,7 @@ const precioDropdownItems = document.querySelectorAll("#precioDropdown + .dropdo
 const ordenDropdownBtn = document.getElementById("sortDropdown");
 const ordenDropdownItems = document.querySelectorAll('ul[aria-labelledby="sortDropdown"] a');
 
-// Eventos filtros
+// Eventos filtros (cambian filtro y recargan)
 tipoDropdownItems.forEach(item => {
   item.addEventListener("click", e => {
     e.preventDefault();
@@ -92,24 +92,16 @@ precioDropdownItems.forEach(item => {
   });
 });
 
-console.log("Items de orden encontrados:", ordenDropdownItems.length);
 ordenDropdownItems.forEach(item => {
-  console.log("Item:", item.textContent, "data-sort:", item.getAttribute("data-sort"));
+  item.addEventListener("click", e => {
+    e.preventDefault();
+    ordenDropdownBtn.querySelector("span.sort-label").textContent = item.textContent.trim();
+    const tipoOrden = item.getAttribute("data-sort");
+    ordenarAnuncios(tipoOrden);
+  });
 });
 
-// Evento ordenar
-ordenDropdownItems.forEach(item => {
-    item.addEventListener("click", e => {
-      e.preventDefault();
-      console.log("Orden seleccionado:", item.textContent);
-      ordenDropdownBtn.querySelector("span.sort-label").textContent = item.textContent.trim();
-
-      const tipoOrden = item.getAttribute("data-sort");
-      ordenarAnuncios(tipoOrden); // tu función para ordenar
-    });
-  });
-
-// Función que carga anuncios de Firebase y guarda en cache
+// Función que carga anuncios de Firebase y guarda en cache, aplicando filtros
 async function cargarAnuncios() {
   try {
     let filtros = [];
@@ -131,13 +123,12 @@ async function cargarAnuncios() {
     const q = filtros.length > 0 ? query(ref, ...filtros) : ref;
     const snapshot = await getDocs(q);
 
-    anunciosCache = []; // Limpiar cache
+    anunciosCache = [];
 
     snapshot.forEach(doc => {
       anunciosCache.push(doc.data());
     });
 
-    // Renderizar sin ordenar al cargar
     renderizarAnuncios(anunciosCache);
 
   } catch (error) {
@@ -217,5 +208,42 @@ function ordenarAnuncios(tipoOrden) {
   renderizarAnuncios(sorted);
 }
 
-// Al cargar la página, ejecuta la carga inicial de anuncios
-document.addEventListener("DOMContentLoaded", cargarAnuncios);
+// Al cargar la página, leer filtros guardados en localStorage y cargar anuncios
+document.addEventListener("DOMContentLoaded", () => {
+  // Leer filtros guardados en localStorage
+  const filtroTipo = localStorage.getItem("filtroTipo");        // Ej: "Departamento" o "Habitación"
+  const filtroZonaLS = localStorage.getItem("filtroZona");      // Ej: "Zacatenco"
+  const filtroPresupuesto = localStorage.getItem("filtroPresupuesto"); // Ej: "Menos de $2,500"
+
+  // Mapear tipo
+  if (filtroTipo) {
+    const tipoLower = filtroTipo.toLowerCase();
+    if (tipoLower === "departamento") filtroTipoPropiedadBool = true;
+    else if (tipoLower === "habitación") filtroTipoPropiedadBool = false;
+    else filtroTipoPropiedadBool = null;
+
+    // Actualizar texto dropdown
+    if (tipoDropdownBtn) tipoDropdownBtn.querySelector("span").textContent = filtroTipo;
+  }
+
+  // Mapear zona
+  if (filtroZonaLS) {
+    filtroZona = mapaZona[filtroZonaLS] || null;
+
+    // Actualizar texto dropdown
+    if (ubicacionDropdownBtn) ubicacionDropdownBtn.querySelector("span").textContent = filtroZonaLS;
+  }
+
+  // Mapear presupuesto
+  if (filtroPresupuesto) {
+    const rango = mapaPrecio[filtroPresupuesto];
+    filtroPrecioMin = rango?.min ?? null;
+    filtroPrecioMax = rango?.max ?? null;
+
+    // Actualizar texto dropdown
+    if (precioDropdownBtn) precioDropdownBtn.querySelector("span").textContent = filtroPresupuesto;
+  }
+
+  // Cargar anuncios con los filtros ya asignados
+  cargarAnuncios();
+});
