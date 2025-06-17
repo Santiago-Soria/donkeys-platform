@@ -26,9 +26,10 @@ const typeFilter = document.getElementById('typeFilter');
 
 let allUsers = []; // Aquí guardaremos la lista combinada de usuarios
 
-// Función para cargar Estudiantes y Propietarios y combinarlos
 async function cargarUsuarios() {
   try {
+    console.log('Cargando usuarios...');
+
     const estudiantesCol = collection(db, "Estudiantes");
     const propietariosCol = collection(db, "Propietario");
 
@@ -39,7 +40,6 @@ async function cargarUsuarios() {
 
     allUsers = [];
 
-    // Procesar Estudiantes
     estudiantesSnapshot.forEach(doc => {
       const data = doc.data();
       const nombre = ((data.Nombre ?? '').trim() + ' ' + (data.Apellido_P ?? '').trim() + ' ' + (data.Apellido_M ?? '').trim()).trim();
@@ -53,7 +53,6 @@ async function cargarUsuarios() {
       });
     });
 
-    // Procesar Propietarios (Arrendadores)
     propietariosSnapshot.forEach(doc => {
       const data = doc.data();
       const nombre = ((data.Nombre ?? '').trim() + ' ' + (data.Apellido_P ?? '').trim() + ' ' + (data.Apellido_M ?? '').trim()).trim();
@@ -74,81 +73,63 @@ async function cargarUsuarios() {
   }
 }
 
-// Función para filtrar según inputs y actualizar la tabla y estadísticas
 function filtrarYMostrarUsuarios() {
   const searchTerm = searchInput.value.trim().toLowerCase();
   const status = statusFilter.value;
   const type = typeFilter.value;
 
   let filtered = allUsers.filter(user => {
-    // Filtro por búsqueda (nombre)
     if (!user.nombreCompleto.toLowerCase().includes(searchTerm)) return false;
 
-    // Filtro por estado
     if (status === 'verified' && !user.verificado) return false;
     if (status === 'unverified' && user.verificado) return false;
 
-    // Filtro por tipo
     if (type === 'student' && user.tipo !== 'Estudiante') return false;
     if (type === 'landlord' && user.tipo !== 'Arrendador') return false;
 
     return true;
   });
 
-  // Limpiar tabla
   usersTableBody.innerHTML = '';
 
-  // Contadores
   let totalUsers = filtered.length;
   let studentUsers = filtered.filter(u => u.tipo === 'Estudiante').length;
   let landlordUsers = filtered.filter(u => u.tipo === 'Arrendador').length;
   let unverifiedUsers = filtered.filter(u => !u.verificado).length;
 
-  // Mostrar filas
   filtered.forEach(user => {
     const tr = document.createElement('tr');
 
-    // Usuario con tooltip teléfono
     const tdUsuario = document.createElement('td');
     tdUsuario.textContent = user.nombreCompleto;
     tdUsuario.title = `Teléfono: ${user.telefono}`;
     tr.appendChild(tdUsuario);
 
-    // Tipo con color: azul para Estudiante, verde para Arrendador
     const tdTipo = document.createElement('td');
     tdTipo.textContent = user.tipo;
     tdTipo.classList.add(user.tipo === 'Estudiante' ? 'text-primary' : 'text-success');
     tr.appendChild(tdTipo);
 
-    // Estado
     const tdEstado = document.createElement('td');
     tdEstado.textContent = user.verificado ? 'Verificado' : 'Pendiente';
     tdEstado.classList.add(user.verificado ? 'text-success' : 'text-warning');
     tr.appendChild(tdEstado);
 
-    // Registro (fecha)
     const tdRegistro = document.createElement('td');
-    if (user.fechaRegistro) {
-      tdRegistro.textContent = user.fechaRegistro.toLocaleDateString();
-    } else {
-      tdRegistro.textContent = '-';
-    }
+    tdRegistro.textContent = user.fechaRegistro ? user.fechaRegistro.toLocaleDateString() : '-';
     tr.appendChild(tdRegistro);
 
-    // Acciones (vacío por ahora)
     const tdAcciones = document.createElement('td');
     tr.appendChild(tdAcciones);
 
     usersTableBody.appendChild(tr);
   });
 
-  // Actualizar estadísticas
   totalUsersEl.textContent = totalUsers;
   studentUsersEl.textContent = studentUsers;
   landlordUsersEl.textContent = landlordUsers;
   unverifiedUsersEl.textContent = unverifiedUsers;
 
-  // Mostrar mensaje si no hay resultados
   if (totalUsers === 0) {
     document.getElementById('noResults').classList.remove('d-none');
   } else {
@@ -156,9 +137,26 @@ function filtrarYMostrarUsuarios() {
   }
 }
 
-// Event listeners para filtros y búsqueda
-searchInput.addEventListener('input', filtrarYMostrarUsuarios);
-statusFilter.addEventListener('change', filtrarYMostrarUsuarios);
-typeFilter.addEventListener('change', filtrarYMostrarUsuarios);
+async function init() {
+  await cargarUsuarios();
 
-window.addEventListener('DOMContentLoaded', cargarUsuarios);
+  searchInput.addEventListener('input', filtrarYMostrarUsuarios);
+  statusFilter.addEventListener('change', filtrarYMostrarUsuarios);
+  typeFilter.addEventListener('change', filtrarYMostrarUsuarios);
+
+  const sidebarCollapse = document.getElementById('sidebarCollapse');
+  const sidebar = document.getElementById('sidebar');
+  if (sidebarCollapse && sidebar) {
+      sidebarCollapse.addEventListener('click', () => sidebar.classList.toggle('active'));
+  }
+
+  const currentLocation = location.pathname;
+  const menuItems = document.querySelectorAll('#sidebar ul li a');
+  menuItems.forEach(item => {
+      if (item.getAttribute('href') === currentLocation) {
+          item.parentElement.classList.add('active');
+      }
+  });
+}
+
+document.addEventListener('DOMContentLoaded', init);
