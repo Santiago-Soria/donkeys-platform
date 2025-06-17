@@ -43,7 +43,10 @@ let filtroZona = null;
 let filtroPrecioMin = null;
 let filtroPrecioMax = null;
 
-// Dropdowns
+// Variable global para guardar anuncios ya cargados
+let anunciosCache = [];
+
+// Dropdowns y filtros
 const tipoDropdownBtn = document.getElementById("tipoDropdown");
 const tipoDropdownItems = document.querySelectorAll("#tipoDropdown + ul.dropdown-menu a");
 
@@ -53,7 +56,10 @@ const ubicacionDropdownItems = document.querySelectorAll("#ubicacionDropdown + u
 const precioDropdownBtn = document.getElementById("precioDropdown");
 const precioDropdownItems = document.querySelectorAll("#precioDropdown + .dropdown-menu .dropdown-item");
 
-// Filtros
+const ordenDropdownBtn = document.getElementById("sortDropdown");
+const ordenDropdownItems = document.querySelectorAll('ul[aria-labelledby="sortDropdown"] a');
+
+// Eventos filtros
 tipoDropdownItems.forEach(item => {
   item.addEventListener("click", e => {
     e.preventDefault();
@@ -86,13 +92,26 @@ precioDropdownItems.forEach(item => {
   });
 });
 
-async function cargarAnuncios() {
-  const contenedor = document.getElementById("contenedor-anuncios");
-  if (!contenedor) return console.error("❌ No se encontró contenedor");
+console.log("Items de orden encontrados:", ordenDropdownItems.length);
+ordenDropdownItems.forEach(item => {
+  console.log("Item:", item.textContent, "data-sort:", item.getAttribute("data-sort"));
+});
 
-  contenedor.innerHTML = "";
+// Evento ordenar
+ordenDropdownItems.forEach(item => {
+    item.addEventListener("click", e => {
+      e.preventDefault();
+      console.log("Orden seleccionado:", item.textContent);
+      ordenDropdownBtn.querySelector("span.sort-label").textContent = item.textContent.trim();
+
+      const tipoOrden = item.getAttribute("data-sort");
+      ordenarAnuncios(tipoOrden); // tu función para ordenar
+    });
+  });
+
+// Función que carga anuncios de Firebase y guarda en cache
+async function cargarAnuncios() {
   try {
-    // Construir filtros
     let filtros = [];
 
     if (filtroTipoPropiedadBool !== null) {
@@ -108,48 +127,95 @@ async function cargarAnuncios() {
       filtros.push(where("Precio", "<=", filtroPrecioMax));
     }
 
-    // Ejecutar query con filtros
     const ref = collection(db, "Anuncio");
     const q = filtros.length > 0 ? query(ref, ...filtros) : ref;
     const snapshot = await getDocs(q);
 
-    let contador = 0;
+    anunciosCache = []; // Limpiar cache
+
     snapshot.forEach(doc => {
-      const data = doc.data();
-
-      const precio = data.Precio ? `${data.Precio}$` : "Sin precio";
-      const direccion = data.Direccion || "Dirección no especificada";
-      const descripcion = data.Descripcion || "Sin descripción";
-      const titulo = data.Titulo || "Sin título";
-      const zona = data.Zona || "";
-      const publicacion = data.Publicacion ? data.Publicacion.toDate().toLocaleDateString() : "";
-
-      const tarjeta = document.createElement("a");
-      tarjeta.href = "/HTML/resultados2.html";
-      tarjeta.className = "property-link";
-      tarjeta.innerHTML = `
-        <div class="row property-card mb-4">
-          <div class="col-md-4 p-0"><div class="property-image"></div></div>
-          <div class="col-md-8 p-4">
-            <div class="property-price">${precio}</div>
-            <div class="property-title mt-3">${titulo}<br>${direccion}, ${zona}<br>Publicado el: ${publicacion}</div>
-            <div class="property-description">${descripcion}</div>
-          </div>
-        </div>`;
-
-      contenedor.appendChild(tarjeta);
-      contador++;
+      anunciosCache.push(doc.data());
     });
 
-    const contadorResultados = document.querySelector(".results-count");
-    if (contadorResultados) contadorResultados.textContent = `${contador} resultados encontrados`;
-
-    const paginacion = document.querySelector(".property-count");
-    if (paginacion) paginacion.textContent = `${contador} propiedades encontradas`;
+    // Renderizar sin ordenar al cargar
+    renderizarAnuncios(anunciosCache);
 
   } catch (error) {
     console.error("❌ Error al cargar anuncios:", error);
   }
 }
 
+// Función para pintar anuncios en el DOM
+function renderizarAnuncios(anuncios) {
+  const contenedor = document.getElementById("contenedor-anuncios");
+  if (!contenedor) return console.error("❌ No se encontró contenedor");
+
+  contenedor.innerHTML = "";
+
+  anuncios.forEach(data => {
+    const precio = data.Precio ? `${data.Precio}$` : "Sin precio";
+    const direccion = data.Direccion || "Dirección no especificada";
+    const descripcion = data.Descripcion || "Sin descripción";
+    const titulo = data.Titulo || "Sin título";
+    const zona = data.Zona || "";
+    const publicacion = data.Publicacion ? data.Publicacion.toDate().toLocaleDateString() : "";
+
+    const tarjeta = document.createElement("a");
+    tarjeta.href = "/HTML/resultados2.html";
+    tarjeta.className = "property-link";
+    tarjeta.innerHTML = `
+      <div class="row property-card mb-4">
+        <div class="col-md-4 p-0"><div class="property-image"></div></div>
+        <div class="col-md-8 p-4">
+          <div class="property-price">${precio}</div>
+          <div class="property-title mt-3">${titulo}<br>${direccion}, ${zona}<br>Publicado el: ${publicacion}</div>
+          <div class="property-description">${descripcion}</div>
+        </div>
+      </div>`;
+
+    contenedor.appendChild(tarjeta);
+  });
+
+  const contadorResultados = document.querySelector(".results-count");
+  if (contadorResultados) contadorResultados.textContent = `${anuncios.length} resultados encontrados`;
+
+  const paginacion = document.querySelector(".property-count");
+  if (paginacion) paginacion.textContent = `${anuncios.length} propiedades encontradas`;
+}
+
+// Función para ordenar la cache y renderizar según criterio
+function ordenarAnuncios(tipoOrden) {
+  if (anunciosCache.length === 0) return;
+
+  let sorted = [...anunciosCache];
+
+  switch (tipoOrden) {
+    case "precio-asc":
+      sorted.sort((a, b) => (a.Precio || 0) - (b.Precio || 0));
+      break;
+    case "precio-desc":
+      sorted.sort((a, b) => (b.Precio || 0) - (a.Precio || 0));
+      break;
+    case "fecha-asc":
+      sorted.sort((a, b) => {
+        const fechaA = a.Publicacion ? a.Publicacion.toDate() : new Date(0);
+        const fechaB = b.Publicacion ? b.Publicacion.toDate() : new Date(0);
+        return fechaA - fechaB;
+      });
+      break;
+    case "fecha-desc":
+      sorted.sort((a, b) => {
+        const fechaA = a.Publicacion ? a.Publicacion.toDate() : new Date(0);
+        const fechaB = b.Publicacion ? b.Publicacion.toDate() : new Date(0);
+        return fechaB - fechaA;
+      });
+      break;
+    default:
+      break;
+  }
+
+  renderizarAnuncios(sorted);
+}
+
+// Al cargar la página, ejecuta la carga inicial de anuncios
 document.addEventListener("DOMContentLoaded", cargarAnuncios);
