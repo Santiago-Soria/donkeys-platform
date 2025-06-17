@@ -297,6 +297,15 @@ border: none;
 #noResults {
     background-color: #f8f9fa;
 }
+.badge-departamento {
+  background-color: #0d6efd; /* Azul Bootstrap */
+  color: white;
+}
+
+.badge-habitacion {
+  background-color: #6f42c1; /* Morado Bootstrap (similar a purple) */
+  color: white;
+}
 
 /* Responsive tabla */
 @media (max-width: 768px) {
