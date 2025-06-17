@@ -1,4 +1,3 @@
-// JS/registro.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
 import {
   getFirestore,
@@ -7,7 +6,8 @@ import {
   getDocs,
   query,
   where,
-  limit
+  limit,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 import {
   getAuth,
@@ -96,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
 
     if (!validarCorreo(correo)) {
-      alert("❌ El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmal.com");
+      alert("❌ El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmail.com");
       return;
     }
 
@@ -104,7 +104,6 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("❌ La contraseña debe contener al menos una mayúscula, minúscula, número, símbolo especial y no tener espacios.");
       return;
     }
-
 
     if (await correoExisteEnAuth(correo) || await correoExisteEnFirestore(correo)) {
       alert("❌ El correo ya está registrado. Por favor utiliza otro.");
@@ -122,7 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
         Apellido_M: apellidoM,
         Correo: correo,
         Telefono: Telefono,
-        ID_Unidad: unidad
+        ID_Unidad: unidad,
+        fechaRegistro: serverTimestamp()  // <-- Aquí se guarda la fecha actual
       });
 
       alert("✅ Estudiante registrado correctamente");

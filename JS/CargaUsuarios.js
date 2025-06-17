@@ -1,5 +1,17 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  doc,
+  updateDoc,
+  deleteDoc,
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
+import {
+  getAuth,
+  deleteUser
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
@@ -13,150 +25,330 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-const usersTableBody = document.getElementById('usersTableBody');
-const totalUsersEl = document.getElementById('totalUsers');
-const studentUsersEl = document.getElementById('studentUsers');
-const landlordUsersEl = document.getElementById('landlordUsers');
-const unverifiedUsersEl = document.getElementById('unverifiedUsers');
+// Elementos DOM
+const usersTableBody = document.getElementById("usersTableBody");
+const totalUsersEl = document.getElementById("totalUsers");
+const studentUsersEl = document.getElementById("studentUsers");
+const landlordUsersEl = document.getElementById("landlordUsers");
+const unverifiedUsersEl = document.getElementById("unverifiedUsers");
 
-const searchInput = document.getElementById('searchInput');
-const statusFilter = document.getElementById('statusFilter');
-const typeFilter = document.getElementById('typeFilter');
+const searchInput = document.getElementById("searchInput");
+const statusFilter = document.getElementById("statusFilter");
+const typeFilter = document.getElementById("typeFilter");
 
-let allUsers = []; // Aquí guardaremos la lista combinada de usuarios
+const modalUserName = document.getElementById("modalUserName");
+const modalContent = document.getElementById("modalContent");
 
+const rejectBtn = document.getElementById("rejectBtn");
+const verifyBtn = document.getElementById("verifyBtn");
+const rechazoMotivoContainer = document.getElementById("rechazoMotivoContainer");
+const rechazoMotivoInput = document.getElementById("rechazoMotivo");
+const btnEnviarMotivo = document.getElementById("btnEnviarMotivo");
+const noResults = document.getElementById("noResults");
+
+const sidebarCollapse = document.getElementById('sidebarCollapse');
+const sidebar = document.getElementById('sidebar');
+
+const menuItems = document.querySelectorAll('#sidebar ul li a');
+
+// Variables para estado actual
+let allUsers = [];
+let currentUser = null; // usuario mostrado en modal
+let currentUserCollection = ""; // "Estudiantes" o "Propietario"
+
+// Modal Bootstrap
+const bootstrapModal = new bootstrap.Modal(document.getElementById("documentModal"));
+
+// --- Agregar botón borrar usuario al modal ---
+const modalFooter = document.querySelector("#documentModal .modal-footer");
+const deleteUserBtn = document.createElement("button");
+deleteUserBtn.type = "button";
+deleteUserBtn.className = "btn btn-danger ms-auto";
+deleteUserBtn.innerHTML = '<i class="fas fa-trash me-1"></i>Borrar Usuario';
+modalFooter.appendChild(deleteUserBtn);
+
+// Función para cargar usuarios
 async function cargarUsuarios() {
   try {
-    console.log('Cargando usuarios...');
-
     const estudiantesCol = collection(db, "Estudiantes");
     const propietariosCol = collection(db, "Propietario");
 
     const [estudiantesSnapshot, propietariosSnapshot] = await Promise.all([
       getDocs(estudiantesCol),
-      getDocs(propietariosCol)
+      getDocs(propietariosCol),
     ]);
 
     allUsers = [];
 
-    estudiantesSnapshot.forEach(doc => {
-      const data = doc.data();
-      const nombre = ((data.Nombre ?? '').trim() + ' ' + (data.Apellido_P ?? '').trim() + ' ' + (data.Apellido_M ?? '').trim()).trim();
+    estudiantesSnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const nombre = ((data.Nombre ?? "") + " " + (data.Apellido_P ?? "") + " " + (data.Apellido_M ?? "")).trim();
       allUsers.push({
-        id: doc.id,
-        nombreCompleto: nombre === '' ? 'Sin nombre' : nombre,
-        telefono: data.Telefono || 'Sin teléfono',
+        id: docSnap.id,
+        nombreCompleto: nombre || "Sin nombre",
+        telefono: data.Telefono || "Sin teléfono",
         verificado: data.Verificado === true,
         fechaRegistro: data.fechaRegistro ? (data.fechaRegistro.toDate ? data.fechaRegistro.toDate() : new Date(data.fechaRegistro)) : null,
-        tipo: 'Estudiante'
+        tipo: "Estudiante",
+        documentos: data.Documentos || [],
+        rawData: data,
+        collection: "Estudiantes",
       });
     });
 
-    propietariosSnapshot.forEach(doc => {
-      const data = doc.data();
-      const nombre = ((data.Nombre ?? '').trim() + ' ' + (data.Apellido_P ?? '').trim() + ' ' + (data.Apellido_M ?? '').trim()).trim();
+    propietariosSnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const nombre = ((data.Nombre ?? "") + " " + (data.Apellido_P ?? "") + " " + (data.Apellido_M ?? "")).trim();
       allUsers.push({
-        id: doc.id,
-        nombreCompleto: nombre === '' ? 'Sin nombre' : nombre,
-        telefono: data.Telefono || 'Sin teléfono',
+        id: docSnap.id,
+        nombreCompleto: nombre || "Sin nombre",
+        telefono: data.Telefono || "Sin teléfono",
         verificado: data.Verificado === true,
         fechaRegistro: data.fechaRegistro ? (data.fechaRegistro.toDate ? data.fechaRegistro.toDate() : new Date(data.fechaRegistro)) : null,
-        tipo: 'Arrendador'
+        tipo: "Arrendador",
+        documentos: data.Documentos || [],
+        rawData: data,
+        collection: "Propietario",
       });
     });
 
     filtrarYMostrarUsuarios();
-
   } catch (error) {
     console.error("Error al cargar usuarios:", error);
   }
 }
 
+// Filtrar y mostrar usuarios
 function filtrarYMostrarUsuarios() {
   const searchTerm = searchInput.value.trim().toLowerCase();
   const status = statusFilter.value;
   const type = typeFilter.value;
 
-  let filtered = allUsers.filter(user => {
+  let filtered = allUsers.filter((user) => {
     if (!user.nombreCompleto.toLowerCase().includes(searchTerm)) return false;
-
-    if (status === 'verified' && !user.verificado) return false;
-    if (status === 'unverified' && user.verificado) return false;
-
-    if (type === 'student' && user.tipo !== 'Estudiante') return false;
-    if (type === 'landlord' && user.tipo !== 'Arrendador') return false;
-
+    if (status === "verified" && !user.verificado) return false;
+    if (status === "unverified" && user.verificado) return false;
+    if (type === "student" && user.tipo !== "Estudiante") return false;
+    if (type === "landlord" && user.tipo !== "Arrendador") return false;
     return true;
   });
 
-  usersTableBody.innerHTML = '';
+  usersTableBody.innerHTML = "";
 
-  let totalUsers = filtered.length;
-  let studentUsers = filtered.filter(u => u.tipo === 'Estudiante').length;
-  let landlordUsers = filtered.filter(u => u.tipo === 'Arrendador').length;
-  let unverifiedUsers = filtered.filter(u => !u.verificado).length;
+  filtered.forEach((user) => {
+    const tr = document.createElement("tr");
 
-  filtered.forEach(user => {
-    const tr = document.createElement('tr');
+    const tdNombre = document.createElement("td");
+    tdNombre.textContent = user.nombreCompleto;
+    tdNombre.title = `Teléfono: ${user.telefono}`;
+    tr.appendChild(tdNombre);
 
-    const tdUsuario = document.createElement('td');
-    tdUsuario.textContent = user.nombreCompleto;
-    tdUsuario.title = `Teléfono: ${user.telefono}`;
-    tr.appendChild(tdUsuario);
-
-    const tdTipo = document.createElement('td');
+    const tdTipo = document.createElement("td");
     tdTipo.textContent = user.tipo;
-    tdTipo.classList.add(user.tipo === 'Estudiante' ? 'text-primary' : 'text-success');
+    tdTipo.classList.add(user.tipo === "Estudiante" ? "text-primary" : "text-success");
     tr.appendChild(tdTipo);
 
-    const tdEstado = document.createElement('td');
-    tdEstado.textContent = user.verificado ? 'Verificado' : 'Pendiente';
-    tdEstado.classList.add(user.verificado ? 'text-success' : 'text-warning');
+    const tdEstado = document.createElement("td");
+    tdEstado.textContent = user.verificado ? "Verificado" : "Pendiente";
+    tdEstado.classList.add(user.verificado ? "text-success" : "text-warning");
     tr.appendChild(tdEstado);
 
-    const tdRegistro = document.createElement('td');
-    tdRegistro.textContent = user.fechaRegistro ? user.fechaRegistro.toLocaleDateString() : '-';
-    tr.appendChild(tdRegistro);
+    const tdFecha = document.createElement("td");
+    tdFecha.textContent = user.fechaRegistro ? user.fechaRegistro.toLocaleDateString() : "-";
+    tr.appendChild(tdFecha);
 
-    const tdAcciones = document.createElement('td');
+    const tdAcciones = document.createElement("td");
+    const btnVer = document.createElement("button");
+    btnVer.textContent = "Ver detalles";
+    btnVer.className = "btn btn-sm btn-primary";
+    btnVer.addEventListener("click", () => abrirModalUsuario(user));
+    tdAcciones.appendChild(btnVer);
     tr.appendChild(tdAcciones);
 
     usersTableBody.appendChild(tr);
   });
 
-  totalUsersEl.textContent = totalUsers;
-  studentUsersEl.textContent = studentUsers;
-  landlordUsersEl.textContent = landlordUsers;
-  unverifiedUsersEl.textContent = unverifiedUsers;
+  totalUsersEl.textContent = filtered.length;
+  studentUsersEl.textContent = filtered.filter((u) => u.tipo === "Estudiante").length;
+  landlordUsersEl.textContent = filtered.filter((u) => u.tipo === "Arrendador").length;
+  unverifiedUsersEl.textContent = filtered.filter((u) => !u.verificado).length;
 
-  if (totalUsers === 0) {
-    document.getElementById('noResults').classList.remove('d-none');
+  if (filtered.length === 0) {
+    noResults.classList.remove("d-none");
   } else {
-    document.getElementById('noResults').classList.add('d-none');
+    noResults.classList.add("d-none");
   }
 }
 
-async function init() {
-  await cargarUsuarios();
+// Abrir modal usuario
+function abrirModalUsuario(user) {
+  currentUser = user;
+  currentUserCollection = user.collection;
 
-  searchInput.addEventListener('input', filtrarYMostrarUsuarios);
-  statusFilter.addEventListener('change', filtrarYMostrarUsuarios);
-  typeFilter.addEventListener('change', filtrarYMostrarUsuarios);
+  modalUserName.textContent = user.nombreCompleto;
 
-  const sidebarCollapse = document.getElementById('sidebarCollapse');
-  const sidebar = document.getElementById('sidebar');
+  // Limpiar contenido previo
+  modalContent.innerHTML = "";
+
+  // Mostrar info básica
+  const infoDiv = document.createElement("div");
+  infoDiv.innerHTML = `
+    <p><strong>Tipo:</strong> ${user.tipo}</p>
+    <p><strong>Teléfono:</strong> ${user.telefono}</p>
+    <p><strong>Estado:</strong> ${user.verificado ? "Verificado" : "Pendiente"}</p>
+    <p><strong>Fecha de registro:</strong> ${user.fechaRegistro ? user.fechaRegistro.toLocaleDateString() : "-"}</p>
+  `;
+  modalContent.appendChild(infoDiv);
+
+  // Mostrar documentos (simulado)
+  if (user.documentos.length > 0) {
+    const docsDiv = document.createElement("div");
+    docsDiv.classList.add("mt-3");
+    docsDiv.innerHTML = `<h5>Documentos:</h5>`;
+    user.documentos.forEach((doc, i) => {
+      const docLink = document.createElement("a");
+      docLink.href = doc.url || "#";
+      docLink.target = "_blank";
+      docLink.textContent = doc.nombre || `Documento ${i + 1}`;
+      docLink.className = "d-block mb-1";
+      docsDiv.appendChild(docLink);
+    });
+    modalContent.appendChild(docsDiv);
+  } else {
+    const noDocs = document.createElement("p");
+    noDocs.classList.add("text-muted");
+    noDocs.textContent = "No hay documentos para mostrar.";
+    modalContent.appendChild(noDocs);
+  }
+
+  // Ocultar motivo rechazo y limpiar textarea
+  rechazoMotivoContainer.classList.add("d-none");
+  rechazoMotivoInput.value = "";
+
+  bootstrapModal.show();
+}
+
+// Botón rechazar usuario
+rejectBtn.addEventListener("click", () => {
+  rechazoMotivoContainer.classList.remove("d-none");
+  rechazoMotivoInput.focus();
+});
+
+// Enviar motivo rechazo
+btnEnviarMotivo.addEventListener("click", async () => {
+  const motivo = rechazoMotivoInput.value.trim();
+  if (!motivo) {
+    alert("Por favor escribe un motivo para el rechazo.");
+    rechazoMotivoInput.focus();
+    return;
+  }
+
+  if (!currentUser) return;
+
+  try {
+    const userDocRef = doc(db, currentUserCollection, currentUser.id);
+    await updateDoc(userDocRef, {
+      Verificado: false,
+      MotivoRechazo: motivo,
+    });
+
+    alert("Usuario rechazado correctamente.");
+    bootstrapModal.hide();
+    await cargarUsuarios();
+  } catch (error) {
+    console.error("Error al rechazar usuario:", error);
+    alert("Error al rechazar usuario, intenta de nuevo.");
+  }
+});
+
+// Botón verificar usuario
+verifyBtn.addEventListener("click", async () => {
+  if (!currentUser) return;
+
+  try {
+    const userDocRef = doc(db, currentUserCollection, currentUser.id);
+    await updateDoc(userDocRef, {
+      Verificado: true,
+      MotivoRechazo: "",
+    });
+
+    alert("Usuario verificado correctamente.");
+    bootstrapModal.hide();
+    await cargarUsuarios();
+  } catch (error) {
+    console.error("Error al verificar usuario:", error);
+    alert("Error al verificar usuario, intenta de nuevo.");
+  }
+});
+
+// Botón borrar usuario (Firestore + Auth)
+deleteUserBtn.addEventListener("click", async () => {
+  if (!currentUser) return alert("No hay usuario seleccionado.");
+
+  const confirmado = confirm(`¿Seguro que deseas borrar al usuario "${currentUser.nombreCompleto}"? Esta acción es irreversible.`);
+  if (!confirmado) return;
+
+  try {
+    // Eliminar documento Firestore
+    const userDocRef = doc(db, currentUserCollection, currentUser.id);
+    await deleteDoc(userDocRef);
+
+    // Obtener UID Auth guardado en Firestore
+    const authUid = currentUser.rawData.authUid || currentUser.rawData.UID;
+    if (!authUid) {
+      alert("No se encontró UID de autenticación para este usuario, solo se borró el documento Firestore.");
+      bootstrapModal.hide();
+      await cargarUsuarios();
+      return;
+    }
+
+    // Usuario autenticado actual
+    const usuarioActual = auth.currentUser;
+
+    if (usuarioActual && usuarioActual.uid === authUid) {
+      // Borrar usuario de Firebase Auth (solo si es el mismo usuario logueado)
+      await deleteUser(usuarioActual);
+      alert("Usuario borrado correctamente de Firestore y Auth.");
+    } else {
+      alert("Documento Firestore borrado. Para borrar el usuario de Auth debes iniciar sesión con ese usuario o usar un backend con Admin SDK.");
+    }
+
+    bootstrapModal.hide();
+    await cargarUsuarios();
+
+  } catch (error) {
+    console.error("Error al borrar usuario:", error);
+    alert("Error al borrar usuario, revisa la consola.");
+  }
+});
+
+// Filtros y búsqueda
+searchInput.addEventListener("input", filtrarYMostrarUsuarios);
+statusFilter.addEventListener("change", filtrarYMostrarUsuarios);
+typeFilter.addEventListener("change", filtrarYMostrarUsuarios);
+
+// Función para toggle sidebar
+function toggleSidebar() {
+  if (sidebar) {
+    sidebar.classList.toggle('active');
+  }
+}
+
+// Al cargar DOM
+document.addEventListener("DOMContentLoaded", () => {
+  cargarUsuarios();
+
+  // Listener botón toggle sidebar
   if (sidebarCollapse && sidebar) {
-      sidebarCollapse.addEventListener('click', () => sidebar.classList.toggle('active'));
+    sidebarCollapse.addEventListener('click', toggleSidebar);
   }
 
-  const currentLocation = location.pathname;
-  const menuItems = document.querySelectorAll('#sidebar ul li a');
+  // Resaltar item activo menú sidebar
   menuItems.forEach(item => {
-      if (item.getAttribute('href') === currentLocation) {
-          item.parentElement.classList.add('active');
-      }
+    if (item.getAttribute('href') === location.pathname) {
+      item.parentElement.classList.add('active');
+    }
   });
-}
-
-document.addEventListener('DOMContentLoaded', init);
+});
