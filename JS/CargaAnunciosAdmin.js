@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js";
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
@@ -14,7 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Referencias DOM
 const tableBody = document.getElementById("propertiesTableBody");
 const noResults = document.getElementById("noResults");
 const searchInput = document.getElementById("searchInput");
@@ -26,9 +25,8 @@ const unverifiedProperties = document.getElementById("unverifiedProperties");
 const departamentoProperties = document.getElementById("departamentoProperties");
 const habitacionProperties = document.getElementById("habitacionProperties");
 
-let anunciosData = [];  // Guardamos los anuncios para filtrar sin volver a Firestore
+let anunciosData = [];
 
-// Cargar anuncios desde Firestore
 async function cargarAnuncios() {
   try {
     const anunciosRef = collection(db, "Anuncio");
@@ -55,7 +53,6 @@ async function cargarAnuncios() {
   }
 }
 
-// Mostrar anuncios en la tabla
 function mostrarAnuncios(anuncios) {
   tableBody.innerHTML = "";
 
@@ -86,7 +83,6 @@ function mostrarAnuncios(anuncios) {
     tableBody.appendChild(fila);
   });
 
-  // Activar botones de detalle
   document.querySelectorAll(".btn-ver-detalle").forEach(btn => {
     btn.addEventListener("click", () => {
       abrirModalDetalle(btn.getAttribute("data-id"));
@@ -94,7 +90,6 @@ function mostrarAnuncios(anuncios) {
   });
 }
 
-// Actualizar estadísticas
 function actualizarEstadisticas(anuncios) {
   totalProperties.textContent = anuncios.length;
 
@@ -108,7 +103,6 @@ function actualizarEstadisticas(anuncios) {
   habitacionProperties.textContent = habitaciones;
 }
 
-// Filtrar según inputs y selects
 function filtrarAnuncios() {
   const texto = searchInput.value.trim().toLowerCase();
   const estado = statusFilter.value;
@@ -137,7 +131,6 @@ function filtrarAnuncios() {
   mostrarAnuncios(filtrados);
 }
 
-// Mostrar modal detalle
 async function abrirModalDetalle(id) {
   const anuncio = anunciosData.find(a => a.id === id);
   if (!anuncio) return alert("No se encontró la dirección");
@@ -151,8 +144,8 @@ async function abrirModalDetalle(id) {
     <p><strong>Tipo:</strong> ${anuncio.Tipo === true ? "departamento" : "habitación"}</p>
     <p><strong>Estado:</strong> ${anuncio.Disponibilidad ? "Disponible" : "No disponible"}</p>
     <p><strong>Fecha de publicación:</strong> ${anuncio.Publicacion ? new Date(anuncio.Publicacion.seconds * 1000).toLocaleDateString() : "N/A"}</p>
-    <p><strong>Propietario:</strong> ${anuncio.propietario || "Desconocido"}</p>
-    <p><strong>Descripción:</strong> ${anuncio.descripcion || "Sin descripción"}</p>
+    <p><strong>Propietario:</strong> ${anuncio.id || "Desconocido"}</p>
+    <p><strong>Descripción:</strong> ${anuncio.Descripcion || "Sin descripción"}</p>
 
     <div class="mb-3">
       <strong>Comprobante de domicilio:</strong>
@@ -172,38 +165,72 @@ async function abrirModalDetalle(id) {
   const propertyModal = new bootstrap.Modal(document.getElementById('propertyModal'));
   propertyModal.show();
 
-  // Lógica para botones aceptar/rechazar
-  document.getElementById("btnAceptar").addEventListener("click", () => {
-    alert("Aceptar anuncio (aquí va lógica de actualización)");
+  // Botón Aceptar
+  document.getElementById("btnAceptar").addEventListener("click", async () => {
+    try {
+      const anuncioRef = doc(db, "Anuncio", id);
+      await updateDoc(anuncioRef, {
+        Disponibilidad: true,
+        Motivo: "" // Limpia motivo si se acepta
+      });
+      alert("Anuncio aceptado.");
+      propertyModal.hide();
+      await cargarAnuncios();
+    } catch (error) {
+      console.error("Error al aceptar el anuncio:", error);
+      alert("Ocurrió un error al aceptar el anuncio.");
+    }
   });
 
-  document.getElementById("btnRechazar").addEventListener("click", () => {
-    document.getElementById("rechazoMotivoContainer").classList.remove("d-none");
+  // Botón Rechazar - solo muestra textarea y cambia disponibilidad a false
+  document.getElementById("btnRechazar").addEventListener("click", async () => {
+    const motivoContainer = document.getElementById("rechazoMotivoContainer");
+    motivoContainer.classList.remove("d-none");
+
+    try {
+      const anuncioRef = doc(db, "Anuncio", id);
+      await updateDoc(anuncioRef, {
+        Disponibilidad: false
+      });
+      // No cerramos modal aquí para que el usuario escriba el motivo
+    } catch (error) {
+      console.error("Error al actualizar disponibilidad:", error);
+      alert("Ocurrió un error al actualizar disponibilidad.");
+    }
   });
 
-  document.getElementById("btnEnviarRechazo").addEventListener("click", () => {
+  // Botón Enviar motivo
+  document.getElementById("btnEnviarRechazo").addEventListener("click", async () => {
     const motivo = document.getElementById("rechazoMotivo").value.trim();
-    if (motivo === "") {
-      alert("Escribe un motivo para rechazar.");
+    if (!motivo) {
+      alert("Por favor, escribe un motivo antes de enviar.");
       return;
     }
-    alert("Rechazado con motivo: " + motivo);
-    // Aquí puedes guardar el motivo en Firestore si quieres.
+
+    try {
+      const anuncioRef = doc(db, "Anuncio", id);
+      await updateDoc(anuncioRef, {
+        Motivo: motivo
+      });
+      alert("Motivo enviado correctamente.");
+      propertyModal.hide();
+      await cargarAnuncios();
+    } catch (error) {
+      console.error("Error al enviar motivo:", error);
+      alert("Ocurrió un error al enviar el motivo.");
+    }
   });
 }
 
-// Escuchas
 searchInput.addEventListener("input", filtrarAnuncios);
 statusFilter.addEventListener("change", filtrarAnuncios);
 typeFilter.addEventListener("change", filtrarAnuncios);
 
-// Control del sidebar
 const sidebarCollapse = document.getElementById('sidebarCollapse');
 const sidebar = document.getElementById('sidebar');
 
 const menuItems = document.querySelectorAll('#sidebar ul li a');
 
-// Inicializar al cargar DOM
 window.addEventListener("DOMContentLoaded", () => {
   cargarAnuncios();
 
