@@ -1,0 +1,126 @@
+body {
+    font-family: 'Pixelify Sans', sans-serif;
+    background-color: white;
+    color: black;
+}
+
+.admin-profile-container {
+    padding: 20px;
+    max-width: 1272px;
+    margin: 0 auto;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+.back-button i {
+    margin-right: 12px;
+    font-size: 32px;
+}
+
+.profile-card {
+    background-color: white;
+    
+    border-radius: 8px;
+    padding: 30px;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 140px;
+    height: 140px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture i {
+    font-size: 64px;
+    color: black;
+}
+
+.profile-title {
+    font-size: 36px;
+    font-weight: 500;
+    margin-bottom: 30px;
+}
+
+.form-label {
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.form-control-static {
+    background-color: #F9F9F9;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 400;
+    height: 64px;
+    display: flex;
+    align-items: center;
+}
+
+.additional-info {
+    border-top: 2px solid #E5E5E5;
+    padding-top: 20px;
+    margin-top: 40px;
+}
+
+.additional-info h2 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+.form-control-static.light {
+    border-color: #E5E5E5;
+    color: #666666;
+    font-size: 16px;
+    height: 56px;
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.status-indicator.active {
+    background-color: #28a745;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-picture {
+        margin: 0 auto 20px;
+    }
+    
+    .profile-title {
+        text-align: center;
+    }
+    
+    .back-button {
+        font-size: 24px;
+    }
+    
+    .back-button i {
+        font-size: 24px;
+    }
+}
