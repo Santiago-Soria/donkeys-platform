@@ -42,7 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const correosAdmins = [
   "eduardomp1708@hotmail.com",
   "palaciosroblesd@gmail.com",
-  "erck.fran@gmail.com"
+  "erck.fran@gmail.com",
+  "sant.soria.26ss@gmail.com"
   // Agrega más correos de admin aquí
 ];
 
@@ -62,7 +63,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "/HTML/administradorusuarios.html";
     } else {
       // Redirige a usuario normal
-      window.location.href = "/HTML/Index.html";
+      window.location.href = "/HTML/index.html";
     }
     } catch (error) {
       alert("❌ Correo o contraseña incorrectos");
@@ -79,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const user = result.user;
         alert(`✅ Bienvenido ${user.displayName}`);
         localStorage.setItem("correoUsuario", user.email);
-        window.location.href = "/HTML/Index.html";
+        window.location.href = "/HTML/indexs.html";
       } catch (error) {
         console.error("Error en login con Google:", error);
         alert("❌ No se pudo iniciar sesión con Google");

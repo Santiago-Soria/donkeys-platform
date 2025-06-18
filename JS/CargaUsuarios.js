@@ -6,7 +6,10 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  query,
+  where,
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
+
 
 import {
   getAuth,
@@ -120,6 +123,71 @@ async function cargarUsuarios() {
   }
 }
 
+async function cargarDocumentosVerificacion(correo) {
+  try {
+    console.log("Iniciando carga de documentos de verificación para correo:", correo);
+
+    const verificacionesCol = collection(db, "verificaciones");
+    const q = query(verificacionesCol, where("email", "==", correo));
+    
+    const snapshot = await getDocs(q);
+    console.log("Cantidad de documentos encontrados:", snapshot.size);
+
+    if (snapshot.empty) {
+      console.log("No hay documentos en la colección 'verificaciones' para este correo.");
+      const noDocs = document.createElement("p");
+      noDocs.classList.add("text-muted");
+      noDocs.textContent = "No hay documentos de verificación disponibles.";
+      modalContent.appendChild(noDocs);
+      return;
+    }
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      console.log("Campos del documento:", Object.keys(data));
+
+      console.log("Documento verificación:", data);
+
+      const docsDiv = document.createElement("div");
+      docsDiv.classList.add("mt-3");
+      docsDiv.innerHTML = `<h5>Documentos de verificación:</h5>`;
+
+      if (data.urlCredencial) {
+        console.log("URL Credencial:", data.urlcredencial);
+        const credencialLink = document.createElement("a");
+        credencialLink.href = data.urlCredencial;
+        credencialLink.target = "_blank";
+        credencialLink.textContent = "Ver Credencial";
+        credencialLink.className = "d-block mb-1";
+        docsDiv.appendChild(credencialLink);
+      } else {
+        console.log("No hay URL de credencial");
+      }
+
+      if (data.urlHorario) {
+        console.log("URL Horario:", data.urlhorario);
+        const horarioLink = document.createElement("a");
+        horarioLink.href = data.urlHorario;
+        horarioLink.target = "_blank";
+        horarioLink.textContent = "Ver Horario";
+        horarioLink.className = "d-block mb-1";
+        docsDiv.appendChild(horarioLink);
+      } else {
+        console.log("No hay URL de horario");
+      }
+
+      modalContent.appendChild(docsDiv);
+    });
+
+  } catch (error) {
+    console.error("Error al cargar documentos de verificación:", error);
+    const errorText = document.createElement("p");
+    errorText.classList.add("text-danger");
+    errorText.textContent = "Error al cargar los documentos de verificación.";
+    modalContent.appendChild(errorText);
+  }
+}
+
 // Filtrar y mostrar usuarios
 function filtrarYMostrarUsuarios() {
   const searchTerm = searchInput.value.trim().toLowerCase();
@@ -183,7 +251,7 @@ function filtrarYMostrarUsuarios() {
 }
 
 // Abrir modal usuario
-function abrirModalUsuario(user) {
+async function abrirModalUsuario(user) {
   currentUser = user;
   currentUserCollection = user.collection;
 
@@ -227,6 +295,7 @@ function abrirModalUsuario(user) {
   rechazoMotivoContainer.classList.add("d-none");
   rechazoMotivoInput.value = "";
 
+  await cargarDocumentosVerificacion(user.rawData.Correo);
   bootstrapModal.show();
 }
 

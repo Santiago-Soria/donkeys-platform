@@ -92,8 +92,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const apellidoM = document.getElementById("apellidos")?.value.trim().split(" ")[1] || "";
     const correo = document.getElementById("email")?.value.trim();
     const password = document.getElementById("password")?.value;
+    const confirmPassword = document.getElementById("confirm_password")?.value;
     const Telefono = document.getElementById("Telefono")?.value;
     const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
+
+    // Validar que las contraseñas coincidan
+    if (password !== confirmPassword) {
+      alert("❌ Las contraseñas no coinciden. Por favor, verifica.");
+      return;
+    }
 
     if (!validarCorreo(correo)) {
       alert("❌ El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmail.com");
@@ -122,12 +129,12 @@ document.addEventListener("DOMContentLoaded", () => {
         Correo: correo,
         Telefono: Telefono,
         ID_Unidad: unidad,
-        fechaRegistro: serverTimestamp()  // <-- Aquí se guarda la fecha actual
+        fechaRegistro: serverTimestamp()
       });
 
       alert("✅ Estudiante registrado correctamente");
       form.reset();
-      window.location.href = "/HTML/iniciosesion.html"; // Redirige al login
+      window.location.href = "/HTML/Registro2.html"; // Redirige al login
     } catch (error) {
       console.error("❌ Error al registrar:", error);
       alert("Ocurrió un error al registrar: " + error.message);
