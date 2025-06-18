@@ -69,6 +69,20 @@ document.addEventListener("DOMContentLoaded", () => {
     handleFile(file);
   });
 
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      const idAnuncio = localStorage.getItem("idAnuncioActual");
+      console.log("🆔 ID del anuncio recuperado:", idAnuncio);
+      if (!idAnuncio) {
+        alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
+        window.location.href = "/HTML/Registro5.html";
+      }
+    } else {
+      alert("Debes iniciar sesión.");
+      window.location.href = "/HTML/login.html";
+    }
+  });
+
   function handleFile(file) {
     if (!file) return;
 
@@ -110,6 +124,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const email = user.email.replace(/[.#$[\]]/g, "_");
       const uid = user.uid;
+      // Aquí obtienes el idAnuncio
+    const idAnuncio = localStorage.getItem("idAnuncioActual");
+    if (!idAnuncio) {
+      alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
+      return;
+    }
+    console.log("🆔 ID del anuncio desde localStorage:", idAnuncio);
 
       const storageRef = ref(
         storage,
@@ -119,28 +140,36 @@ document.addEventListener("DOMContentLoaded", () => {
       await uploadBytes(storageRef, selectedFile);
       const url = await getDownloadURL(storageRef);
 
-      // Buscar documento del propietario por UID
       const propietariosRef = collection(db, "propietarios");
       const q = query(propietariosRef, where("UID", "==", uid));
       const snapshot = await getDocs(q);
 
       if (snapshot.empty) {
-        // Crear nuevo documento si no existe
         await addDoc(propietariosRef, {
           UID: uid,
           email,
-          urlComprobanteDomicilio: url,
+          urlComprobanteDomicilio1: url,
           fechaSubida: new Date(),
         });
-        console.log("Nuevo documento creado en 'propietarios'");
+        console.log("✅ Nuevo documento creado en 'propietarios'");
       } else {
-        // Actualizar documento existente
-        const docRef = doc(db, "propietarios", snapshot.docs[0].id);
-        await updateDoc(docRef, {
-          urlComprobanteDomicilio: url,
+        const docSnap = snapshot.docs[0];
+        const docRef = doc(db, "propietarios", docSnap.id);
+        const data = docSnap.data();
+
+        const existingUrls = Object.keys(data).filter(key =>
+          key.startsWith("urlComprobanteDomicilio")
+        );
+        const nextIndex = existingUrls.length + 1;
+        const newFieldName = `urlComprobanteDomicilio${nextIndex}`;
+
+        const updateData = {
+          [newFieldName]: url,
           fechaSubida: new Date(),
-        });
-        console.log("Documento actualizado en 'propietarios'");
+        };
+
+        await updateDoc(docRef, updateData);
+        console.log(`✅ Documento actualizado con ${newFieldName}`);
       }
 
       alert("Comprobante subido correctamente.");
@@ -148,11 +177,12 @@ document.addEventListener("DOMContentLoaded", () => {
       fileInfo.textContent = "Formatos: JPG, PNG, PDF • Máximo 10MB";
       selectedFile = null;
       updateNextButton();
+      localStorage.setItem("idAnuncioActual", idAnuncio);
 
       window.location.href = "/HTML/Registro7.html";
 
     } catch (error) {
-      console.error("Error al subir comprobante:", error);
+      console.error("❌ Error al subir comprobante:", error);
       alert("Ocurrió un error al subir el archivo.");
     } finally {
       nextBtn.disabled = false;

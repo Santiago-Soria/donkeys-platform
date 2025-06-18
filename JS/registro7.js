@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     let photos = [];
     const maxPhotos = 5;
 
@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const slot = createPhotoSlot(i);
             previewGrid.appendChild(slot);
         }
-        updateCounter();
     }
 
     // Crear slot de foto
@@ -32,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <img src="${photos[index].url}" alt="Foto ${index + 1}">
                 <button class="delete-btn" title="Eliminar foto">×</button>
             `;
-            slot.querySelector('.delete-btn').addEventListener('click', function(e) {
+            slot.querySelector('.delete-btn').addEventListener('click', function (e) {
                 e.stopPropagation();
                 removePhoto(index);
             });
@@ -44,7 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div class="placeholder-text">Foto ${index + 1}</div>
                 </div>
             `;
-            slot.querySelector('.placeholder').addEventListener('click', function() {
+            slot.querySelector('.placeholder').addEventListener('click', function () {
                 selectPhoto(index);
             });
         }
@@ -59,19 +58,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Manejar selección de archivos
-    fileInput.addEventListener('change', function(e) {
-        const files = Array.from(e.target.files);
+    fileInput.addEventListener('change', function () {
+        const files = Array.from(this.files);
         const targetIndex = parseInt(this.dataset.targetIndex);
 
         if (!isNaN(targetIndex)) {
-            // Reemplazar foto específica
             if (files[0]) {
                 addPhotoToSlot(files[0], targetIndex);
             }
         } else {
-            // Añadir múltiples fotos
             files.forEach(file => {
-                if (photos.length < maxPhotos) {
+                if (photos.filter(p => p && p.file).length < maxPhotos) {
                     const nextIndex = findNextEmptySlot();
                     if (nextIndex !== -1) {
                         addPhotoToSlot(file, nextIndex);
@@ -80,7 +77,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Limpiar input
         this.value = '';
         delete this.dataset.targetIndex;
     });
@@ -88,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Encontrar el siguiente slot vacío
     function findNextEmptySlot() {
         for (let i = 0; i < maxPhotos; i++) {
-            if (!photos[i]) {
+            if (!photos[i] || !photos[i].file) {
                 return i;
             }
         }
@@ -103,12 +99,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const reader = new FileReader();
-        reader.onload = function(e) {
+        reader.onload = function (e) {
             photos[index] = {
                 file: file,
                 url: e.target.result,
                 name: file.name
             };
+            console.log(`Foto agregada en el slot ${index}`, photos[index]);
             updateGrid();
         };
         reader.readAsDataURL(file);
@@ -117,25 +114,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Validar archivo
     function isValidFile(file) {
         const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        
+        const maxSize = 5 * 1024 * 1024;
         return validTypes.includes(file.type) && file.size <= maxSize;
     }
 
     // Eliminar foto
     function removePhoto(index) {
-        delete photos[index];
+        console.log(`Eliminando foto del slot ${index}`);
+        photos[index] = null;
         updateGrid();
     }
 
-    // Actualizar la grilla
+    // Actualizar la grilla y el contador
     function updateGrid() {
+        console.log("Actualizando grilla...");
         initializeGrid();
+        updateCounter();
     }
 
-    // Actualizar contador y habilitar/deshabilitar botón
+    // Actualizar contador y botón
     function updateCounter() {
-        const photoCount = photos.filter(photo => photo).length; // Solo cuenta slots ocupados
+        const photoCount = photos.filter(photo => photo && photo.file).length;
+        console.log(`Contador de fotos válidas: ${photoCount}`);
         counterText.textContent = `${photoCount} de ${maxPhotos} fotos subidas`;
 
         if (photoCount >= maxPhotos) {
@@ -147,36 +147,38 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Validar y pasar a la siguiente página
-    nextBtn.addEventListener('click', function() {
-        const photoCount = photos.filter(photo => photo).length;
-        if (photoCount < 5) {
+    // Validar mínimo de fotos antes de avanzar
+    nextBtn.addEventListener('click', function () {
+        const photoCount = photos.filter(photo => photo && photo.file).length;
+        if (photoCount < maxPhotos) {
             alert('Debes subir al menos 5 fotos para continuar.');
             return;
         }
-        // Cambia la ruta por la de tu siguiente página
-        window.location.href = '/HTML/Registro8.html';
+
+        console.log("Suficientes fotos cargadas. Puedes continuar.");
+        // window.location.href = '/HTML/Registro8.html';
     });
 
     // Drag and drop
-    uploadSection.addEventListener('dragover', function(e) {
+    uploadSection.addEventListener('dragover', function (e) {
         e.preventDefault();
         this.classList.add('dragover');
     });
 
-    uploadSection.addEventListener('dragleave', function(e) {
+    uploadSection.addEventListener('dragleave', function (e) {
         e.preventDefault();
         this.classList.remove('dragover');
     });
 
-    uploadSection.addEventListener('drop', function(e) {
+    uploadSection.addEventListener('drop', function (e) {
         e.preventDefault();
         this.classList.remove('dragover');
-        
+
         const files = Array.from(e.dataTransfer.files).filter(file => file.type.startsWith('image/'));
-        
+        console.log("Archivos soltados:", files);
+
         files.forEach(file => {
-            if (photos.length < maxPhotos) {
+            if (photos.filter(p => p && p.file).length < maxPhotos) {
                 const nextIndex = findNextEmptySlot();
                 if (nextIndex !== -1) {
                     addPhotoToSlot(file, nextIndex);
@@ -185,10 +187,10 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Inicializar
+    // Inicializar grilla
     initializeGrid();
 
-    // Hacer funciones accesibles globalmente si usas onclick en HTML
+    // Exponer funciones globales si se requiere
     window.removePhoto = removePhoto;
     window.selectPhoto = selectPhoto;
 });

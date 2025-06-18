@@ -4,6 +4,8 @@ import {
   getFirestore,
   collection,
   addDoc,
+  doc,
+  updateDoc
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -33,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector(".domicilio-form");
   const unidadSelect = document.getElementById("unidad-academica");
 
-  // Aquí puedes cargar las unidades académicas si quieres
   unidadSelect.innerHTML = Object.keys(mapaZona).map(
     (zona) => `<option value="${zona}">${zona}</option>`
   ).join("");
@@ -41,7 +42,12 @@ document.addEventListener("DOMContentLoaded", () => {
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    if (!auth.currentUser) {
+      alert("Debes iniciar sesión para continuar.");
+      return;
+    }
 
+    const uid = auth.currentUser.uid;
     const unidadSeleccionada = unidadSelect.value;
     const calle = form.elements[0].value.trim();
     const noExt = form.elements[1].value.trim();
@@ -50,13 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const ciudad = form.elements[4].value.trim();
     const municipio = form.elements[5].value.trim();
     const precio = form.elements[7].value.trim();
-
-
-    if (!auth.currentUser) {
-      alert("Debes iniciar sesión para continuar.");
-      return;
-    }
-    const uid = auth.currentUser.uid;
 
     const direccionCompleta = `${calle}, No. Ext ${noExt}${noInt ? ", No. Int " + noInt : ""}, C.P. ${cp}, ${ciudad}, ${municipio}`;
     const zona = mapaZona[unidadSeleccionada] || null;
@@ -70,18 +69,25 @@ document.addEventListener("DOMContentLoaded", () => {
       ID_Propietario: uid,
     };
 
-    console.log("Datos a subir a Firestore:", anuncioData);
-
     try {
       const anunciosRef = collection(db, "Anuncio");
       const docRef = await addDoc(anunciosRef, anuncioData);
       console.log("Documento agregado con ID:", docRef.id);
+
+      // Actualizar el documento con el campo idAnuncio igual al id del documento
+      await updateDoc(doc(db, "Anuncio", docRef.id), {
+        idAnuncio: docRef.id
+      });
+          // Guardar id del anuncio en localStorage para usarlo en la siguiente pantalla
+        localStorage.setItem("idAnuncioActual", docRef.id);
+
       alert("Domicilio subido correctamente.");
-      // Redirigir después de subir
-      window.location.href = "/HTML/Registro6-2.html";
+      window.location.href = "/HTML/Registro6-2.html";s
     } catch (error) {
       console.error("Error al subir el domicilio:", error);
       alert("Error al subir el domicilio. Intenta de nuevo.");
     }
+
+
   });
 });
