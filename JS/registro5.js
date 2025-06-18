@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Configuración de validación
     const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'application/pdf'];
-    const REQUIRED_FILES = 2; // Frente y reverso del INE
+    const REQUIRED_FILES = 1; // Frente y reverso del INE
     
     // Efecto de transición de página
     function createPageTransition() {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         if (validation.validFiles.length > 0) {
-            uploadedFiles = [...uploadedFiles, ...validation.validFiles].slice(0, 2); // Limitar a 2 archivos
+            uploadedFiles = [...uploadedFiles, ...validation.validFiles].slice(0, 1); // Limitar a 2 archivos
             showPreviews(uploadedFiles);
             updateNextButton();
         }
@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Actualizar texto del botón según la validación
         if (isValid) {
-            nextBtn.innerHTML = '<i class="fas fa-check-circle me-2"></i>Continuar';
+            nextBtn.innerHTML = '<i id="selectFileBtn" class="fas fa-check-circle me-2"></i>Continuar';
         } else {
             const remaining = REQUIRED_FILES - uploadedFiles.length;
             nextBtn.innerHTML = `Sube ${remaining} archivo${remaining !== 1 ? 's' : ''} más`;
@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Redirección después de la animación
                 setTimeout(() => {
-                    window.location.href = '/HTML/registro6.html'; // Ajusta la URL de destino
+                    //window.location.href = '/HTML/registro6.html'; // Ajusta la URL de destino
                 }, 800);
             } else {
                 alert('Error al subir los archivos. Por favor inténtalo de nuevo.');
