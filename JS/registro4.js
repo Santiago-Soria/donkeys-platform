@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('datosDomicilio', JSON.stringify(datos));
             
             // Redirigir a la siguiente página
-            window.location.href = '/HTML/Registro5.html';
+           // window.location.href = '/HTML/Registro5.html';
         } else {
             // Mostrar alerta si hay errores
             const alerta = document.createElement('div');
