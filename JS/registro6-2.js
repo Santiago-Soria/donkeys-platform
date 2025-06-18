@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Redirección después de la animación
                 setTimeout(() => {
-                    window.location.href = '/HTML/Registro7.html'; // Ajusta la URL de destino
+                   // window.location.href = '/HTML/Registro7.html'; // Ajusta la URL de destino
                 }, 800);
             } else {
                 alert('Error al subir los archivos. Por favor inténtalo de nuevo.');
