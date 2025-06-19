@@ -160,6 +160,9 @@ function renderizarAnuncios(anuncios) {
 
     const tarjeta = document.createElement("a");
     tarjeta.href = "/HTML/resultados2.html";
+    tarjeta.addEventListener("click", () => {
+  localStorage.setItem("idAnuncio", data.id); // <-- Guarda el ID del anuncio
+});
     tarjeta.className = "property-link";
     tarjeta.innerHTML = `
       <div class="row property-card mb-4">

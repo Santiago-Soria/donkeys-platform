@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="/CSS/resultados2.css">
     <link rel="stylesheet" href="/CSS/navbar.css">
     <link rel="icon" href="/Imagenes/icon2.png" type="image/x-icon">
+    <script type="module" src="/JS/AuthSesion.js"></script>
+    <script type="module" src="/JS/AnuncioComplete.js"></script>
 </head>
 <body>
         <!-- Navbar -->
@@ -31,13 +33,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/HTML/Nosotros.html">Nosotros</a>
                     </li>
-                    <li class="nav-item">
-                        <!-- SE DEBE DE CAMBIAR DEPENDIENDO DEL USUARIO-->
-                        <a class="nav-link login-btn" href="/HTML/EditPerfilArren.html"><i class="fa-solid fa-user"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link logout-btn" href="/HTML/Index.html">Salir</a>
-                    </li>
 
                 </ul>
             </div>
@@ -47,7 +42,7 @@
     <!-- Botón de regresar -->
     <div class="container mt-3">
         <button class="d-flex align-items-center back-button" onclick="history.back()">
-            <div class="back-icon"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="back-icon" href="/HTML/resultados1.html"><i class="fa-solid fa-chevron-left"></i></div>
             <span>Regresar</span>
         </button>
     </div>
@@ -149,31 +144,31 @@
                 <div class="feature-icon mx-auto">
                     <i class="fa-solid fa-ruler-combined"></i>
                 </div>
-                <p class="feature-text">80 m² tot.</p>
+                <p class="feature-text dimensiones"></p>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
                 <div class="feature-icon mx-auto">
                     <i class="fa-solid fa-bath"></i>
                 </div>
-                <p class="feature-text">1 baño</p>
+                <p class="feature-text bano"></p>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
                 <div class="feature-icon mx-auto">
                     <i class="fa-solid fa-car"></i>
                 </div>
-                <p class="feature-text">2 estac.</p>
+                <p class="feature-text estac"></p>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
                 <div class="feature-icon mx-auto">
                     <i class="fa-solid fa-bed"></i>
                 </div>
-                <p class="feature-text">3 rec.</p>
+                <p class="feature-text recamaras"></p>
             </div>
             <div class="col-6 col-md-4 col-lg-2 mb-3">
                 <div class="feature-icon mx-auto">
                     <i class="fa-solid fa-calendar-days"></i>
                 </div>
-                <p class="feature-text">40 años</p>
+                <p class="feature-text anios">40 años</p>
             </div>
         </div>
     </div>
