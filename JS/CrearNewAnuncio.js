@@ -8,7 +8,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-// Configuración de Firebase
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
   authDomain: "donkeys-cc454.firebaseapp.com",
@@ -33,31 +33,48 @@ document.addEventListener("DOMContentLoaded", () => {
   cardPropietario.addEventListener("click", () => {
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert("Debes iniciar sesión para colocar en renta una propiedad.");
+        alert("Debes iniciar sesión como arrendador o crear una cuenta como arrendador para poner en renta.");
         window.location.href = "/HTML/iniciosesion.html";
         return;
       }
 
       const uid = user.uid;
-      const propietariosRef = collection(db, "Propietario");
-      const q = query(propietariosRef, where("UID", "==", uid));
-      const querySnapshot = await getDocs(q);
 
-      if (querySnapshot.empty) {
-        // No hay documento para este UID, redirige a Registro4
-        window.location.href = "/HTML/Registro4.html";
-        return;
-      }
+      try {
+        // Verificar si el UID está en Estudiante
+        const estudianteRef = collection(db, "Estudiantes");
+        const queryEstudiante = query(estudianteRef, where("UID", "==", uid));
+        const snapshotEstudiante = await getDocs(queryEstudiante);
 
-      const docData = querySnapshot.docs[0].data();
+        if (!snapshotEstudiante.empty) {
+          alert("Tu cuenta está registrada como estudiante. Debes crear una cuenta como arrendador o iniciar sesion como arrendador.");
+          window.location.href = "/HTML/iniciosesion.html";
+          return;
+        }
 
-      const camposNecesarios = ["Calle", "CP", "Ciudad", "Municipio", "No_Exterior", "No_Interior", "Pais"];
-      const tieneTodos = camposNecesarios.every(campo => docData[campo] && docData[campo].toString().trim() !== "");
+        // Verificar si el UID está en Propietario
+        const propietarioRef = collection(db, "Propietario");
+        const queryProp = query(propietarioRef, where("UID", "==", uid));
+        const snapshotProp = await getDocs(queryProp);
 
-      if (tieneTodos) {
-        window.location.href = "/HTML/Registro6.html";
-      } else {
-        window.location.href = "/HTML/Registro4.html";
+        if (snapshotProp.empty) {
+          window.location.href = "/HTML/Registro4.html";
+          return;
+        }
+
+        const data = snapshotProp.docs[0].data();
+        const camposRequeridos = ["Calle", "CP", "Ciudad", "Municipio", "No_Exterior", "No_Interior", "Pais"];
+        const completos = camposRequeridos.every(campo => data[campo] && data[campo].toString().trim() !== "");
+
+        if (completos) {
+          window.location.href = "/HTML/Registro6.html";
+        } else {
+          window.location.href = "/HTML/Registro4.html";
+        }
+
+      } catch (error) {
+        console.error("❌ Error al verificar usuario:", error);
+        alert("Ocurrió un error. Intenta de nuevo más tarde.");
       }
     });
   });
