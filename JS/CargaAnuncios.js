@@ -123,10 +123,13 @@ async function cargarAnuncios() {
     const q = filtros.length > 0 ? query(ref, ...filtros) : ref;
     const snapshot = await getDocs(q);
 
+    console.log("📥 Documentos obtenidos:", snapshot.size);
     anunciosCache = [];
 
-    snapshot.forEach(doc => {
-      anunciosCache.push(doc.data());
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      console.log(`📄 Anuncio ID: ${docSnap.id}`, data);
+      anunciosCache.push({ id: docSnap.id, ...data });
     });
 
     renderizarAnuncios(anunciosCache);
@@ -136,6 +139,7 @@ async function cargarAnuncios() {
   }
 }
 
+
 // Función para pintar anuncios en el DOM
 function renderizarAnuncios(anuncios) {
   const contenedor = document.getElementById("contenedor-anuncios");
@@ -143,7 +147,18 @@ function renderizarAnuncios(anuncios) {
 
   contenedor.innerHTML = "";
 
+  console.log(`🖼️ Renderizando ${anuncios.length} anuncios`);
+
   anuncios.forEach(data => {
+    console.log("🔎 Campos del anuncio:", {
+      Precio: data.Precio,
+      Direccion: data.Direccion,
+      Descripcion: data.Descripcion,
+      Titulo: data.Titulo,
+      Zona: data.Zona,
+      Publicacion: data.Publicacion?.toDate()
+    });
+
     const precio = data.Precio ? `${data.Precio}$` : "Sin precio";
     const direccion = data.Direccion || "Dirección no especificada";
     const descripcion = data.Descripcion || "Sin descripción";
@@ -173,6 +188,7 @@ function renderizarAnuncios(anuncios) {
   const paginacion = document.querySelector(".property-count");
   if (paginacion) paginacion.textContent = `${anuncios.length} propiedades encontradas`;
 }
+
 
 // Función para ordenar la cache y renderizar según criterio
 function ordenarAnuncios(tipoOrden) {

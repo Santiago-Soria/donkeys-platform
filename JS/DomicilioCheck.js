@@ -109,22 +109,24 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.innerHTML = isValid ? "Subir comprobante" : "Siguiente";
   }
 
-  nextBtn.addEventListener("click", async () => {
-    if (!selectedFile) return alert("Debes seleccionar un archivo.");
+// ... tus imports, firebaseConfig y app inicialización siguen igual ...
 
-    try {
-      nextBtn.disabled = true;
-      nextBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Subiendo...`;
+nextBtn.addEventListener("click", async () => {
+  if (!selectedFile) return alert("Debes seleccionar un archivo.");
 
-      const user = auth.currentUser;
-      if (!user) {
-        alert("Debes iniciar sesión.");
-        return;
-      }
+  try {
+    nextBtn.disabled = true;
+    nextBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Subiendo...`;
 
-      const email = user.email.replace(/[.#$[\]]/g, "_");
-      const uid = user.uid;
-      // Aquí obtienes el idAnuncio
+    const user = auth.currentUser;
+    if (!user) {
+      alert("Debes iniciar sesión.");
+      return;
+    }
+
+    const email = user.email.replace(/[.#$[\]]/g, "_");
+    const uid = user.uid;
+
     const idAnuncio = localStorage.getItem("idAnuncioActual");
     if (!idAnuncio) {
       alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
@@ -132,61 +134,57 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     console.log("🆔 ID del anuncio desde localStorage:", idAnuncio);
 
-      const storageRef = ref(
-        storage,
-        `Propietarios/ComprobanteDomicilio/${email}/${selectedFile.name}_${Date.now()}`
-      );
+    const storageRef = ref(
+      storage,
+      `Propietarios/ComprobanteDomicilio/${email}/${selectedFile.name}_${Date.now()}`
+    );
 
-      await uploadBytes(storageRef, selectedFile);
-      const url = await getDownloadURL(storageRef);
+    await uploadBytes(storageRef, selectedFile);
+    const url = await getDownloadURL(storageRef);
 
-      const propietariosRef = collection(db, "propietarios");
-      const q = query(propietariosRef, where("UID", "==", uid));
-      const snapshot = await getDocs(q);
+    const propietariosRef = collection(db, "propietarios");
+    const q = query(propietariosRef, where("UID", "==", uid));
+    const snapshot = await getDocs(q);
 
-      if (snapshot.empty) {
-        await addDoc(propietariosRef, {
-          UID: uid,
-          email,
-          urlComprobanteDomicilio1: url,
-          fechaSubida: new Date(),
-        });
-        console.log("✅ Nuevo documento creado en 'propietarios'");
-      } else {
-        const docSnap = snapshot.docs[0];
-        const docRef = doc(db, "propietarios", docSnap.id);
-        const data = docSnap.data();
+    if (snapshot.empty) {
+      // 🔄 Nuevo documento
+      await addDoc(propietariosRef, {
+        UID: uid,
+        email,
+        urlCheckDomicilio: url, // ✅ CAMPO CORRECTO
+        fechaSubida: new Date(),
+      });
+      console.log("✅ Nuevo documento creado en 'propietarios' con urlCheckDomicilio");
+    } else {
+      // 🔄 Actualizar documento existente
+      const docSnap = snapshot.docs[0];
+      const docRef = doc(db, "propietarios", docSnap.id);
 
-        const existingUrls = Object.keys(data).filter(key =>
-          key.startsWith("urlComprobanteDomicilio")
-        );
-        const nextIndex = existingUrls.length + 1;
-        const newFieldName = `urlComprobanteDomicilio${nextIndex}`;
+      const updateData = {
+        urlCheckDomicilio: url, // ✅ CAMPO CORRECTO
+        fechaSubida: new Date(),
+      };
 
-        const updateData = {
-          [newFieldName]: url,
-          fechaSubida: new Date(),
-        };
-
-        await updateDoc(docRef, updateData);
-        console.log(`✅ Documento actualizado con ${newFieldName}`);
-      }
-
-      alert("Comprobante subido correctamente.");
-      fileInput.value = "";
-      fileInfo.textContent = "Formatos: JPG, PNG, PDF • Máximo 10MB";
-      selectedFile = null;
-      updateNextButton();
-      localStorage.setItem("idAnuncioActual", idAnuncio);
-
-      window.location.href = "/HTML/Registro7.html";
-
-    } catch (error) {
-      console.error("❌ Error al subir comprobante:", error);
-      alert("Ocurrió un error al subir el archivo.");
-    } finally {
-      nextBtn.disabled = false;
-      nextBtn.innerHTML = "Siguiente";
+      await updateDoc(docRef, updateData);
+      console.log("✅ Documento actualizado con urlCheckDomicilio");
     }
-  });
+
+    alert("Comprobante subido correctamente.");
+    fileInput.value = "";
+    fileInfo.textContent = "Formatos: JPG, PNG, PDF • Máximo 10MB";
+    selectedFile = null;
+    updateNextButton();
+    localStorage.setItem("idAnuncioActual", idAnuncio);
+
+    window.location.href = "/HTML/Registro7.html";
+
+  } catch (error) {
+    console.error("❌ Error al subir comprobante:", error);
+    alert("Ocurrió un error al subir el archivo.");
+  } finally {
+    nextBtn.disabled = false;
+    nextBtn.innerHTML = "Siguiente";
+  }
+});
+
 });

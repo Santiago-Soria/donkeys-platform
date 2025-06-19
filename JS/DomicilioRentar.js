@@ -55,17 +55,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const cp = form.elements[3].value.trim();
     const ciudad = form.elements[4].value.trim();
     const municipio = form.elements[5].value.trim();
-    const precio = form.elements[7].value.trim();
+    const precio = parseFloat(form.elements[7].value.trim());
 
     const direccionCompleta = `${calle}, No. Ext ${noExt}${noInt ? ", No. Int " + noInt : ""}, C.P. ${cp}, ${ciudad}, ${municipio}`;
     const zona = mapaZona[unidadSeleccionada] || null;
 
     const anuncioData = {
-      direccion: direccionCompleta,
-      precio: precio,
-      publicacion: new Date(),
-      disponibilidad: true,
-      zona: zona,
+      Direccion: direccionCompleta,
+      Precio: precio,
+      Publicacion: new Date(),
+      Disponibilidad: true,
+      Zona: zona,
       ID_Propietario: uid,
     };
 
