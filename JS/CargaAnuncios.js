@@ -150,28 +150,22 @@ function renderizarAnuncios(anuncios) {
   console.log(`🖼️ Renderizando ${anuncios.length} anuncios`);
 
   anuncios.forEach(data => {
-    console.log("🔎 Campos del anuncio:", {
-      Precio: data.Precio,
-      Direccion: data.Direccion,
-      Descripcion: data.Descripcion,
-      Titulo: data.Titulo,
-      Zona: data.Zona,
-      Publicacion: data.Publicacion?.toDate()
-    });
-
     const precio = data.Precio ? `${data.Precio}$` : "Sin precio";
     const direccion = data.Direccion || "Dirección no especificada";
     const descripcion = data.Descripcion || "Sin descripción";
     const titulo = data.Titulo || "Sin título";
     const zona = data.Zona || "";
     const publicacion = data.Publicacion ? data.Publicacion.toDate().toLocaleDateString() : "";
+    const urlImagen = data.URLImagen1 || "/Imagenes/default-placeholder.png"; // Fallback si no hay imagen
 
     const tarjeta = document.createElement("a");
     tarjeta.href = "/HTML/resultados2.html";
     tarjeta.className = "property-link";
     tarjeta.innerHTML = `
       <div class="row property-card mb-4">
-        <div class="col-md-4 p-0"><div class="property-image"></div></div>
+        <div class="col-md-4 p-0">
+          <div class="property-image" style="background-image: url('${urlImagen}'); background-size: cover; background-position: center; height: 100%;"></div>
+        </div>
         <div class="col-md-8 p-4">
           <div class="property-price">${precio}</div>
           <div class="property-title mt-3">${titulo}<br>${direccion}, ${zona}<br>Publicado el: ${publicacion}</div>
@@ -188,6 +182,7 @@ function renderizarAnuncios(anuncios) {
   const paginacion = document.querySelector(".property-count");
   if (paginacion) paginacion.textContent = `${anuncios.length} propiedades encontradas`;
 }
+
 
 
 // Función para ordenar la cache y renderizar según criterio
