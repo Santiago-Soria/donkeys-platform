@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let photos = [];
   const maxPhotos = 5;
   const idAnuncio = localStorage.getItem("idAnuncioActual");
-  
+
   const fileInput = document.getElementById("fileInput");
   const previewGrid = document.getElementById("previewGrid");
   const uploadSection = document.querySelector(".upload-section");
@@ -168,82 +168,75 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   });
-  console.log("🆔 ID del anuncio desde sessionStorage:", idAnuncio);
 
-  // ... (módulos e inicializaciones mantienen igual)
+  nextBtn.addEventListener("click", async () => {
+    const validPhotos = photos.filter(p => p && p.file);
 
-nextBtn.addEventListener("click", async () => {
-  const validPhotos = photos.filter(p => p && p.file);
-
-  if (validPhotos.length < maxPhotos) {
-    alert("Debes subir mínimo 5 fotos.");
-    return;
-  }
-
-  nextBtn.disabled = true;
-  nextBtn.innerHTML = "Subiendo imágenes...";
-
-  try {
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Debes iniciar sesión.");
+    if (validPhotos.length < maxPhotos) {
+      alert("Debes subir mínimo 5 fotos.");
       return;
     }
 
-    const email = user.email.replace(/[.#$[\]]/g, "_");
-    const uid = user.uid;
-    const idAnuncio = localStorage.getItem("idAnuncioActual");
+    nextBtn.disabled = true;
+    nextBtn.innerHTML = "Subiendo imágenes...";
 
-    if (!idAnuncio) {
-      alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
-      return;
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Debes iniciar sesión.");
+        return;
+      }
+
+      const email = user.email.replace(/[.#$[\]]/g, "_");
+      const uid = user.uid;
+      const idAnuncio = localStorage.getItem("idAnuncioActual");
+
+      if (!idAnuncio) {
+        alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
+        return;
+      }
+
+      // Calcular número del anuncio del usuario
+      const anunciosUsuarioSnap = await getDocs(query(collection(db, "Anuncio"), where("ID_Propietario", "==", uid)));
+      const numeroAnuncio = anunciosUsuarioSnap.size; // El índice base 0
+      const nombreCarpeta = `Anuncio${numeroAnuncio + 1}`;
+
+      const urls = [];
+
+      for (let i = 0; i < validPhotos.length; i++) {
+        const file = validPhotos[i].file;
+        const timestamp = Date.now();
+        const storageRef = ref(storage, `Anuncio/Domicilio/${email}/${nombreCarpeta}/${timestamp}_${file.name}`);
+        await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(storageRef);
+        urls.push(url);
+      }
+
+      const anuncioDocRef = doc(db, "Anuncio", idAnuncio);
+      const anuncioSnap = await getDocs(query(collection(db, "Anuncio"), where("ID_Propietario", "==", uid), where("idAnuncio", "==", idAnuncio)));
+
+      if (anuncioSnap.empty) {
+        alert("No se encontró el anuncio con ese ID y propietario.");
+        return;
+      }
+
+      const updateData = {};
+      urls.forEach((url, index) => {
+        updateData[`URLImagen${index + 1}`] = url;
+      });
+
+      await updateDoc(anuncioDocRef, updateData);
+      alert("Imágenes subidas y guardadas correctamente.");
+      window.location.href = "/HTML/Registro8.html";
+
+    } catch (error) {
+      console.error("❌ Error al subir o guardar URLs:", error);
+      alert("Ocurrió un error al subir las imágenes o guardarlas.");
+    } finally {
+      nextBtn.disabled = false;
+      nextBtn.textContent = "Siguiente";
     }
-
-    console.log("🆔 ID del anuncio desde sessionStorage:", idAnuncio);
-
-    const urls = [];
-
-    for (let i = 0; i < validPhotos.length; i++) {
-      const file = validPhotos[i].file;
-      const storageRef = ref(storage, `Anuncio/Domicilio/${email}/${Date.now()}_${file.name}`);
-      await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(storageRef);
-      console.log(`✅ URL ${i + 1}:`, url);
-      urls.push(url);
-    }
-
-    const anuncioDocRef = doc(db, "Anuncio", idAnuncio);
-    const anuncioSnap = await getDocs(query(collection(db, "Anuncio"), where("ID_Propietario", "==", uid), where("idAnuncio", "==", idAnuncio)));
-
-    if (anuncioSnap.empty) {
-      alert("No se encontró el anuncio con ese ID y propietario.");
-      return;
-    }
-
-    const updateData = {};
-    urls.forEach((url, index) => {
-      updateData[`URLImagen${index + 1}`] = url;
-    });
-
-    console.log("📤 URLs a subir:", updateData);
-    await updateDoc(anuncioDocRef, updateData);
-
-    console.log("✅ Firestore actualizado correctamente.");
-    alert("Imágenes subidas y guardadas correctamente.");
-
-    // Redirigir si deseas
-     window.location.href = "/HTML/Registro8.html";
-
-  } catch (error) {
-    console.error("❌ Error al subir o guardar URLs:", error);
-    alert("Ocurrió un error al subir las imágenes o guardarlas.");
-  } finally {
-    nextBtn.disabled = false;
-    nextBtn.textContent = "Siguiente";
-  }
-});
-
-
+  });
 
   initializeGrid();
   window.removePhoto = removePhoto;
