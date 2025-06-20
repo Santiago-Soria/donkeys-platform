@@ -4,6 +4,8 @@ import {
   collection, 
   getDocs, 
   doc, 
+  query,
+  where,
   updateDoc, 
   deleteDoc 
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
@@ -140,23 +142,23 @@ function filtrarAnuncios() {
 
 async function abrirModalDetalle(id) {
   const anuncio = anunciosData.find(a => a.id === id);
-  if (!anuncio) return alert("No se encontró la dirección");
+  if (!anuncio) return alert("No se encontró el anuncio");
 
   const modalTitle = document.getElementById("modalPropertyTitle");
   const modalContent = document.getElementById("modalPropertyContent");
 
   modalTitle.textContent = anuncio.Direccion || "Dirección sin definir";
 
+  // Limpiar contenido previo
   modalContent.innerHTML = `
     <p><strong>Tipo:</strong> ${anuncio.Tipo === true ? "departamento" : "habitación"}</p>
     <p><strong>Estado:</strong> ${anuncio.Disponibilidad ? "Disponible" : "No disponible"}</p>
     <p><strong>Fecha de publicación:</strong> ${anuncio.Publicacion ? new Date(anuncio.Publicacion.seconds * 1000).toLocaleDateString() : "N/A"}</p>
     <p><strong>Propietario:</strong> ${anuncio.Propietario || "Desconocido"}</p>
     <p><strong>Descripción:</strong> ${anuncio.Descripcion || "Sin descripción"}</p>
-
-    <div class="mb-3">
+    <div id="comprobanteDomicilioDiv" class="mb-3">
       <strong>Comprobante de domicilio:</strong>
-      ${anuncio.comprobanteUrl ? `<a href="${anuncio.comprobanteUrl}" target="_blank" class="btn btn-sm btn-primary ms-2"><i class="fas fa-file-alt me-1"></i> Ver comprobante</a>` : 'No disponible'}
+      <span>Cargando...</span>
     </div>
 
     <div class="d-flex gap-2 mt-4">
@@ -169,6 +171,42 @@ async function abrirModalDetalle(id) {
       <button id="btnEnviarRechazo" class="btn btn-warning">Enviar motivo</button>
     </div>
   `;
+
+  // Buscar comprobante de domicilio en Propietario según ID_Propietario del anuncio
+  const comprobanteDiv = document.getElementById("comprobanteDomicilioDiv");
+  try {
+    if (anuncio.ID_Propietario) {
+      const propietariosCol = collection(db, "propietarios");
+      const q = query(propietariosCol, where("UID", "==", anuncio.ID_Propietario));
+      const propietariosSnap = await getDocs(q);
+
+      if (!propietariosSnap.empty) {
+        let encontrado = false;
+        propietariosSnap.forEach(docSnap => {
+          const data = docSnap.data();
+          if (data.urlCheckDomicilio) {
+            comprobanteDiv.innerHTML = `
+              <strong>Comprobante de domicilio:</strong>
+              <a href="${data.urlCheckDomicilio}" target="_blank" class="btn btn-sm btn-primary ms-2">
+                <i class="fas fa-file-alt me-1"></i> Ver comprobante
+              </a>
+            `;
+            encontrado = true;
+          }
+        });
+        if (!encontrado) {
+          comprobanteDiv.innerHTML = `<strong>Comprobante de domicilio:</strong> No disponible`;
+        }
+      } else {
+        comprobanteDiv.innerHTML = `<strong>Comprobante de domicilio:</strong> No disponible`;
+      }
+    } else {
+      comprobanteDiv.innerHTML = `<strong>Comprobante de domicilio:</strong> No disponible`;
+    }
+  } catch (error) {
+    console.error("Error al buscar comprobante de domicilio:", error);
+    comprobanteDiv.innerHTML = `<strong>Comprobante de domicilio:</strong> Error al cargar comprobante`;
+  }
 
   const propertyModal = new bootstrap.Modal(document.getElementById('propertyModal'));
   propertyModal.show();
@@ -244,6 +282,7 @@ async function abrirModalDetalle(id) {
     }
   });
 }
+
 
 searchInput.addEventListener("input", filtrarAnuncios);
 statusFilter.addEventListener("change", filtrarAnuncios);

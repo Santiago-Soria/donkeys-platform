@@ -105,6 +105,8 @@ ordenDropdownItems.forEach(item => {
 async function cargarAnuncios() {
   try {
     let filtros = [];
+    // Siempre filtrar solo anuncios con Disponibilidad == true
+    filtros.push(where("Disponibilidad", "==", true));
 
     if (filtroTipoPropiedadBool !== null) {
       filtros.push(where("Tipo", "==", filtroTipoPropiedadBool));
@@ -132,12 +134,16 @@ async function cargarAnuncios() {
       anunciosCache.push({ id: docSnap.id, ...data });
     });
 
+    // Filtrado extra por seguridad (en caso de datos inconsistentes)
+    anunciosCache = anunciosCache.filter(anuncio => anuncio.Disponibilidad === true);
+
     renderizarAnuncios(anunciosCache);
 
   } catch (error) {
     console.error("❌ Error al cargar anuncios:", error);
   }
 }
+
 
 
 // Función para pintar anuncios en el DOM
