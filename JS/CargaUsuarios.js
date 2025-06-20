@@ -123,70 +123,108 @@ async function cargarUsuarios() {
   }
 }
 
-async function cargarDocumentosVerificacion(correo) {
+async function cargarDocumentosVerificacion(correo, cantidadDocumentosLocales = 0) {
   try {
     console.log("Iniciando carga de documentos de verificación para correo:", correo);
 
-    const verificacionesCol = collection(db, "verificaciones");
-    const q = query(verificacionesCol, where("email", "==", correo));
-    
-    const snapshot = await getDocs(q);
-    console.log("Cantidad de documentos encontrados:", snapshot.size);
+    const correoNormalizado = correo.trim().toLowerCase();
 
-    if (snapshot.empty) {
-      console.log("No hay documentos en la colección 'verificaciones' para este correo.");
-      const noDocs = document.createElement("p");
-      noDocs.classList.add("text-muted");
-      noDocs.textContent = "No hay documentos de verificación disponibles.";
-      modalContent.appendChild(noDocs);
-      return;
+    // Buscar en 'verificaciones'
+    const verificacionesCol = collection(db, "verificaciones");
+    const q = query(verificacionesCol, where("email", "==", correoNormalizado));
+    const snapshot = await getDocs(q);
+
+    console.log("Cantidad de documentos encontrados en 'verificaciones':", snapshot.size);
+
+    let documentosAgregados = 0;
+
+    if (!snapshot.empty) {
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        console.log("Documento de verificación (verificaciones):", data);
+
+        const docsDiv = document.createElement("div");
+        docsDiv.classList.add("mt-3");
+        docsDiv.innerHTML = `<h5>Documentos de verificación (estudiante):</h5>`;
+
+        if (data.urlCredencial) {
+          const credencialLink = document.createElement("a");
+          credencialLink.href = data.urlCredencial;
+          credencialLink.target = "_blank";
+          credencialLink.textContent = "Ver Credencial";
+          credencialLink.className = "d-block mb-1";
+          docsDiv.appendChild(credencialLink);
+          documentosAgregados++;
+        }
+
+        if (data.urlHorario) {
+          const horarioLink = document.createElement("a");
+          horarioLink.href = data.urlHorario;
+          horarioLink.target = "_blank";
+          horarioLink.textContent = "Ver Horario";
+          horarioLink.className = "d-block mb-1";
+          docsDiv.appendChild(horarioLink);
+          documentosAgregados++;
+        }
+
+        modalContent.appendChild(docsDiv);
+      });
+    } else {
+      // Si no hay documentos en 'verificaciones', buscar en 'Propietario'
+      console.log("No se encontraron documentos en 'verificaciones'. Buscando en 'Propietario'...");
+
+      const propietariosCol = collection(db, "propietarios"); // mayúscula exacta
+      const qPropietarios = query(propietariosCol, where("email", "==", correoNormalizado));
+      const propietariosSnapshot = await getDocs(qPropietarios);
+
+      if (!propietariosSnapshot.empty) {
+        propietariosSnapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          console.log("Documento de Propietario encontrado:", data);
+
+          const docsDiv = document.createElement("div");
+          docsDiv.classList.add("mt-3");
+          docsDiv.innerHTML = `<h5>Documentos de verificación (arrendador):</h5>`;
+
+          if (data.urlIne) {
+            const ineLink = document.createElement("a");
+            ineLink.href = data.urlIne;
+            ineLink.target = "_blank";
+            ineLink.textContent = "Ver INE";
+            ineLink.className = "d-block mb-1";
+            docsDiv.appendChild(ineLink);
+            documentosAgregados++;
+          } else {
+            const noIne = document.createElement("p");
+            noIne.classList.add("text-muted");
+            noIne.textContent = "No se encontró INE cargado.";
+            docsDiv.appendChild(noIne);
+          }
+
+          modalContent.appendChild(docsDiv);
+        });
+      } else {
+        console.warn("⚠️ No se encontraron coincidencias en 'Propietario'.");
+      }
     }
 
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      console.log("Campos del documento:", Object.keys(data));
-
-      console.log("Documento verificación:", data);
-
-      const docsDiv = document.createElement("div");
-      docsDiv.classList.add("mt-3");
-      docsDiv.innerHTML = `<h5>Documentos de verificación:</h5>`;
-
-      if (data.urlCredencial) {
-        console.log("URL Credencial:", data.urlcredencial);
-        const credencialLink = document.createElement("a");
-        credencialLink.href = data.urlCredencial;
-        credencialLink.target = "_blank";
-        credencialLink.textContent = "Ver Credencial";
-        credencialLink.className = "d-block mb-1";
-        docsDiv.appendChild(credencialLink);
-      } else {
-        console.log("No hay URL de credencial");
-      }
-
-      if (data.urlHorario) {
-        console.log("URL Horario:", data.urlhorario);
-        const horarioLink = document.createElement("a");
-        horarioLink.href = data.urlHorario;
-        horarioLink.target = "_blank";
-        horarioLink.textContent = "Ver Horario";
-        horarioLink.className = "d-block mb-1";
-        docsDiv.appendChild(horarioLink);
-      } else {
-        console.log("No hay URL de horario");
-      }
-
-      modalContent.appendChild(docsDiv);
-    });
-
+    // Mostrar mensaje si no hay documentos en total (locales + remotos)
+    if (cantidadDocumentosLocales + documentosAgregados === 0) {
+      const noDocs = document.createElement("p");
+      noDocs.classList.add("text-muted");
+      noDocs.textContent = "No se encontraron documentos de verificación para este usuario.";
+      modalContent.appendChild(noDocs);
+    }
   } catch (error) {
-    console.error("Error al cargar documentos de verificación:", error);
+    console.error("❌ Error al cargar documentos de verificación:", error);
     const errorText = document.createElement("p");
     errorText.classList.add("text-danger");
     errorText.textContent = "Error al cargar los documentos de verificación.";
     modalContent.appendChild(errorText);
   }
 }
+
+
 
 // Filtrar y mostrar usuarios
 function filtrarYMostrarUsuarios() {
@@ -284,18 +322,11 @@ async function abrirModalUsuario(user) {
       docsDiv.appendChild(docLink);
     });
     modalContent.appendChild(docsDiv);
-  } else {
-    const noDocs = document.createElement("p");
-    noDocs.classList.add("text-muted");
-    noDocs.textContent = "No hay documentos para mostrar.";
-    modalContent.appendChild(noDocs);
-  }
-
+  } 
+  await cargarDocumentosVerificacion(user.rawData.Correo, user.documentos.length);
   // Ocultar motivo rechazo y limpiar textarea
   rechazoMotivoContainer.classList.add("d-none");
   rechazoMotivoInput.value = "";
-
-  await cargarDocumentosVerificacion(user.rawData.Correo);
   bootstrapModal.show();
 }
 
