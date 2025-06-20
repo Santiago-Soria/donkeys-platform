@@ -8,7 +8,7 @@ import {
   getDocs
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-// Firebase config
+// Config Firebase (tu config aquí)
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
   authDomain: "donkeys-cc454.firebaseapp.com",
@@ -25,12 +25,9 @@ const db = getFirestore(app);
 
 document.addEventListener("DOMContentLoaded", () => {
   const cardPropietario = document.querySelector(".landlord-card");
+  const btnAgregarPropiedad = document.getElementById("btnAgregarPropiedad");
 
-  if (!cardPropietario) return;
-
-  cardPropietario.style.cursor = "pointer";
-
-  cardPropietario.addEventListener("click", () => {
+  async function verificarYRedirigir() {
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         alert("Debes iniciar sesión como arrendador o crear una cuenta como arrendador para poner en renta.");
@@ -41,35 +38,37 @@ document.addEventListener("DOMContentLoaded", () => {
       const uid = user.uid;
 
       try {
-        // Verificar si el UID está en Estudiante
-        const estudianteRef = collection(db, "Estudiantes");
-        const queryEstudiante = query(estudianteRef, where("UID", "==", uid));
-        const snapshotEstudiante = await getDocs(queryEstudiante);
+        // Verificar si es estudiante
+        const estudiantesRef = collection(db, "Estudiantes");
+        const qEstudiantes = query(estudiantesRef, where("UID", "==", uid));
+        const snapEstudiantes = await getDocs(qEstudiantes);
 
-        if (!snapshotEstudiante.empty) {
-          alert("Tu cuenta está registrada como estudiante. Debes crear una cuenta como arrendador o iniciar sesion como arrendador.");
+        if (!snapEstudiantes.empty) {
+          alert("Tu cuenta está registrada como estudiante. Debes crear una cuenta como arrendador o iniciar sesión como arrendador.");
           window.location.href = "/HTML/iniciosesion.html";
           return;
         }
 
-        // Verificar si el UID está en Propietario
-        const propietarioRef = collection(db, "Propietario");
-        const queryProp = query(propietarioRef, where("UID", "==", uid));
-        const snapshotProp = await getDocs(queryProp);
+        // Verificar si es propietario
+        const propietariosRef = collection(db, "Propietario");
+        const qPropietarios = query(propietariosRef, where("UID", "==", uid));
+        const snapPropietarios = await getDocs(qPropietarios);
 
-        if (snapshotProp.empty) {
+        if (snapPropietarios.empty) {
+          // No es propietario, enviarlo a registro propietario
           window.location.href = "/HTML/Registro4.html";
           return;
         }
 
-        const data = snapshotProp.docs[0].data();
+        // Verificar que los datos del propietario estén completos
+        const dataProp = snapPropietarios.docs[0].data();
         const camposRequeridos = ["Calle", "CP", "Ciudad", "Municipio", "No_Exterior", "No_Interior", "Pais"];
-        const completos = camposRequeridos.every(campo => data[campo] && data[campo].toString().trim() !== "");
+        const datosCompletos = camposRequeridos.every(campo => dataProp[campo] && dataProp[campo].toString().trim() !== "");
 
-        if (completos) {
-          window.location.href = "/HTML/Registro6.html";
+        if (datosCompletos) {
+          window.location.href = "/HTML/Registro6.html"; // Página siguiente si está completo
         } else {
-          window.location.href = "/HTML/Registro4.html";
+          window.location.href = "/HTML/Registro4.html"; // Página de completar registro
         }
 
       } catch (error) {
@@ -77,5 +76,20 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("Ocurrió un error. Intenta de nuevo más tarde.");
       }
     });
-  });
+  }
+
+  // Agregar listener a landlord-card si existe
+  if (cardPropietario) {
+    cardPropietario.style.cursor = "pointer";
+    cardPropietario.addEventListener("click", verificarYRedirigir);
+  }
+
+  // Agregar listener a botón agregar propiedad si existe
+  if (btnAgregarPropiedad) {
+    btnAgregarPropiedad.style.cursor = "pointer";
+    btnAgregarPropiedad.addEventListener("click", (e) => {
+      e.preventDefault(); // evitar acción por defecto si es un enlace
+      verificarYRedirigir();
+    });
+  }
 });
