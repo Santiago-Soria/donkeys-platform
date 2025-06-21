@@ -5,8 +5,16 @@ import {
   signInWithPopup,
   GoogleAuthProvider
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  limit
+} from "https://www.gstatic.com/firebasejs/11.8.1/firebase-firestore.js";
 
-// Tu configuración de Firebase
+// Configuración Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
   authDomain: "donkeys-cc454.firebaseapp.com",
@@ -20,6 +28,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+const db = getFirestore(app);
 
 document.addEventListener("DOMContentLoaded", () => {
   const formLogin = document.getElementById("formLogin");
@@ -40,14 +49,12 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const correosAdmins = [
-  "eduardomp1708@hotmail.com",
-  "palaciosroblesd@gmail.com",
-  "erck.fran@gmail.com",
-  "sant.soria.26ss@gmail.com"
-  // Agrega más correos de admin aquí
-];
+    "eduardomp1708@hotmail.com",
+    "palaciosroblesd@gmail.com",
+    "erck.fran@gmail.com",
+    "sant.soria.26ss@gmail.com"
+  ];
 
-  // Iniciar sesión con correo y contraseña
   formLogin.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -58,29 +65,45 @@ document.addEventListener("DOMContentLoaded", () => {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       alert("✅ Inicio de sesión exitoso");
       localStorage.setItem("correoUsuario", email);
+
       if (correosAdmins.includes(email)) {
-      // Redirige a admin
-      window.location.href = "/HTML/administradorusuarios.html";
-    } else {
-      // Redirige a usuario normal
-      window.location.href = "/HTML/index.html";
-    }
+        window.location.href = "/HTML/administradorusuarios.html";
+      } else {
+        window.location.href = "/HTML/index.html";
+      }
     } catch (error) {
       alert("❌ Correo o contraseña incorrectos");
       console.error(error);
     }
   });
 
-  // Iniciar sesión con Google
   const googleBtn = document.querySelector(".google-btn");
   if (googleBtn) {
     googleBtn.addEventListener("click", async () => {
       try {
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
+        const email = user.email;
+
         alert(`✅ Bienvenido ${user.displayName}`);
-        localStorage.setItem("correoUsuario", user.email);
-        window.location.href = "/HTML/indexs.html";
+        localStorage.setItem("correoUsuario", email);
+
+        // Verificar si ya está en Firestore
+        const q = query(
+          collection(db, "Estudiantes"),
+          where("Correo", "==", email),
+          limit(1)
+        );
+        const querySnapshot = await getDocs(q);
+
+        if (!querySnapshot.empty) {
+          // Usuario ya registrado → ir a index
+          window.location.href = "/HTML/index.html";
+        } else {
+          // Usuario nuevo → ir a registro, ocultar contraseña
+          localStorage.setItem("registroDesdeGoogle", "true");
+          window.location.href = "/HTML/Registro.html";
+        }
       } catch (error) {
         console.error("Error en login con Google:", error);
         alert("❌ No se pudo iniciar sesión con Google");

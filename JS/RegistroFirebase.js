@@ -15,7 +15,7 @@ import {
   fetchSignInMethodsForEmail
 } from "https://www.gstatic.com/firebasejs/11.8.1/firebase-auth.js";
 
-// Config de Firebase
+// Configuración de Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyBpauU81ETkJBO6Zo7womi4fGBvy8ThpkQ",
   authDomain: "donkeys-cc454.firebaseapp.com",
@@ -26,7 +26,6 @@ const firebaseConfig = {
   measurementId: "G-6PR3CRYVRE",
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -63,6 +62,108 @@ async function cargarUnidadesAcademicas() {
 }
 cargarUnidadesAcademicas();
 
+const correoGuardado = localStorage.getItem("correoUsuario");
+const desdeGoogle = localStorage.getItem("registroDesdeGoogle") === "true";
+
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector(".register-form");
+  if (!form) return;
+
+  // Si viene de Google y es nuevo usuario, ocultar contraseñas y llenar correo
+  if (desdeGoogle && correoGuardado) {
+    const correoInput = document.getElementById("email");
+    if (correoInput) {
+      correoInput.value = correoGuardado;
+      correoInput.disabled = true;
+      correoInput.required = false;
+    }
+
+    const passwordInput = document.getElementById("password");
+    const confirmPasswordInput = document.getElementById("confirm_password");
+
+    if (passwordInput) {
+      passwordInput.closest(".form-group")?.classList.add("d-none");
+      passwordInput.disabled = true;
+      passwordInput.required = false;
+    }
+
+    if (confirmPasswordInput) {
+      confirmPasswordInput.closest(".form-group")?.classList.add("d-none");
+      confirmPasswordInput.disabled = true;
+      confirmPasswordInput.required = false;
+    }
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById("nombre")?.value.trim();
+    const apellidoP = document.getElementById("apellidos")?.value.trim().split(" ")[0] || "";
+    const apellidoM = document.getElementById("apellidos")?.value.trim().split(" ")[1] || "";
+    const correo = document.getElementById("email")?.value.trim();
+    const password = document.getElementById("password")?.value;
+    const confirmPassword = document.getElementById("confirm_password")?.value;
+    const Telefono = document.getElementById("Telefono")?.value;
+    const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
+
+    if (!validarCorreo(correo)) {
+      alert("❌ El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmail.com");
+      return;
+    }
+
+    if (!desdeGoogle) {
+      // Solo validar contraseñas si NO viene de Google
+      if (password !== confirmPassword) {
+        alert("❌ Las contraseñas no coinciden. Por favor, verifica.");
+        return;
+      }
+
+      if (!validarPassword(password)) {
+        alert("❌ La contraseña debe contener al menos una mayúscula, minúscula, número, símbolo especial y no tener espacios.");
+        return;
+      }
+
+      if (await correoExisteEnAuth(correo) || await correoExisteEnFirestore(correo)) {
+        alert("❌ El correo ya está registrado. Por favor utiliza otro.");
+        return;
+      }
+    }
+
+    try {
+      let user;
+      if (!desdeGoogle) {
+        const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
+        user = userCredential.user;
+      } else {
+        user = auth.currentUser;
+      }
+
+      await addDoc(collection(db, "Estudiantes"), {
+        UID: user.uid,
+        Nombre: nombre,
+        Apellido_P: apellidoP,
+        Apellido_M: apellidoM,
+        Correo: correo,
+        Telefono: Telefono,
+        ID_Unidad: unidad,
+        fechaRegistro: serverTimestamp()
+      });
+
+      alert("✅ Estudiante registrado correctamente");
+      form.reset();
+
+      // Limpiar localStorage
+      localStorage.removeItem("correoUsuario");
+      localStorage.removeItem("registroDesdeGoogle");
+
+      window.location.href = "/HTML/Registro2.html";
+    } catch (error) {
+      console.error("❌ Error al registrar:", error);
+      alert("Ocurrió un error al registrar: " + error.message);
+    }
+  });
+});
+
 async function correoExisteEnFirestore(correo) {
   const q = query(collection(db, "Estudiantes"), where("Correo", "==", correo), limit(1));
   const querySnapshot = await getDocs(q);
@@ -78,66 +179,3 @@ async function correoExisteEnAuth(correo) {
     return false;
   }
 }
-
-// Registro
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector(".register-form");
-  if (!form) return;
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const nombre = document.getElementById("nombre")?.value.trim();
-    const apellidoP = document.getElementById("apellidos")?.value.trim().split(" ")[0] || "";
-    const apellidoM = document.getElementById("apellidos")?.value.trim().split(" ")[1] || "";
-    const correo = document.getElementById("email")?.value.trim();
-    const password = document.getElementById("password")?.value;
-    const confirmPassword = document.getElementById("confirm_password")?.value;
-    const Telefono = document.getElementById("Telefono")?.value;
-    const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
-
-    // Validar que las contraseñas coincidan
-    if (password !== confirmPassword) {
-      alert("❌ Las contraseñas no coinciden. Por favor, verifica.");
-      return;
-    }
-
-    if (!validarCorreo(correo)) {
-      alert("❌ El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmail.com");
-      return;
-    }
-
-    if (!validarPassword(password)) {
-      alert("❌ La contraseña debe contener al menos una mayúscula, minúscula, número, símbolo especial y no tener espacios.");
-      return;
-    }
-
-    if (await correoExisteEnAuth(correo) || await correoExisteEnFirestore(correo)) {
-      alert("❌ El correo ya está registrado. Por favor utiliza otro.");
-      return;
-    }
-
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
-      const user = userCredential.user;
-
-      await addDoc(collection(db, "Estudiantes"), {
-        UID: user.uid,
-        Nombre: nombre,
-        Apellido_P: apellidoP,
-        Apellido_M: apellidoM,
-        Correo: correo,
-        Telefono: Telefono,
-        ID_Unidad: unidad,
-        fechaRegistro: serverTimestamp()
-      });
-
-      alert("✅ Estudiante registrado correctamente");
-      form.reset();
-      window.location.href = "/HTML/Registro2.html"; // Redirige al login
-    } catch (error) {
-      console.error("❌ Error al registrar:", error);
-      alert("Ocurrió un error al registrar: " + error.message);
-    }
-  });
-});
