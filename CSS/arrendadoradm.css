@@ -277,7 +277,9 @@ border: none;
   border: 1px solid black;
   border-radius: 20px;
   overflow: hidden;
+  min-height: 300px; /* o la altura que necesites */
 }
+
 
 .property-image {
   width: 203px;
@@ -554,4 +556,58 @@ border: none;
   .page-btn {
     padding: 0 10px;
   }
+  .property-info {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.property-status {
+  font-size: 40px;
+  font-weight: 500;
+  color: black;
+  margin: 0 0 20px 0;
+  flex-shrink: 0;
+}
+
+/* Contenedor para los botones editar y estado */
+.property-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+}
+
+
+/* Ajustes para los botones */
+.edit-btn, .status-btn {
+  flex: 1; /* que ocupen espacio igual */
+  height: 41px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Botones tal como tienes */
+.edit-btn {
+  background: #3E2023;
+  color: white;
+  border: none;
+}
+
+.edit-btn:hover {
+  background: #5f3439;
+  cursor: pointer;
+}
+
+.status-btn.no-rentado {
+  background-color: #5cb85c;
+  color: white;
+}
+
+.status-btn.rentado {
+  background-color: #b85c5c;
+  color: white;
+}
+
 }

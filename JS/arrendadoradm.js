@@ -2,40 +2,42 @@ document.addEventListener('DOMContentLoaded', function() {
   const sortTrigger = document.getElementById('sortTrigger');
   const sortDropdown = document.getElementById('sortDropdown');
   const sortOptions = document.querySelectorAll('.sort-option');
-  let currentSort = 'recent'; // Default sort option
+  let currentSort = 'recent'; // O la opción que quieras por defecto
 
-  // Toggle dropdown
+  // Toggle dropdown al dar click en el trigger
   sortTrigger.addEventListener('click', function(e) {
     e.stopPropagation();
     sortDropdown.classList.toggle('show');
   });
 
-  // Handle option selection
+  // Manejar selección de opción
   sortOptions.forEach(option => {
     option.addEventListener('click', function() {
-      sortOptions.forEach(opt => opt.classList.remove('active'));
-      this.classList.add('active');
+      sortOptions.forEach(opt => opt.classList.remove('selected')); // Cambia 'active' a 'selected' para que coincida con arrendadoradm.js
+      this.classList.add('selected');
       currentSort = this.getAttribute('data-value');
       console.log('Selected sort:', currentSort);
-      // sortProperties(currentSort);
+      // Aquí no haces renderProperties() porque esa función está en arrendadoradm.js
+      // Solo ocultamos el dropdown:
       sortDropdown.classList.remove('show');
     });
   });
 
-  // Close dropdown when clicking outside
+  // Cerrar dropdown si se hace click afuera
   document.addEventListener('click', function() {
     sortDropdown.classList.remove('show');
   });
 
-  // Prevent dropdown from closing when clicking inside it
+  // Evitar que el dropdown se cierre si se hace click dentro de él
   sortDropdown.addEventListener('click', function(e) {
     e.stopPropagation();
   });
 
-  // Set default active option
-  document.querySelector(`.sort-option[data-value="${currentSort}"]`).classList.add('active');
+  // Marcar la opción por defecto como seleccionada
+  const defaultOption = document.querySelector(`.sort-option[data-value="${currentSort}"]`);
+  if (defaultOption) defaultOption.classList.add('selected');
 
-  // Inicialización de estado para todas las tarjetas
+  // Aquí puedes dejar la lógica para los botones de estado "Rentado" / "No rentado"
   function initializeStatus() {
     const cards = document.querySelectorAll('.property-card');
     cards.forEach(card => {
