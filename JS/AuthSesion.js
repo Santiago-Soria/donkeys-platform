@@ -55,7 +55,7 @@ onAuthStateChanged(auth, async(user) => {
       console.error("Error al obtener documento del usuario:", e);
     }
     // Ocultar el link "Iniciar Sesión"
-    const loginLink = navBar.querySelector('a[href="/HTML/iniciosesion.html"]');
+    const loginLink = navBar.querySelector('a[href="iniciosesion.html"]');
     if (loginLink) {
       loginLink.parentElement.style.display = 'none';
     }
@@ -69,7 +69,7 @@ onAuthStateChanged(auth, async(user) => {
   } else {
     // No hay sesión activa
     // Mostrar el link "Iniciar Sesión"
-    const loginLink = navBar.querySelector('a[href="/HTML/iniciosesion.html"]');
+    const loginLink = navBar.querySelector('a[href="iniciosesion.html"]');
     if (loginLink) {
       loginLink.parentElement.style.display = 'block';
     }
