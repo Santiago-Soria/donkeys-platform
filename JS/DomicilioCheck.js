@@ -75,11 +75,11 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("🆔 ID del anuncio recuperado:", idAnuncio);
       if (!idAnuncio) {
         alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
-        window.location.href = "/HTML/Registro5.html";
+        window.location.href = "Registro5.html";
       }
     } else {
       alert("Debes iniciar sesión.");
-      window.location.href = "/HTML/login.html";
+      window.location.href = "login.html";
     }
   });
 
@@ -176,7 +176,7 @@ nextBtn.addEventListener("click", async () => {
     updateNextButton();
     localStorage.setItem("idAnuncioActual", idAnuncio);
 
-    window.location.href = "/HTML/Registro7.html";
+    window.location.href = "Registro7.html";
 
   } catch (error) {
     console.error("❌ Error al subir comprobante:", error);

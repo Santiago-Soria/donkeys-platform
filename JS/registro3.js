@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             'success',
             function() {
                 // Redirigir después de mostrar el mensaje
-                window.location.href = '/HTML/Index.html';
+                window.location.href = '/index.html';
             }
         );
         

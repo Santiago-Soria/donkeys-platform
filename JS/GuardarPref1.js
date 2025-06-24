@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   habitacionCard.addEventListener("click", () => {
     localStorage.setItem("filtroTipo", "Habitación");
     console.log("Se guardó en localStorage:", "Habitación");
-    window.location.href = "/HTML/paso2.html";
+    window.location.href = "paso2.html";
   });
 
   const departamentoCard = document.getElementById("departamentoCard");

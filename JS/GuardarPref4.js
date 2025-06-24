@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
     transition.classList.add('active');
 
     setTimeout(() => {
-      window.location.href = "/HTML/resultados1.html";
+      window.location.href = "resultados1.html";
     }, 800);
   });
 });

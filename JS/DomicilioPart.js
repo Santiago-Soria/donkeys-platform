@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("🗑️ Documento del estudiante eliminado de Estudiantes");
 
         alert("✅ Datos de domicilio guardados y estudiante convertido en propietario.");
-        window.location.href = "/HTML/Registro5.html";
+        window.location.href = "Registro5.html";
 
       } catch (error) {
         console.error("❌ Error durante el proceso:", error);

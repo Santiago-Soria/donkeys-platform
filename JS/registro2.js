@@ -4,9 +4,9 @@ function selectOption(optionType) {
     
     // Redirigir al formulario de registro correspondiente
     if(optionType === 'renter') {
-        window.location.href = '/HTML/Registro3.html';
+        window.location.href = 'Registro3.html';
     } else {
-        window.location.href = '/HTML/Registro4.html';
+        window.location.href = 'Registro4.html';
     }
 }
 

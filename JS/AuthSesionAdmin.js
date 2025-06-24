@@ -71,7 +71,7 @@ logoutLink.addEventListener('click', async (e) => {
   try {
     await signOut(auth);
     alert('Sesión cerrada correctamente.');
-    window.location.href = '/HTML/index.html';
+    window.location.href = '/index.html';
   } catch (error) {
     alert('Error al cerrar sesión.');
     console.error(error);

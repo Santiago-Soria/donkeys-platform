@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
       await updateDoc(anuncioDocRef, updateData);
       alert("Imágenes subidas y guardadas correctamente.");
-      window.location.href = "/HTML/Registro8.html";
+      window.location.href = "Registro8.html";
 
     } catch (error) {
       console.error("❌ Error al subir o guardar URLs:", error);

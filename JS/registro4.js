@@ -119,6 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Botón de regresar
     botonRegresar.addEventListener('click', function() {
-        window.location.href = '/HTML/Registro2.html';
+        window.location.href = 'Registro2.html';
     });
 });

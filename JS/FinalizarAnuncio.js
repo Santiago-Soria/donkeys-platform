@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
         "success",
         () => {
           // Redirigir a la siguiente página
-          window.location.href = "/HTML/resultados1.html"; // cambia si es otra
+          window.location.href = "resultados1.html"; // cambia si es otra
         }
       );
     } catch (error) {

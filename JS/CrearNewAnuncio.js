@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         alert("Debes iniciar sesión como arrendador o crear una cuenta como arrendador para poner en renta.");
-        window.location.href = "/HTML/iniciosesion.html";
+        window.location.href = "iniciosesion.html";
         return;
       }
 
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!snapEstudiantes.empty) {
           alert("Tu cuenta está registrada como estudiante. Debes crear una cuenta como arrendador o iniciar sesión como arrendador.");
-          window.location.href = "/HTML/iniciosesion.html";
+          window.location.href = "iniciosesion.html";
           return;
         }
 
@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (snapPropietarios.empty) {
           // No es propietario, enviarlo a registro propietario
-          window.location.href = "/HTML/Registro4.html";
+          window.location.href = "Registro4.html";
           return;
         }
 
@@ -66,9 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const datosCompletos = camposRequeridos.every(campo => dataProp[campo] && dataProp[campo].toString().trim() !== "");
 
         if (datosCompletos) {
-          window.location.href = "/HTML/Registro6.html"; // Página siguiente si está completo
+          window.location.href = "Registro6.html"; // Página siguiente si está completo
         } else {
-          window.location.href = "/HTML/Registro4.html"; // Página de completar registro
+          window.location.href = "Registro4.html"; // Página de completar registro
         }
 
       } catch (error) {

@@ -67,9 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.setItem("correoUsuario", email);
 
       if (correosAdmins.includes(email)) {
-        window.location.href = "/HTML/administradorusuarios.html";
+        window.location.href = "administradorusuarios.html";
       } else {
-        window.location.href = "/HTML/index.html";
+        window.location.href = "/index.html";
       }
     } catch (error) {
       alert("❌ Correo o contraseña incorrectos");
@@ -98,11 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (!querySnapshot.empty) {
           // Usuario ya registrado → ir a index
-          window.location.href = "/HTML/index.html";
+          window.location.href = "/index.html";
         } else {
           // Usuario nuevo → ir a registro, ocultar contraseña
           localStorage.setItem("registroDesdeGoogle", "true");
-          window.location.href = "/HTML/Registro.html";
+          window.location.href = "Registro.html";
         }
       } catch (error) {
         console.error("Error en login con Google:", error);

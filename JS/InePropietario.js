@@ -125,7 +125,7 @@ nextBtn.addEventListener("click", async () => {
     fileInput.value = "";
     fileNameText.textContent = "Formatos: JPG, PNG, PDF • Máximo 10MB";
     updateNextBtn();
-    window.location.href = '/HTML/Registro6.html';
+    window.location.href = 'Registro6.html';
 
   } catch (e) {
     console.error(e);

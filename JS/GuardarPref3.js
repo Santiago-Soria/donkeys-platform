@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("filtroPresupuesto:", localStorage.getItem("filtroPresupuesto"));
 
       // Luego redirigir
-      window.location.href = "/HTML/paso4.html"; // ir al paso 4
+      window.location.href = "paso4.html"; // ir al paso 4
     });
   });
 });

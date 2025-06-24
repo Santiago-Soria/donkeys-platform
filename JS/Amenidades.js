@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (!idAnuncio) {
     alert("No se encontró el ID del anuncio. Regresando...");
-    window.location.href = "/HTML/Registro6-2.html";
+    window.location.href = "Registro6-2.html";
     return;
   }
 
@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
       localStorage.setItem("idAnuncioActual", idAnuncio);
 
       alert("Amenidades guardadas correctamente.");
-      window.location.href = "/HTML/Registro9.html";
+      window.location.href = "Registro9.html";
 
     } catch (error) {
       console.error("❌ Error al guardar las amenidades:", error);

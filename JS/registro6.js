@@ -146,6 +146,6 @@ function validarCampos() {
 
     // Botón de regresar
     botonRegresar.addEventListener('click', function() {
-        window.location.href = '/HTML/Registro6-2.html';
+        window.location.href = 'Registro6-2.html';
     });
 });

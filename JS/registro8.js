@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
     alert(`Has seleccionado ${selectedAmenities.length} amenidades. Redirigiendo...`);
     
     // Ejemplo de redirección:
-     window.location.href = '/HTML/Registro9.html';
+     window.location.href = 'Registro9.html';
   }
   
   // Inicializar la aplicación

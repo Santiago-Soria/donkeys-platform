@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Botón de regresar
         backButton.addEventListener('click', () => {
-            window.location.href = '/HTML/registro4.html'; // Ajusta la URL según tu estructura
+            window.location.href = 'registro4.html'; // Ajusta la URL según tu estructura
         });
         
         // Botón siguiente

@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
       localStorage.removeItem("correoUsuario");
       localStorage.removeItem("registroDesdeGoogle");
 
-      window.location.href = "/HTML/Registro2.html";
+      window.location.href = "Registro2.html";
     } catch (error) {
       console.error("❌ Error al registrar:", error);
       alert("Ocurrió un error al registrar: " + error.message);

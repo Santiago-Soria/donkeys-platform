@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("idAnuncioActual", docRef.id);
 
       alert("Domicilio subido correctamente.");
-      window.location.href = "/HTML/Registro6-2.html";s
+      window.location.href = "Registro6-2.html";s
     } catch (error) {
       console.error("Error al subir el domicilio:", error);
       alert("Error al subir el domicilio. Intenta de nuevo.");
