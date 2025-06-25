@@ -116,7 +116,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
     const maxSize = 5 * 1024 * 1024;
     if (!validTypes.includes(file.type) || file.size > maxSize) {
-      alert("Por favor selecciona una imagen válida (JPG, PNG, WEBP) menor a 5MB");
+      Swal.fire({
+        icon: "error",
+        title: "Archivo inválido",
+        text: "Por favor selecciona una imagen válida (JPG, PNG, WEBP) menor a 5MB"
+      });
       return;
     }
     const reader = new FileReader();
@@ -173,7 +177,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const validPhotos = photos.filter(p => p && p.file);
 
     if (validPhotos.length < maxPhotos) {
-      alert("Debes subir mínimo 5 fotos.");
+      Swal.fire({
+        icon: "warning",
+        title: "Faltan fotos",
+        text: "Debes subir mínimo 5 fotos."
+      });
       return;
     }
 
@@ -183,7 +191,13 @@ document.addEventListener("DOMContentLoaded", function () {
     try {
       const user = auth.currentUser;
       if (!user) {
-        alert("Debes iniciar sesión.");
+        Swal.fire({
+          icon: "error",
+          title: "No autenticado",
+          text: "Debes iniciar sesión."
+        });
+        nextBtn.disabled = false;
+        nextBtn.textContent = "Siguiente";
         return;
       }
 
@@ -192,13 +206,19 @@ document.addEventListener("DOMContentLoaded", function () {
       const idAnuncio = localStorage.getItem("idAnuncioActual");
 
       if (!idAnuncio) {
-        alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
+        Swal.fire({
+          icon: "error",
+          title: "Sin ID de anuncio",
+          text: "No se encontró el ID del anuncio. Regresa y vuelve a intentarlo."
+        });
+        nextBtn.disabled = false;
+        nextBtn.textContent = "Siguiente";
         return;
       }
 
       // Calcular número del anuncio del usuario
       const anunciosUsuarioSnap = await getDocs(query(collection(db, "Anuncio"), where("ID_Propietario", "==", uid)));
-      const numeroAnuncio = anunciosUsuarioSnap.size; // El índice base 0
+      const numeroAnuncio = anunciosUsuarioSnap.size;
       const nombreCarpeta = `Anuncio${numeroAnuncio + 1}`;
 
       const urls = [];
@@ -216,7 +236,13 @@ document.addEventListener("DOMContentLoaded", function () {
       const anuncioSnap = await getDocs(query(collection(db, "Anuncio"), where("ID_Propietario", "==", uid), where("idAnuncio", "==", idAnuncio)));
 
       if (anuncioSnap.empty) {
-        alert("No se encontró el anuncio con ese ID y propietario.");
+        Swal.fire({
+          icon: "error",
+          title: "No encontrado",
+          text: "No se encontró el anuncio con ese ID y propietario."
+        });
+        nextBtn.disabled = false;
+        nextBtn.textContent = "Siguiente";
         return;
       }
 
@@ -226,12 +252,22 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       await updateDoc(anuncioDocRef, updateData);
-      alert("Imágenes subidas y guardadas correctamente.");
+      await Swal.fire({
+        icon: "success",
+        title: "¡Imágenes subidas!",
+        text: "Imágenes subidas y guardadas correctamente.",
+        timer: 1800,
+        showConfirmButton: false
+      });
       window.location.href = "Registro8.html";
 
     } catch (error) {
       console.error("❌ Error al subir o guardar URLs:", error);
-      alert("Ocurrió un error al subir las imágenes o guardarlas.");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error al subir las imágenes o guardarlas."
+      });
     } finally {
       nextBtn.disabled = false;
       nextBtn.textContent = "Siguiente";

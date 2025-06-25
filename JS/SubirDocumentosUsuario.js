@@ -87,7 +87,11 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
 
     if (credencialInput.files.length === 0 || horarioInput.files.length === 0) {
-      alert("Por favor sube ambos documentos.");
+      Swal.fire({
+        icon: "warning",
+        title: "Faltan documentos",
+        text: "Por favor sube ambos documentos.",
+      });
       return;
     }
 
@@ -97,7 +101,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Validar tamaño máximo 5MB
     const maxSize = 5 * 1024 * 1024;
     if (credencialFile.size > maxSize || horarioFile.size > maxSize) {
-      alert("Cada archivo debe ser menor a 5MB.");
+      Swal.fire({
+        icon: "error",
+        title: "Archivo demasiado grande",
+        text: "Cada archivo debe ser menor a 5MB.",
+      });
       return;
     }
 
@@ -109,7 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
       // Usuario actual (o "anonimo" si no hay)
       const user = auth.currentUser;
       if (!user) {
-        alert("Debes iniciar sesión para subir documentos.");
+        await Swal.fire({
+          icon: "error",
+          title: "No autenticado",
+          text: "Debes iniciar sesión para subir documentos.",
+        });
         submitBtn.disabled = false;
         submitBtn.textContent = "Sube ambos documentos para continuar";
         return;
@@ -178,7 +190,13 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Documento actualizado en estudiantes con ID:", docId);
       }
 
-      alert("Documentos subidos y datos guardados correctamente.");
+      await Swal.fire({
+        icon: "success",
+        title: "¡Listo!",
+        text: "Documentos subidos y datos guardados correctamente.",
+        timer: 1800,
+        showConfirmButton: false,
+      });
       form.reset();
       credencialUploadBox.querySelector(".file-instructions").textContent =
         "Haz clic o arrastra tu credencial";
@@ -188,7 +206,11 @@ document.addEventListener("DOMContentLoaded", () => {
       submitBtn.disabled = true;
     } catch (error) {
       console.error("Error al subir archivos:", error);
-      alert("Error al subir archivos: " + error.message);
+      Swal.fire({
+        icon: "error",
+        title: "Error al subir archivos",
+        text: error.message,
+      });
       submitBtn.textContent = "Sube ambos documentos para continuar";
       submitBtn.disabled = false;
     }

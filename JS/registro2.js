@@ -2,12 +2,25 @@ function selectOption(optionType) {
     // Guardar el tipo de usuario en localStorage
     localStorage.setItem('userType', optionType);
     
-    // Redirigir al formulario de registro correspondiente
-    if(optionType === 'renter') {
-        window.location.href = 'Registro3.html';
-    } else {
-        window.location.href = 'Registro4.html';
-    }
+    // Confirmación con SweetAlert2 antes de redirigir
+    Swal.fire({
+        icon: 'question',
+        title: '¿Continuar con el registro?',
+        text: optionType === 'renter'
+            ? 'Vas a registrarte como estudiante. ¿Deseas continuar?'
+            : 'Vas a registrarte como arrendador. ¿Deseas continuar?',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, continuar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if(optionType === 'renter') {
+                window.location.href = 'Registro3.html';
+            } else {
+                window.location.href = 'Registro4.html';
+            }
+        }
+    });
 }
 
 // Opcional: Animación al cargar la página

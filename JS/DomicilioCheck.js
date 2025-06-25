@@ -34,9 +34,12 @@ const db = getFirestore(app);
 
 document.addEventListener("DOMContentLoaded", () => {
   const dropZone = document.querySelector(".dropzone");
+  // Crear input dinámico y agregarlo al DOM
   const fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.accept = ".jpg, .jpeg, .png, .pdf";
+  fileInput.style.display = "none";
+  document.body.appendChild(fileInput);
   const selectBtn = document.querySelector(".select-files-btn");
   const nextBtn = document.querySelector(".next-button");
   const fileInfo = document.querySelector(".file-formats");
@@ -109,82 +112,101 @@ document.addEventListener("DOMContentLoaded", () => {
     nextBtn.innerHTML = isValid ? "Subir comprobante" : "Siguiente";
   }
 
-// ... tus imports, firebaseConfig y app inicialización siguen igual ...
-
-nextBtn.addEventListener("click", async () => {
-  if (!selectedFile) return alert("Debes seleccionar un archivo.");
-
-  try {
-    nextBtn.disabled = true;
-    nextBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Subiendo...`;
-
-    const user = auth.currentUser;
-    if (!user) {
-      alert("Debes iniciar sesión.");
-      return;
-    }
-
-    const email = user.email.replace(/[.#$[\]]/g, "_");
-    const uid = user.uid;
-
-    const idAnuncio = localStorage.getItem("idAnuncioActual");
-    if (!idAnuncio) {
-      alert("No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.");
-      return;
-    }
-    console.log("🆔 ID del anuncio desde localStorage:", idAnuncio);
-
-    const storageRef = ref(
-      storage,
-      `Propietarios/ComprobanteDomicilio/${email}/${selectedFile.name}_${Date.now()}`
-    );
-
-    await uploadBytes(storageRef, selectedFile);
-    const url = await getDownloadURL(storageRef);
-
-    const propietariosRef = collection(db, "propietarios");
-    const q = query(propietariosRef, where("UID", "==", uid));
-    const snapshot = await getDocs(q);
-
-    if (snapshot.empty) {
-      // 🔄 Nuevo documento
-      await addDoc(propietariosRef, {
-        UID: uid,
-        email,
-        urlCheckDomicilio: url, // ✅ CAMPO CORRECTO
-        fechaSubida: new Date(),
+  nextBtn.addEventListener("click", async () => {
+    if (!selectedFile) {
+      await Swal.fire({
+        icon: "warning",
+        title: "Archivo requerido",
+        text: "Debes seleccionar un archivo antes de continuar.",
       });
-      console.log("✅ Nuevo documento creado en 'propietarios' con urlCheckDomicilio");
-    } else {
-      // 🔄 Actualizar documento existente
-      const docSnap = snapshot.docs[0];
-      const docRef = doc(db, "propietarios", docSnap.id);
-
-      const updateData = {
-        urlCheckDomicilio: url, // ✅ CAMPO CORRECTO
-        fechaSubida: new Date(),
-      };
-
-      await updateDoc(docRef, updateData);
-      console.log("✅ Documento actualizado con urlCheckDomicilio");
+      return;
     }
 
-    alert("Comprobante subido correctamente.");
-    fileInput.value = "";
-    fileInfo.textContent = "Formatos: JPG, PNG, PDF • Máximo 10MB";
-    selectedFile = null;
-    updateNextButton();
-    localStorage.setItem("idAnuncioActual", idAnuncio);
+    try {
+      nextBtn.disabled = true;
+      nextBtn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span> Subiendo...`;
 
-    window.location.href = "Registro7.html";
+      const user = auth.currentUser;
+      if (!user) {
+        await Swal.fire({
+          icon: "error",
+          title: "No autenticado",
+          text: "Debes iniciar sesión.",
+        });
+        nextBtn.disabled = false;
+        nextBtn.innerHTML = "Siguiente";
+        return;
+      }
 
-  } catch (error) {
-    console.error("❌ Error al subir comprobante:", error);
-    alert("Ocurrió un error al subir el archivo.");
-  } finally {
-    nextBtn.disabled = false;
-    nextBtn.innerHTML = "Siguiente";
-  }
-});
+      const email = user.email.replace(/[.#$[\]]/g, "_");
+      const uid = user.uid;
 
+      const idAnuncio = localStorage.getItem("idAnuncioActual");
+      if (!idAnuncio) {
+        await Swal.fire({
+          icon: "error",
+          title: "Sin ID de anuncio",
+          text: "No se encontró el ID del anuncio. Regresa y vuelve a intentarlo.",
+        });
+        nextBtn.disabled = false;
+        nextBtn.innerHTML = "Siguiente";
+        return;
+      }
+
+      const storageRef = ref(
+        storage,
+        `Propietarios/ComprobanteDomicilio/${email}/${selectedFile.name}_${Date.now()}`
+      );
+
+      await uploadBytes(storageRef, selectedFile);
+      const url = await getDownloadURL(storageRef);
+
+      const propietariosRef = collection(db, "propietarios");
+      const q = query(propietariosRef, where("UID", "==", uid));
+      const snapshot = await getDocs(q);
+
+      if (snapshot.empty) {
+        await addDoc(propietariosRef, {
+          UID: uid,
+          email,
+          urlCheckDomicilio: url,
+          fechaSubida: new Date(),
+        });
+      } else {
+        const docSnap = snapshot.docs[0];
+        const docRef = doc(db, "propietarios", docSnap.id);
+
+        await updateDoc(docRef, {
+          urlCheckDomicilio: url,
+          fechaSubida: new Date(),
+        });
+      }
+
+      await Swal.fire({
+        icon: "success",
+        title: "Comprobante subido correctamente",
+        text: "Tu comprobante de domicilio ha sido subido exitosamente.",
+        timer: 1700,
+        showConfirmButton: false,
+      });
+
+      // Limpiar input y estado visual
+      fileInput.value = "";
+      fileInfo.textContent = "Formatos: JPG, PNG, PDF • Máximo 10MB";
+      selectedFile = null;
+      updateNextButton();
+
+      window.location.href = "Registro7.html";
+    } catch (error) {
+      console.error("❌ Error al subir comprobante:", error);
+      await Swal.fire({
+        icon: "error",
+        title: "Error al subir comprobante",
+        text: "Ocurrió un error al subir el archivo.",
+      });
+    } finally {
+      nextBtn.disabled = false;
+      nextBtn.innerHTML = "Siguiente";
+    }
+  });
 });

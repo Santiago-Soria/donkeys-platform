@@ -30,7 +30,11 @@ document.addEventListener("DOMContentLoaded", () => {
   async function verificarYRedirigir() {
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        alert("Debes iniciar sesión como arrendador o crear una cuenta como arrendador para poner en renta.");
+        await Swal.fire({
+          icon: "warning",
+          title: "Inicia sesión",
+          text: "Debes iniciar sesión como arrendador o crear una cuenta como arrendador para poner en renta."
+        });
         window.location.href = "iniciosesion.html";
         return;
       }
@@ -44,7 +48,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const snapEstudiantes = await getDocs(qEstudiantes);
 
         if (!snapEstudiantes.empty) {
-          alert("Tu cuenta está registrada como estudiante. Debes crear una cuenta como arrendador o iniciar sesión como arrendador.");
+          await Swal.fire({
+            icon: "info",
+            title: "Cuenta de estudiante",
+            text: "Tu cuenta está registrada como estudiante. Debes crear una cuenta como arrendador o iniciar sesión como arrendador."
+          });
           window.location.href = "iniciosesion.html";
           return;
         }
@@ -55,7 +63,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const snapPropietarios = await getDocs(qPropietarios);
 
         if (snapPropietarios.empty) {
-          // No es propietario, enviarlo a registro propietario
+          await Swal.fire({
+            icon: "info",
+            title: "Completa tu registro",
+            text: "Debes completar tu registro como arrendador antes de agregar una propiedad."
+          });
           window.location.href = "Registro4.html";
           return;
         }
@@ -68,12 +80,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (datosCompletos) {
           window.location.href = "Registro6.html"; // Página siguiente si está completo
         } else {
+          await Swal.fire({
+            icon: "warning",
+            title: "Datos incompletos",
+            text: "Por favor completa tus datos de domicilio antes de continuar."
+          });
           window.location.href = "Registro4.html"; // Página de completar registro
         }
 
       } catch (error) {
         console.error("❌ Error al verificar usuario:", error);
-        alert("Ocurrió un error. Intenta de nuevo más tarde.");
+        await Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Ocurrió un error. Intenta de nuevo más tarde."
+        });
       }
     });
   }

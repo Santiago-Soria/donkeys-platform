@@ -88,21 +88,23 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             localStorage.setItem('datosDomicilio', JSON.stringify(datos));
             
-            // Redirigir a la siguiente página
-           // window.location.href = '/HTML/Registro5.html';
+            // Redirigir a la siguiente página (descomenta si lo necesitas)
+            // window.location.href = '/HTML/Registro5.html';
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Datos guardados',
+                text: 'Tu información de domicilio se guardó correctamente.',
+                timer: 1600,
+                showConfirmButton: false
+            });
         } else {
-            // Mostrar alerta si hay errores
-            const alerta = document.createElement('div');
-            alerta.className = 'alert alert-danger mt-3';
-            alerta.textContent = 'Por favor corrige los errores en el formulario';
-            
-            // Eliminar alertas anteriores
-            const alertaAnterior = formulario.querySelector('.alert');
-            if (alertaAnterior) {
-                alertaAnterior.remove();
-            }
-            
-            formulario.appendChild(alerta);
+            // Mostrar alerta si hay errores con SweetAlert2
+            Swal.fire({
+                icon: 'error',
+                title: 'Formulario incompleto',
+                text: 'Por favor corrige los errores en el formulario'
+            });
         }
     });
 

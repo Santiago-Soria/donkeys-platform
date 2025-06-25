@@ -97,7 +97,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   async function handleNextStep() {
     if (selectedAmenities.length < MIN_SELECTION) {
-      alert(`Por favor selecciona al menos ${MIN_SELECTION} amenidad.`);
+      await Swal.fire({
+        icon: "warning",
+        title: "Selecciona amenidades",
+        text: `Por favor selecciona al menos ${MIN_SELECTION} amenidad.`
+      });
       return;
     }
 
@@ -113,12 +117,22 @@ document.addEventListener('DOMContentLoaded', function () {
       // Persistir ID en localStorage
       localStorage.setItem("idAnuncioActual", idAnuncio);
 
-      alert("Amenidades guardadas correctamente.");
+      await Swal.fire({
+        icon: "success",
+        title: "¡Listo!",
+        text: "Amenidades guardadas correctamente.",
+        timer: 1600,
+        showConfirmButton: false
+      });
       window.location.href = "Registro9.html";
 
     } catch (error) {
       console.error("❌ Error al guardar las amenidades:", error);
-      alert("Ocurrió un error al guardar las amenidades.");
+      await Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Ocurrió un error al guardar las amenidades."
+      });
     }
   }
 

@@ -70,10 +70,20 @@ logoutLink.addEventListener('click', async (e) => {
   e.preventDefault();
   try {
     await signOut(auth);
-    alert('Sesión cerrada correctamente.');
+    await Swal.fire({
+      icon: 'success',
+      title: 'Sesión cerrada',
+      text: 'Sesión cerrada correctamente.',
+      timer: 1500,
+      showConfirmButton: false
+    });
     window.location.href = '/index.html';
   } catch (error) {
-    alert('Error al cerrar sesión.');
+    await Swal.fire({
+      icon: 'error',
+      title: 'Error al cerrar sesión',
+      text: 'Ocurrió un error al cerrar la sesión. Intenta de nuevo.'
+    });
     console.error(error);
   }
 });

@@ -29,7 +29,11 @@ console.log("📌 ID del anuncio obtenido del localStorage:", idAnuncio);
 
 async function cargarDetallesAnuncio() {
   if (!idAnuncio) {
-    console.error("❌ No se proporcionó idAnuncio");
+    await Swal.fire({
+      icon: "error",
+      title: "Sin ID de anuncio",
+      text: "No se proporcionó idAnuncio. Regresa e intenta de nuevo."
+    });
     return;
   }
 
@@ -38,7 +42,11 @@ async function cargarDetallesAnuncio() {
     const anuncioSnap = await getDoc(anuncioRef);
 
     if (!anuncioSnap.exists()) {
-      console.error("❌ No se encontró el anuncio en Firestore");
+      await Swal.fire({
+        icon: "error",
+        title: "No encontrado",
+        text: "No se encontró el anuncio en Firestore."
+      });
       return;
     }
 
@@ -74,22 +82,29 @@ async function cargarDetallesAnuncio() {
     console.log("🔎 ID_Propietario (UID) del anuncio:", idPropietario);
 
     if (!idPropietario) {
-      console.warn("⚠️ No se encontró ID_Propietario en el anuncio");
+      await Swal.fire({
+        icon: "warning",
+        title: "Sin propietario",
+        text: "No se encontró el propietario de este anuncio."
+      });
       document.querySelector(".owner-name").textContent = "Arrendador: Desconocido";
     } else {
       const propietariosRef = collection(db, "Propietario");
       const q = query(propietariosRef, where("UID", "==", idPropietario));
-      const querySnapshotPropietario = await getDocs(q); // Renombrada para claridad
+      const querySnapshotPropietario = await getDocs(q);
 
       if (querySnapshotPropietario.empty) {
-        console.warn("⚠️ No se encontró propietario con ese UID:", idPropietario);
+        await Swal.fire({
+          icon: "warning",
+          title: "Propietario no encontrado",
+          text: "No se encontró el propietario con ese UID."
+        });
         document.querySelector(".owner-name").textContent = "Arrendador: Desconocido";
       } else {
-        // Este es el bloque correcto para procesar los datos del propietario
         querySnapshotPropietario.forEach((docProp) => {
           const pData = docProp.data();
           const nombreCompleto = `${pData.Nombre} ${pData.Apellido_P} ${pData.Apellido_M}`;
-          const telefono = pData.Telefono; // <-- OBTENEMOS EL TELÉFONO
+          const telefono = pData.Telefono;
 
           console.log("📞 Teléfono del arrendador obtenido:", telefono);
           document.querySelector(".owner-name").textContent = `Arrendador: ${nombreCompleto}`;
@@ -100,13 +115,15 @@ async function cargarDetallesAnuncio() {
               contactForm.dataset.telefonoArrendador = telefono;
               console.log("✅ Teléfono guardado en el formulario.");
           } else {
-              console.warn("⚠️ No se pudo guardar el teléfono en el formulario.");
+              Swal.fire({
+                icon: "warning",
+                title: "Teléfono no disponible",
+                text: "No se pudo guardar el teléfono del arrendador."
+              });
           }
         });
       }
     }
-    
-    // --- SE ELIMINÓ EL BLOQUE DE CÓDIGO DUPLICADO QUE CAUSABA EL ERROR ---
 
     // Mostrar amenidades
     const amenidades = data.amenidades || [];
@@ -138,12 +155,20 @@ async function cargarDetallesAnuncio() {
     });
 
     if (!servicioEncontrado) {
-      console.warn("⚠️ No se encontraron servicios para este anuncio.");
+      Swal.fire({
+        icon: "info",
+        title: "Sin servicios",
+        text: "No se encontraron servicios para este anuncio."
+      });
     }
 
   } catch (error) {
-    // El error original ocurría aquí, pero ahora se captura cualquier otro error
     console.error("❌ Error cargando detalles del anuncio:", error);
+    await Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Ocurrió un error al cargar los detalles del anuncio."
+    });
   }
 }
 

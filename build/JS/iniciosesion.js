@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Password:', password);
         Swal.fire({
             icon: 'success',
-            title: 'Inicio de sesión exitoso (simulado)',
+            title: 'Inicio de sesión exitoso ',
             showConfirmButton: false,
             timer: 1500
         });

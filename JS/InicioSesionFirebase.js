@@ -63,7 +63,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      alert("✅ Inicio de sesión exitoso");
+      await Swal.fire({
+        icon: "success",
+        title: "Inicio de sesión exitoso",
+        text: "¡Bienvenido!",
+        timer: 1500,
+        showConfirmButton: false
+      });
       localStorage.setItem("correoUsuario", email);
 
       if (correosAdmins.includes(email)) {
@@ -72,7 +78,11 @@ document.addEventListener("DOMContentLoaded", () => {
         window.location.href = "../index.html";
       }
     } catch (error) {
-      alert("❌ Correo o contraseña incorrectos");
+      await Swal.fire({
+        icon: "error",
+        title: "Correo o contraseña incorrectos",
+        text: "Por favor verifica tus datos e inténtalo de nuevo."
+      });
       console.error(error);
     }
   });
@@ -85,7 +95,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const user = result.user;
         const email = user.email;
 
-        alert(`✅ Bienvenido ${user.displayName}`);
+        await Swal.fire({
+          icon: "success",
+          title: `Bienvenido ${user.displayName}`,
+          text: "Inicio de sesión con Google exitoso.",
+          timer: 1500,
+          showConfirmButton: false
+        });
         localStorage.setItem("correoUsuario", email);
 
         // Verificar si ya está en Firestore
@@ -106,7 +122,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       } catch (error) {
         console.error("Error en login con Google:", error);
-        alert("❌ No se pudo iniciar sesión con Google");
+        await Swal.fire({
+          icon: "error",
+          title: "No se pudo iniciar sesión con Google",
+          text: "Intenta de nuevo más tarde."
+        });
       }
     });
   }

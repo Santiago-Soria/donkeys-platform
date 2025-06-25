@@ -36,24 +36,30 @@ document.addEventListener("DOMContentLoaded", () => {
     await sendPasswordResetEmail(auth, email, actionCodeSettings);
     console.log("✅ Correo de recuperación enviado exitosamente");
 
-    successMessage.textContent = `✅ Se envió un enlace de recuperación a ${email}`;
-    successMessage.style.display = "block";
+    await Swal.fire({
+      icon: "success",
+      title: "Correo enviado",
+      text: `Se envió un enlace de recuperación a ${email}`,
+      confirmButtonColor: "#5A2F34"
+    });
+    successMessage.style.display = "none";
     errorMessage.style.display = "none";
   } catch (error) {
     console.error("❌ Error al enviar el correo:", error.code, error.message);
-    successMessage.style.display = "none";
-    errorMessage.style.display = "block";
 
-    switch (error.code) {
-      case "auth/user-not-found":
-        errorMessage.textContent = "No existe una cuenta con ese correo.";
-        break;
-      case "auth/invalid-email":
-        errorMessage.textContent = "El correo ingresado no es válido.";
-        break;
-      default:
-        errorMessage.textContent = "Ocurrió un error. Intenta de nuevo.";
+    let errorText = "Ocurrió un error. Intenta de nuevo.";
+    if (error.code === "auth/user-not-found") {
+      errorText = "No existe una cuenta con ese correo.";
+    } else if (error.code === "auth/invalid-email") {
+      errorText = "El correo ingresado no es válido.";
     }
+
+    await Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: errorText,
+      confirmButtonColor: "#5A2F34"
+    });
   }
 });
 

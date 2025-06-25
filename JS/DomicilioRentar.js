@@ -78,14 +78,24 @@ document.addEventListener("DOMContentLoaded", () => {
       await updateDoc(doc(db, "Anuncio", docRef.id), {
         idAnuncio: docRef.id
       });
-          // Guardar id del anuncio en localStorage para usarlo en la siguiente pantalla
-        localStorage.setItem("idAnuncioActual", docRef.id);
+      // Guardar id del anuncio en localStorage para usarlo en la siguiente pantalla
+      localStorage.setItem("idAnuncioActual", docRef.id);
 
-      alert("Domicilio subido correctamente.");
-      window.location.href = "Registro6-2.html";s
+      await Swal.fire({
+        icon: "success",
+        title: "Domicilio subido correctamente",
+        text: "Tu domicilio ha sido registrado exitosamente.",
+        timer: 1700,
+        showConfirmButton: false
+      });
+      window.location.href = "Registro6-2.html";
     } catch (error) {
       console.error("Error al subir el domicilio:", error);
-      alert("Error al subir el domicilio. Intenta de nuevo.");
+      Swal.fire({
+        icon: "error",
+        title: "Error al subir el domicilio",
+        text: "Ocurrió un error al subir el domicilio. Intenta de nuevo."
+      });
     }
 
 

@@ -27,7 +27,11 @@ contactForm.addEventListener('submit', function(e) {
     
     const message = messageInput.value.trim();
     if (message.length === 0) {
-        alert('Por favor escribe un mensaje antes de enviar.');
+        Swal.fire({
+            icon: 'warning',
+            title: 'Mensaje vacío',
+            text: 'Por favor escribe un mensaje antes de enviar.'
+        });
         return;
     }
     
@@ -36,7 +40,11 @@ contactForm.addEventListener('submit', function(e) {
     // Debug
     console.log(telefonoArrendador);
     if (!telefonoArrendador) {
-        alert('Lo sentimos, no se pudo encontrar el número de teléfono del arrendador.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Sin número',
+            text: 'Lo sentimos, no se pudo encontrar el número de teléfono del arrendador.'
+        });
         return;
     }
 
@@ -57,6 +65,15 @@ contactForm.addEventListener('submit', function(e) {
     // Abrimos la URL en una nueva pestaña
     window.open(whatsappUrl, '_blank');
     
+    // Feedback al usuario con SweetAlert2
+    Swal.fire({
+        icon: 'success',
+        title: 'Redirigiendo a WhatsApp',
+        text: 'Tu mensaje se está enviando por WhatsApp.',
+        timer: 1500,
+        showConfirmButton: false
+    });
+
     // Limpiamos el formulario
     messageInput.value = '';
     sendButton.disabled = true;

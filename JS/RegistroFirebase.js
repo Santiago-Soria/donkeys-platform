@@ -107,24 +107,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const unidad = document.getElementById("unidadAcademicaSelect")?.value || "N/A";
 
     if (!validarCorreo(correo)) {
-      alert("❌ El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmail.com");
+      await Swal.fire({
+        icon: "error",
+        title: "Correo inválido",
+        text: "El correo debe ser válido y terminar en @alumno.ipn.mx, @hotmail.com, @outlook.com, @yahoo.com o @gmail.com"
+      });
       return;
     }
 
     if (!desdeGoogle) {
       // Solo validar contraseñas si NO viene de Google
       if (password !== confirmPassword) {
-        alert("❌ Las contraseñas no coinciden. Por favor, verifica.");
+        await Swal.fire({
+          icon: "error",
+          title: "Contraseñas no coinciden",
+          text: "Las contraseñas no coinciden. Por favor, verifica."
+        });
         return;
       }
 
       if (!validarPassword(password)) {
-        alert("❌ La contraseña debe contener al menos una mayúscula, minúscula, número, símbolo especial y no tener espacios.");
+        await Swal.fire({
+          icon: "error",
+          title: "Contraseña insegura",
+          text: "La contraseña debe contener al menos una mayúscula, minúscula, número, símbolo especial y no tener espacios."
+        });
         return;
       }
 
       if (await correoExisteEnAuth(correo) || await correoExisteEnFirestore(correo)) {
-        alert("❌ El correo ya está registrado. Por favor utiliza otro.");
+        await Swal.fire({
+          icon: "error",
+          title: "Correo ya registrado",
+          text: "El correo ya está registrado. Por favor utiliza otro."
+        });
         return;
       }
     }
@@ -149,7 +165,13 @@ document.addEventListener("DOMContentLoaded", () => {
         fechaRegistro: serverTimestamp()
       });
 
-      alert("✅ Estudiante registrado correctamente");
+      await Swal.fire({
+        icon: "success",
+        title: "¡Registro exitoso!",
+        text: "Estudiante registrado correctamente.",
+        timer: 1800,
+        showConfirmButton: false
+      });
       form.reset();
 
       // Limpiar localStorage
@@ -159,7 +181,11 @@ document.addEventListener("DOMContentLoaded", () => {
       window.location.href = "Registro2.html";
     } catch (error) {
       console.error("❌ Error al registrar:", error);
-      alert("Ocurrió un error al registrar: " + error.message);
+      await Swal.fire({
+        icon: "error",
+        title: "Error al registrar",
+        text: "Ocurrió un error al registrar: " + error.message
+      });
     }
   });
 });

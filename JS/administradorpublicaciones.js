@@ -316,7 +316,6 @@ function showProperty(property) {
         <div class="container mt-5">
             <div class="row">
                 <div class="col-12">
-                    
                     ${price}
                     ${description}
                 </div>
@@ -342,10 +341,16 @@ function showProperty(property) {
     `;
     propertyModal.show();
 
-    // Lógica de botones
-    document.getElementById('btnAceptar').onclick = function() {
+    // Lógica de botones con SweetAlert2
+    document.getElementById('btnAceptar').onclick = async function() {
         // Aquí tu lógica para aceptar (por ejemplo, marcar como verificada)
-        alert('¡Propiedad aceptada!');
+        await Swal.fire({
+            icon: 'success',
+            title: 'Propiedad aceptada',
+            text: '¡Propiedad aceptada y verificada correctamente!',
+            timer: 1600,
+            showConfirmButton: false
+        });
         propertyModal.hide();
     };
 
@@ -353,14 +358,25 @@ function showProperty(property) {
         document.getElementById('rechazoMotivoContainer').classList.remove('d-none');
     };
 
-    document.getElementById('btnEnviarRechazo').onclick = function() {
+    document.getElementById('btnEnviarRechazo').onclick = async function() {
         const motivo = document.getElementById('rechazoMotivo').value.trim();
         if (!motivo) {
-            alert('Por favor, escribe el motivo del rechazo.');
+            await Swal.fire({
+                icon: 'warning',
+                title: 'Motivo requerido',
+                text: 'Por favor, escribe el motivo del rechazo.',
+                confirmButtonText: 'Aceptar'
+            });
             return;
         }
         // Aquí tu lógica para enviar el motivo (puedes hacer un fetch/AJAX)
-        alert('Motivo enviado: ' + motivo);
+        await Swal.fire({
+            icon: 'success',
+            title: 'Motivo enviado',
+            text: 'El motivo del rechazo ha sido enviado correctamente.',
+            timer: 1600,
+            showConfirmButton: false
+        });
         propertyModal.hide();
     };
 }

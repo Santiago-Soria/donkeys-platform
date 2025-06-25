@@ -64,47 +64,29 @@ document.addEventListener('DOMContentLoaded', function() {
         const maxSize = 5 * 1024 * 1024; // 5MB
         
         if (credencialFile.size > maxSize || horarioFile.size > maxSize) {
-            showAlert('Error', 'Uno o ambos archivos exceden el tamaño máximo de 5MB', 'error');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Uno o ambos archivos exceden el tamaño máximo de 5MB'
+            });
             return;
         }
         
         // Mostrar mensaje de confirmación
-        showAlert(
-            'Documentos recibidos', 
-            'Tus documentos han sido enviados para verificación. Te notificaremos por correo electrónico cuando hayan sido procesados.', 
-            'success',
-            function() {
-                // Redirigir después de mostrar el mensaje
-                window.location.href = '/index.html';
-            }
-        );
+        Swal.fire({
+            icon: 'success',
+            title: 'Documentos recibidos',
+            text: 'Tus documentos han sido enviados para verificación. Te notificaremos por correo electrónico cuando hayan sido procesados.',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            // Redirigir después de mostrar el mensaje
+            window.location.href = '/index.html';
+        });
         
         // Aquí iría la lógica real para subir los archivos al servidor
         console.log('Credencial:', credencialFile);
         console.log('Horario:', horarioFile);
     });
-    
-    // Función para mostrar alertas personalizadas
-    function showAlert(title, message, type, callback) {
-        const alertBox = document.createElement('div');
-        alertBox.className = `custom-alert custom-alert-${type}`;
-        
-        alertBox.innerHTML = `
-            <div class="custom-alert-content">
-                <h3>${title}</h3>
-                <p>${message}</p>
-                <button class="custom-alert-button">Aceptar</button>
-            </div>
-        `;
-        
-        document.body.appendChild(alertBox);
-        
-        const closeButton = alertBox.querySelector('.custom-alert-button');
-        closeButton.addEventListener('click', function() {
-            document.body.removeChild(alertBox);
-            if (callback) callback();
-        });
-    }
     
     // Drag and drop functionality
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
