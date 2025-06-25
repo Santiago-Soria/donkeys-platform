@@ -47,12 +47,10 @@ async function cargarDetallesAnuncio() {
 
     // Rellenar imágenes
     const container = document.querySelector(".row.g-3");
-    container.innerHTML = ""; // Limpiar imágenes previas
-
+    container.innerHTML = "";
     for (let i = 1; i <= 5; i++) {
       const url = data[`URLImagen${i}`];
       if (url) {
-        console.log(`🖼️ Imagen ${i}:`, url);
         const col = document.createElement("div");
         col.className = "col-md-6 col-lg-3";
         col.innerHTML = `
@@ -63,25 +61,16 @@ async function cargarDetallesAnuncio() {
       }
     }
 
-    // Rellenar texto general
+    // Rellenar texto general y mapa
     document.querySelector(".property-title").textContent = data.Titulo || "Sin título";
     document.querySelector(".rent-price").textContent = `Renta $${data.Precio || "N/A"}`;
     document.querySelector(".description").textContent = data.Descripcion || "Sin descripción";
     document.querySelector(".address").textContent = data.Direccion || "Sin dirección";
-
-    console.log("📋 Título:", data.Titulo);
-    console.log("💲 Precio:", data.Precio);
-    console.log("📍 Dirección:", data.Direccion);
-    console.log("📝 Descripción:", data.Descripcion);
-
-    // Actualizar mapa con la dirección
     const direccionUrl = encodeURIComponent(data.Direccion || "");
-    const urlMapa = `https://www.google.com/maps?q=${direccionUrl}&output=embed`;
-    const iframeMapa = document.querySelector(".map-container iframe");
-    iframeMapa.src = urlMapa;
+    document.querySelector(".map-container iframe").src = `https://www.google.com/maps?q=$${direccionUrl}&output=embed`;
 
-    // Cargar propietario buscando en Propietario donde UID == ID_Propietario
-    const idPropietario = data.ID_Propietario; // O el campo exacto que tengas para UID
+    // Cargar propietario y OBTENER TELÉFONO (VERSIÓN CORREGIDA)
+    const idPropietario = data.ID_Propietario;
     console.log("🔎 ID_Propietario (UID) del anuncio:", idPropietario);
 
     if (!idPropietario) {
@@ -90,29 +79,40 @@ async function cargarDetallesAnuncio() {
     } else {
       const propietariosRef = collection(db, "Propietario");
       const q = query(propietariosRef, where("UID", "==", idPropietario));
-      const querySnapshot = await getDocs(q);
+      const querySnapshotPropietario = await getDocs(q); // Renombrada para claridad
 
-      if (querySnapshot.empty) {
-        console.warn("⚠️ No se encontró propietario con ese UID");
+      if (querySnapshotPropietario.empty) {
+        console.warn("⚠️ No se encontró propietario con ese UID:", idPropietario);
         document.querySelector(".owner-name").textContent = "Arrendador: Desconocido";
       } else {
-        querySnapshot.forEach((docProp) => {
+        // Este es el bloque correcto para procesar los datos del propietario
+        querySnapshotPropietario.forEach((docProp) => {
           const pData = docProp.data();
           const nombreCompleto = `${pData.Nombre} ${pData.Apellido_P} ${pData.Apellido_M}`;
+          const telefono = pData.Telefono; // <-- OBTENEMOS EL TELÉFONO
+
+          console.log("📞 Teléfono del arrendador obtenido:", telefono);
           document.querySelector(".owner-name").textContent = `Arrendador: ${nombreCompleto}`;
+
+          // Guardamos el teléfono en el formulario para usarlo en resultados2.js
+          const contactForm = document.getElementById('contactForm');
+          if (contactForm && telefono) {
+              contactForm.dataset.telefonoArrendador = telefono;
+              console.log("✅ Teléfono guardado en el formulario.");
+          } else {
+              console.warn("⚠️ No se pudo guardar el teléfono en el formulario.");
+          }
         });
       }
     }
+    
+    // --- SE ELIMINÓ EL BLOQUE DE CÓDIGO DUPLICADO QUE CAUSABA EL ERROR ---
 
     // Mostrar amenidades
     const amenidades = data.amenidades || [];
-    console.log("📦 Amenidades:", amenidades);
-
     const contenedorAmenidades = document.querySelector(".row.mt-4");
     contenedorAmenidades.innerHTML = "";
-
     amenidades.forEach(amenidad => {
-      console.log("➕ Amenidad:", amenidad);
       const col = document.createElement("div");
       col.className = "col-6 mb-3";
       col.innerHTML = `
@@ -124,32 +124,25 @@ async function cargarDetallesAnuncio() {
     });
 
     // Cargar datos de servicios
-    console.log("🔍 Buscando coincidencias en la colección Servicio...");
     const serviciosSnap = await getDocs(collection(db, "Servicio"));
     let servicioEncontrado = false;
-
     serviciosSnap.forEach(servDoc => {
       const servData = servDoc.data();
-      console.log("📄 Documento Servicio:", servData);
-
       if (servData.idAnuncio && servData.idAnuncio.trim() === idAnuncio.trim()) {
-        console.log("✅ Coincidencia de servicio encontrada para el anuncio");
-
         document.querySelector(".feature-text.dimensiones").textContent = `${servData.dimensiones || "?"} m² tot.`;
         document.querySelector(".feature-text.bano").textContent = `${servData.banos || "?"} baño(s)`;
         document.querySelector(".feature-text.estac").textContent = `${servData.estacionamiento || "?"} estac.`;
         document.querySelector(".feature-text.recamaras").textContent = `${servData.recamaras || "?"} rec.`;
-        document.querySelector(".feature-text.anios").textContent = `${servData.anios || "?"} años`;
-
         servicioEncontrado = true;
       }
     });
 
     if (!servicioEncontrado) {
-      console.warn("⚠️ No se encontraron servicios con ese idAnuncio");
+      console.warn("⚠️ No se encontraron servicios para este anuncio.");
     }
 
   } catch (error) {
+    // El error original ocurría aquí, pero ahora se captura cualquier otro error
     console.error("❌ Error cargando detalles del anuncio:", error);
   }
 }

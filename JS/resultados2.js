@@ -22,26 +22,47 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Manejar el envío del formulario
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const message = messageInput.value.trim();
-        if (message.length === 0) {
-            alert('Por favor escribe un mensaje antes de enviar.');
-            return;
-        }
-        
-        // Aquí iría tu lógica para enviar el mensaje
-        console.log('Mensaje a enviar:', message);
-        
-        // Ejemplo de feedback al usuario
-        alert('Mensaje enviado correctamente');
-        messageInput.value = '';
-        sendButton.disabled = true;
-        sendButton.classList.add('btn-disabled');
-        sendButton.classList.remove('btn-enabled');
-    });
+contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const message = messageInput.value.trim();
+    if (message.length === 0) {
+        alert('Por favor escribe un mensaje antes de enviar.');
+        return;
+    }
+    
+    // Recuperamos el teléfono que guardamos en el paso anterior
+    const telefonoArrendador = contactForm.dataset.telefonoArrendador;
+    // Debug
+    console.log(telefonoArrendador);
+    if (!telefonoArrendador) {
+        alert('Lo sentimos, no se pudo encontrar el número de teléfono del arrendador.');
+        return;
+    }
+
+    // Limpiamos el número y agregamos el código de país de México (52)
+    let numeroLimpio = telefonoArrendador.replace(/\s/g, '');
+    if (numeroLimpio.length === 10) {
+        numeroLimpio = '52' + numeroLimpio;
+    }
+    
+    // Codificamos el mensaje para que sea parte de la URL
+    const mensajeCodificado = encodeURIComponent(message);
+    
+    // Creamos la URL de WhatsApp
+    const whatsappUrl = `https://wa.me/${numeroLimpio}?text=${mensajeCodificado}`;
+    
+    console.log('Abriendo WhatsApp:', whatsappUrl);
+    
+    // Abrimos la URL en una nueva pestaña
+    window.open(whatsappUrl, '_blank');
+    
+    // Limpiamos el formulario
+    messageInput.value = '';
+    sendButton.disabled = true;
+    sendButton.classList.add('btn-disabled');
+    sendButton.classList.remove('btn-enabled');
+});
 
     function openModal(imageSrc) {
     document.getElementById('expandedImage').src = imageSrc;
