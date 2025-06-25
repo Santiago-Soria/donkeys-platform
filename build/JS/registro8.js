@@ -81,20 +81,29 @@ document.addEventListener('DOMContentLoaded', function() {
   // Manejar el siguiente paso
   function handleNextStep() {
     if (selectedAmenities.length < MIN_SELECTION) {
-      alert(`Por favor selecciona al menos ${MIN_SELECTION} amenidad.`);
+      Swal.fire({
+        icon: 'warning',
+        title: 'Selecciona amenidades',
+        text: `Por favor selecciona al menos ${MIN_SELECTION} amenidad.`
+      });
       return;
     }
-    
+
     // Aquí puedes:
     // 1. Guardar las amenidades seleccionadas (selectedAmenities)
     // 2. Redirigir a la siguiente página
     // 3. Enviar los datos al servidor
-    
+
     console.log('Amenidades seleccionadas:', selectedAmenities);
-    alert(`Has seleccionado ${selectedAmenities.length} amenidades. Redirigiendo...`);
-    
-    // Ejemplo de redirección:
-     window.location.href = '/HTML/Registro9.html';
+    Swal.fire({
+      icon: 'success',
+      title: '¡Listo!',
+      text: `Has seleccionado ${selectedAmenities.length} amenidad${selectedAmenities.length > 1 ? 'es' : ''}. Redirigiendo...`,
+      timer: 1600,
+      showConfirmButton: false
+    }).then(() => {
+      window.location.href = '/HTML/Registro9.html';
+    });
   }
   
   // Inicializar la aplicación

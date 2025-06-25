@@ -91,18 +91,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // Redirigir a la siguiente página
             window.location.href = '/HTML/Registro5.html';
         } else {
-            // Mostrar alerta si hay errores
-            const alerta = document.createElement('div');
-            alerta.className = 'alert alert-danger mt-3';
-            alerta.textContent = 'Por favor corrige los errores en el formulario';
-            
-            // Eliminar alertas anteriores
-            const alertaAnterior = formulario.querySelector('.alert');
-            if (alertaAnterior) {
-                alertaAnterior.remove();
-            }
-            
-            formulario.appendChild(alerta);
+            // Mostrar alerta si hay errores con SweetAlert2
+            Swal.fire({
+                icon: 'error',
+                title: 'Formulario incompleto',
+                text: 'Por favor corrige los errores en el formulario'
+            });
         }
     });
 

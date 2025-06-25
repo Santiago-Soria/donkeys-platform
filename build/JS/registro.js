@@ -3,8 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Función para mostrar errores de manera más elegante
     function showError(message) {
-        // Puedes personalizar esto para mostrar errores en un div específico
-        alert(message);
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error',
+            text: message
+        });
     }
     
     // Función para validar email
@@ -107,7 +110,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         // Si todo está correcto
-        alert('¡Registro exitoso!');
+        Swal.fire({
+            icon: 'success',
+            title: '¡Registro exitoso!',
+            text: 'Tu registro se ha realizado correctamente.',
+            timer: 1800,
+            showConfirmButton: false
+        });
         console.log({
             nombre,
             apellidos,

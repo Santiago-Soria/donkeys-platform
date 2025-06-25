@@ -28,7 +28,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const message = messageInput.value.trim();
         if (message.length === 0) {
-            alert('Por favor escribe un mensaje antes de enviar.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Mensaje vacío',
+                text: 'Por favor escribe un mensaje antes de enviar.'
+            });
             return;
         }
         
@@ -36,7 +40,13 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Mensaje a enviar:', message);
         
         // Ejemplo de feedback al usuario
-        alert('Mensaje enviado correctamente');
+        Swal.fire({
+            icon: 'success',
+            title: 'Mensaje enviado',
+            text: 'Tu mensaje ha sido enviado correctamente.',
+            timer: 1500,
+            showConfirmButton: false
+        });
         messageInput.value = '';
         sendButton.disabled = true;
         sendButton.classList.add('btn-disabled');

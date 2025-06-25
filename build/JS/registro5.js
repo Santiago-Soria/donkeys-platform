@@ -112,13 +112,17 @@ document.addEventListener('DOMContentLoaded', function() {
         return result;
     }
     
-    // Mostrar alerta de error
+    // Mostrar alerta de error con SweetAlert2
     function showErrorAlert(invalidFiles) {
-        const errorList = invalidFiles.map(file => 
-            `• ${file.name} - ${file.reason}`
-        ).join('\n');
-        
-        alert(`Error en los siguientes archivos:\n\n${errorList}\n\nPor favor sube solo archivos JPG, PNG o PDF menores a 10MB.`);
+        const errorList = invalidFiles.map(file =>
+            `<li>${file.name} - ${file.reason}</li>`
+        ).join('');
+        Swal.fire({
+            icon: 'error',
+            title: 'Error en los archivos',
+            html: `<ul style="text-align:left">${errorList}</ul>
+                   <div class="mt-2">Por favor sube solo archivos JPG, PNG o PDF menores a 10MB.</div>`
+        });
     }
     
     // Mostrar previsualizaciones
@@ -196,35 +200,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar el siguiente paso
     async function handleNextStep() {
         if (uploadedFiles.length < REQUIRED_FILES) {
-            alert(`Por favor sube al menos ${REQUIRED_FILES} archivos (frente y reverso del INE).`);
+            Swal.fire({
+                icon: 'warning',
+                title: 'Archivos insuficientes',
+                text: `Por favor sube al menos ${REQUIRED_FILES} archivos (frente y reverso del INE).`
+            });
             return;
         }
-        
+
         try {
             // Mostrar loader
             nextBtn.disabled = true;
             nextBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Procesando...';
-            
+
             // Simular subida de archivos (reemplazar con tu lógica real)
             const uploadSuccess = await uploadFiles(uploadedFiles);
-            
+
             if (uploadSuccess) {
                 // Efecto de transición
                 const transition = createPageTransition();
                 transition.classList.add('active');
-                
+
                 // Redirección después de la animación
                 setTimeout(() => {
                     window.location.href = '/HTML/registro6.html'; // Ajusta la URL de destino
                 }, 800);
             } else {
-                alert('Error al subir los archivos. Por favor inténtalo de nuevo.');
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al subir los archivos. Por favor inténtalo de nuevo.'
+                });
                 nextBtn.disabled = false;
                 updateNextButton();
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Ocurrió un error inesperado. Por favor inténtalo de nuevo.');
+            Swal.fire({
+                icon: 'error',
+                title: 'Error inesperado',
+                text: 'Ocurrió un error inesperado. Por favor inténtalo de nuevo.'
+            });
             nextBtn.disabled = false;
             updateNextButton();
         }

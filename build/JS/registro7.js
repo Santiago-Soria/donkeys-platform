@@ -98,7 +98,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Añadir foto a un slot específico
     function addPhotoToSlot(file, index) {
         if (!isValidFile(file)) {
-            alert('Por favor selecciona una imagen válida (JPG, PNG, WEBP) menor a 5MB');
+            Swal.fire({
+                icon: 'error',
+                title: 'Archivo inválido',
+                text: 'Por favor selecciona una imagen válida (JPG, PNG, WEBP) menor a 5MB'
+            });
             return;
         }
 
@@ -151,7 +155,11 @@ document.addEventListener('DOMContentLoaded', function() {
     nextBtn.addEventListener('click', function() {
         const photoCount = photos.filter(photo => photo).length;
         if (photoCount < 5) {
-            alert('Debes subir al menos 5 fotos para continuar.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Faltan fotos',
+                text: 'Debes subir al menos 5 fotos para continuar.'
+            });
             return;
         }
         // Cambia la ruta por la de tu siguiente página

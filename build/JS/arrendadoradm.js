@@ -62,6 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('click', function() {
       const btnText = btn.textContent.trim();
       if (btnText === 'No rentado' || btnText === 'Disponible') {
+        Swal.fire({
+          icon: 'success',
+          title: '¡Propiedad marcada como rentada!',
+          text: 'El estado ha sido actualizado a Rentado.',
+          timer: 1500,
+          showConfirmButton: false
+        });
         btn.textContent = 'Rentado';
         btn.classList.remove('no-rentado');
         btn.classList.add('rentado');
@@ -72,6 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Estado actualizado a: Rentado');
       } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'Propiedad disponible',
+          text: 'El estado ha sido actualizado a No rentado.',
+          timer: 1500,
+          showConfirmButton: false
+        });
         btn.textContent = 'No rentado';
         btn.classList.remove('rentado');
         btn.classList.add('no-rentado');

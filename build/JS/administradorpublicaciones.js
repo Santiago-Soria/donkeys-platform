@@ -345,7 +345,12 @@ function showProperty(property) {
     // Lógica de botones
     document.getElementById('btnAceptar').onclick = function() {
         // Aquí tu lógica para aceptar (por ejemplo, marcar como verificada)
-        alert('¡Propiedad aceptada!');
+        Swal.fire({
+            icon: 'success',
+            title: '¡Propiedad aceptada!',
+            showConfirmButton: false,
+            timer: 1500
+        });
         propertyModal.hide();
     };
 
@@ -356,11 +361,21 @@ function showProperty(property) {
     document.getElementById('btnEnviarRechazo').onclick = function() {
         const motivo = document.getElementById('rechazoMotivo').value.trim();
         if (!motivo) {
-            alert('Por favor, escribe el motivo del rechazo.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Motivo requerido',
+                text: 'Por favor, escribe el motivo del rechazo.'
+            });
             return;
         }
         // Aquí tu lógica para enviar el motivo (puedes hacer un fetch/AJAX)
-        alert('Motivo enviado: ' + motivo);
+        Swal.fire({
+            icon: 'info',
+            title: 'Motivo enviado',
+            text: 'Motivo enviado: ' + motivo,
+            showConfirmButton: false,
+            timer: 2000
+        });
         propertyModal.hide();
     };
 }

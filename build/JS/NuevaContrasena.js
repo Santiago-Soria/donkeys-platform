@@ -65,8 +65,11 @@ form.addEventListener("submit", async (e) => {
   const confirmPassword = confirmPasswordInput.value;
 
   if (newPassword !== confirmPassword) {
-    errorMessage.style.display = "block";
-    errorText.textContent = "Las contraseñas no coinciden.";
+    Swal.fire({
+      icon: 'warning',
+      title: 'Contraseñas no coinciden',
+      text: 'Las contraseñas no coinciden. Por favor, verifica e inténtalo de nuevo.'
+    });
     return;
   }
 
@@ -80,9 +83,19 @@ form.addEventListener("submit", async (e) => {
     errorMessage.style.display = "none";
     successMessage.style.display = "block";
     loginLink.style.display = "block";
+    Swal.fire({
+      icon: 'success',
+      title: '¡Contraseña cambiada!',
+      text: 'Tu contraseña se ha actualizado correctamente.',
+      timer: 1800,
+      showConfirmButton: false
+    });
   } catch (error) {
-    errorMessage.style.display = "block";
-    errorText.textContent = "Error al cambiar la contraseña: " + error.message;
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al cambiar la contraseña',
+      text: error.message
+    });
     submitBtn.disabled = false;
     loadingSpinner.style.display = "none";
     btnText.textContent = "Cambiar Contraseña";

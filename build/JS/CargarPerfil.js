@@ -44,6 +44,26 @@ onAuthStateChanged(auth, async (user) => {
 
       const fechaInput = document.getElementById('fecha_nacimiento');
       if (fechaInput && datos.fechaNacimiento) fechaInput.value = datos.fechaNacimiento;
+
+      Swal.fire({
+        icon: 'success',
+        title: 'Perfil cargado',
+        text: 'Los datos del perfil se han cargado correctamente.',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin datos',
+        text: 'No se encontraron datos de perfil para este usuario.'
+      });
     }
+  } else {
+    Swal.fire({
+      icon: 'error',
+      title: 'No autenticado',
+      text: 'Por favor, inicia sesión para cargar tu perfil.'
+    });
   }
 });

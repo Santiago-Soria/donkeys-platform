@@ -141,7 +141,11 @@ function renderProperties() {
         p.Disponibilidad = newDisponibilidad;
         renderProperties();
       } catch (err) {
-        alert("Error al actualizar disponibilidad.");
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error al actualizar disponibilidad.",
+        });
         console.error(err);
       }
     });
@@ -180,17 +184,26 @@ editForm.addEventListener("submit", async (e) => {
       allProperties[index].Tipo = tipo;
       allProperties[index].Disponibilidad = disponibilidad;
     }
-
     renderProperties();
     editModal.hide();
-    alert("Propiedad actualizada correctamente.");
+    Swal.fire({
+      icon: "success",
+      title: "¡Éxito!",
+      text: "Propiedad actualizada correctamente.",
+      timer: 1500,
+      showConfirmButton: false
+    });
   } catch (error) {
     console.error("Error actualizando propiedad:", error);
-    alert("Error al guardar cambios.");
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "Error al guardar cambios.",
+    });
   }
 });
 
-// Event listeners para filtros, orden y búsqueda (como ya tienes, solo recuerda invocar renderProperties)
+// Event listeners para filtros, orden y búsqueda
 filterButtons.forEach(btn => {
   btn.addEventListener("click", () => {
     filterButtons.forEach(b => b.classList.remove("active"));
@@ -208,8 +221,8 @@ sortDropdown.querySelectorAll(".sort-option").forEach(option => {
     sortDropdown.querySelectorAll(".sort-option").forEach(opt => opt.classList.remove("selected"));
     option.classList.add("selected");
     currentSort = option.dataset.value;
-    renderProperties();
     sortDropdown.classList.remove("show");
+    renderProperties();
   });
 });
 

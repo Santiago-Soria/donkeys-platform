@@ -328,18 +328,24 @@ function showDocuments(user) {
 // Verify user
 function verifyUser() {
     if (!currentSelectedUser) return;
-    
+
     // In a real app, you would make an API call here
     console.log(`Verifying user ${currentSelectedUser.id}`);
     currentSelectedUser.verified = true;
-    
+
     // Update UI
     documentModal.hide();
     filterUsers();
     updateStats();
-    
-    // Show success message (you could use a toast notification)
-    alert(`Usuario ${currentSelectedUser.name} ha sido verificado`);
+
+    // Show success message with SweetAlert2
+    Swal.fire({
+        icon: 'success',
+        title: 'Usuario verificado',
+        text: `Usuario ${currentSelectedUser.name} ha sido verificado`,
+        timer: 1800,
+        showConfirmButton: false
+    });
 }
 
 // Reject user
@@ -348,10 +354,20 @@ function rejectUser() {
     document.getElementById('btnEnviarMotivo').onclick = function() {
         const motivo = document.getElementById('rechazoMotivo').value.trim();
         if (!motivo) {
-            alert('Por favor, escribe el motivo del rechazo.');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Motivo requerido',
+                text: 'Por favor, escribe el motivo del rechazo.'
+            });
             return;
         }
-        alert('Motivo enviado: ' + motivo);
+        Swal.fire({
+            icon: 'info',
+            title: 'Motivo enviado',
+            text: 'Motivo enviado: ' + motivo,
+            timer: 1800,
+            showConfirmButton: false
+        });
         const modal = bootstrap.Modal.getInstance(document.getElementById('documentModal'));
         modal.hide();
     };

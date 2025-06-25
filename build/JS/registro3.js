@@ -59,49 +59,39 @@ document.addEventListener('DOMContentLoaded', function() {
     // Manejar envío del formulario
     verificationForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         // Validar tamaño de archivos (5MB máximo)
         const maxSize = 5 * 1024 * 1024; // 5MB
-        
+
         if (credencialFile.size > maxSize || horarioFile.size > maxSize) {
             showAlert('Error', 'Uno o ambos archivos exceden el tamaño máximo de 5MB', 'error');
             return;
         }
-        
+
         // Mostrar mensaje de confirmación
         showAlert(
-            'Documentos recibidos', 
-            'Tus documentos han sido enviados para verificación. Te notificaremos por correo electrónico cuando hayan sido procesados.', 
+            'Documentos recibidos',
+            'Tus documentos han sido enviados para verificación. Te notificaremos por correo electrónico cuando hayan sido procesados.',
             'success',
             function() {
                 // Redirigir después de mostrar el mensaje
                 window.location.href = '/HTML/Index.html';
             }
         );
-        
+
         // Aquí iría la lógica real para subir los archivos al servidor
         console.log('Credencial:', credencialFile);
         console.log('Horario:', horarioFile);
     });
     
-    // Función para mostrar alertas personalizadas
+    // Reemplaza la función showAlert por SweetAlert2
     function showAlert(title, message, type, callback) {
-        const alertBox = document.createElement('div');
-        alertBox.className = `custom-alert custom-alert-${type}`;
-        
-        alertBox.innerHTML = `
-            <div class="custom-alert-content">
-                <h3>${title}</h3>
-                <p>${message}</p>
-                <button class="custom-alert-button">Aceptar</button>
-            </div>
-        `;
-        
-        document.body.appendChild(alertBox);
-        
-        const closeButton = alertBox.querySelector('.custom-alert-button');
-        closeButton.addEventListener('click', function() {
-            document.body.removeChild(alertBox);
+        Swal.fire({
+            icon: type,
+            title: title,
+            text: message,
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
             if (callback) callback();
         });
     }

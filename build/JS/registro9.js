@@ -79,7 +79,13 @@ document.addEventListener('DOMContentLoaded', function() {
   // Manejar el siguiente paso
   function handleNextStep() {
     if (!validateFields()) {
-      showAlert('Campos incompletos', 'Por favor completa todos los campos requeridos', 'error');
+      Swal.fire({
+        icon: 'error',
+        title: 'Campos incompletos',
+        text: 'Por favor completa todos los campos requeridos',
+        confirmButtonColor: '#5A2F34',
+        confirmButtonText: 'Entendido'
+      });
       return;
     }
     
@@ -95,15 +101,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     console.log('Datos del inmueble:', propertyData);
     
-    // Mostrar confirmación y redirigir
-    showAlert(
-      '¡Listo!', 
-      'La información de tu inmueble ha sido guardada correctamente.', 
-      'success',
-      () => {
-        window.location.href = 'siguiente-pagina.html'; // Cambia esta URL
-      }
-    );
+    // Mostrar confirmación y redirigir con SweetAlert2
+    Swal.fire({
+      icon: 'success',
+      title: '¡Listo!',
+      text: 'La información de tu inmueble ha sido guardada correctamente.',
+      confirmButtonColor: '#5A2F34',
+      confirmButtonText: 'Continuar'
+    }).then(() => {
+      window.location.href = 'siguiente-pagina.html'; // Cambia esta URL
+    });
   }
 
   // Función para mostrar alertas (usando SweetAlert2)

@@ -20,22 +20,39 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Validación básica
         if (!email || !password) {
-            alert('Por favor completa todos los campos');
+            Swal.fire({
+                icon: 'warning',
+                title: 'Campos incompletos',
+                text: 'Por favor completa todos los campos'
+            });
             return;
         }
         
         // Aquí iría la lógica de autenticación
         console.log('Email:', email);
         console.log('Password:', password);
-        alert('Inicio de sesión exitoso (simulado)');
+        Swal.fire({
+            icon: 'success',
+            title: 'Inicio de sesión exitoso (simulado)',
+            showConfirmButton: false,
+            timer: 1500
+        });
     });
 
     // Social login buttons
     document.querySelector('.google-btn').addEventListener('click', function() {
-        alert('Iniciar sesión con Google');
+        Swal.fire({
+            icon: 'info',
+            title: 'Google',
+            text: 'Iniciar sesión con Google'
+        });
     });
     
     document.querySelector('.facebook-btn').addEventListener('click', function() {
-        alert('Iniciar sesión con Facebook');
+        Swal.fire({
+            icon: 'info',
+            title: 'Facebook',
+            text: 'Iniciar sesión con Facebook'
+        });
     });
 });
